@@ -1,0 +1,20 @@
+{
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "text",
+        "text": "<PRODUCT_NAME>",
+        "size": "sm",
+        "color": "#555555",
+        "flex": 0
+      },
+      {
+        "type": "text",
+        "text": "<PRODUCT_PRICE> บาท",
+        "size": "sm",
+        "color": "#111111",
+        "align": "end"
+      }
+    ]
+}

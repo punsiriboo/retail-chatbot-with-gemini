@@ -1,0 +1,89 @@
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "<PRODUCT_IMAGE_URL>",
+                "aspectMode": "cover",
+                "size": "full"
+              }
+            ],
+            "cornerRadius": "100px",
+            "width": "72px",
+            "height": "72px"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://storage.googleapis.com/retail-gemini-vertex/cj-bot-photo/shopping-bag-24.png"
+                  },
+                  {
+                    "type": "text",
+                    "contents": [
+                      {
+                        "type": "span",
+                        "text": "เพิ่มสินค้าในตระกร้า",
+                        "size": "md",
+                        "weight": "bold"
+                      }
+                    ],
+                    "offsetStart": "2px"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "3px"
+              },
+              {
+                "type": "text",
+                "text": "<PRODUCT_NAME>",
+                "offsetTop": "10px",
+                "wrap": true,
+                "size": "sm"
+              }
+            ]
+          }
+        ],
+        "spacing": "xl",
+        "paddingAll": "20px"
+      }
+    ],
+    "paddingAll": "0px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "postback",
+          "label": "สรุปรายการสั้งซื้อ",
+          "data": "action=summary_order&item_price=<PRODUCT_PRICE>&item_name=<PRODUCT_NAME>"
+        },
+        "style": "primary",
+        "color": "#00A150"
+      }
+    ],
+    "offsetTop": "-10px"
+  }
+}
