@@ -93,7 +93,7 @@
         "action": {
           "type": "postback",
           "label": "ชำระเงิน",
-          "data": "action=pay"
+          "data": "action=make_payment"
         },
         "color": "#00A150",
         "style": "primary"

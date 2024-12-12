@@ -59,12 +59,15 @@ def search_closest_branches(event, line_bot_api, user_lat, user_lng, top_n=5):
                     image_paths["branch_search_image"],
                 ),
                 title=branch["branch"],
-                text=f"เบอร์โทร: {branch['tel']}",
                 actions=[
+                    URIAction(
+                        label="CALL ติดต่อสาขา",
+                        uri=f"tel:{branch['tel']}",
+                    ),
                     URIAction(
                         label="เปิด Google Maps",
                         uri=f"https://www.google.com/maps/dir/?api=1&origin={user_lat},{user_lng}&destination={branch['lat']},{branch['lng']}",
-                    )
+                    ),
                 ],
             )
         )

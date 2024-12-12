@@ -7,12 +7,12 @@ from linebot.v3.messaging import (
 )
 
 
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
-YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
+CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
 LINE_USER_ID = os.environ["LINE_USER_ID"]
 
 configuration = Configuration(
-    access_token=YOUR_CHANNEL_ACCESS_TOKEN,
+    access_token=CHANNEL_ACCESS_TOKEN,
 )
 
 api_client = ApiClient(configuration)

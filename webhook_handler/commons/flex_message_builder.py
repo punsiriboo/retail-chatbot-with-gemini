@@ -54,9 +54,7 @@ def build_flex_carousel_message(
             quick_reply=QuickReply(
                 items=[
                     QuickReplyItem(
-                        action=MessageAction(
-                            label="คุยกับน้อง CJ", text="คุยกับน้อง CJ"
-                        )
+                        action=MessageAction(label="คุยกับน้อง CJ", text="คุยกับน้อง CJ")
                     ),
                     QuickReplyItem(action=LocationAction(label="ค้นหาสาขาใกล้เคียง")),
                 ]

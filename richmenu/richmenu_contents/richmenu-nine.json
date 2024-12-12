@@ -1,0 +1,72 @@
+{
+    "size": {
+        "width": 2500,
+        "height": 1686
+    },
+    "selected": true,
+    "name": "Rich Menu 2",
+    "chatBarText": "Menu",
+    "areas": [
+        {
+            "bounds": {
+                "x": 29,
+                "y": 29,
+                "width": 359,
+                "height": 392
+            },
+            "action": {
+                "type": "richmenuswitch",
+                "richMenuAliasId": "richmenu-alias-main",
+                "data": "action=richmenuswitch&menu=main"
+            }
+        },
+        {
+            "bounds": {
+                "x": 0,
+                "y": 879,
+                "width": 842,
+                "height": 807
+            },
+            "action": {
+                "type": "message",
+                "text": "[Nine] โปรไฟลุก"
+            }
+        },
+        {
+            "bounds": {
+                "x": 854,
+                "y": 878,
+                "width": 816,
+                "height": 805
+            },
+            "action": {
+                "type": "message",
+                "text": "[Nine] ไอเทมหน้าหนาว"
+            }
+        },
+        {
+            "bounds": {
+                "x": 1696,
+                "y": 875,
+                "width": 804,
+                "height": 811
+            },
+            "action": {
+                "type": "message",
+                "text": "[Nine] ติดตามข่าวสาร"
+            }
+        },
+        {
+            "bounds": {
+                "x": 809,
+                "y": 8,
+                "width": 1621,
+                "height": 846
+            },
+            "action": {
+                "type": "message",
+                "text": "[Nine] หมอลำเฟส"
+            }
+        }
+    ]
+}

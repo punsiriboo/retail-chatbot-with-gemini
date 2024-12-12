@@ -1,0 +1,71 @@
+{
+    "size": {
+        "width": 2500,
+        "height": 1686
+    },
+    "selected": true,
+    "name": "Rich Menu 5",
+    "chatBarText": "Menu",
+    "areas": [
+        {
+            "bounds": {
+                "x": 549,
+                "y": 140,
+                "width": 1489,
+                "height": 660
+            },
+            "action": {
+                "type": "message",
+                "text": "Area 1"
+            }
+        },
+        {
+            "bounds": {
+                "x": 41,
+                "y": 17,
+                "width": 372,
+                "height": 408
+            },
+            "action": {
+                "type": "message",
+                "text": "Area 2"
+            }
+        },
+        {
+            "bounds": {
+                "x": 4,
+                "y": 883,
+                "width": 780,
+                "height": 775
+            },
+            "action": {
+                "type": "message",
+                "text": "Area 3"
+            }
+        },
+        {
+            "bounds": {
+                "x": 837,
+                "y": 879,
+                "width": 826,
+                "height": 792
+            },
+            "action": {
+                "type": "message",
+                "text": "Action 4"
+            }
+        },
+        {
+            "bounds": {
+                "x": 1700,
+                "y": 870,
+                "width": 792,
+                "height": 816
+            },
+            "action": {
+                "type": "message",
+                "text": "Area 5"
+            }
+        }
+    ]
+}
