@@ -42,7 +42,7 @@ with open("privates/data/image_paths.json") as file:
     image_paths = json.load(file)
 
 
-def handle_coupon_search(line_bot_api, reply_token):
+def handle_coupon_search(line_bot_api, reply_token, text):
     with open("privates/data/coupons.json") as file:
         coupons_data = json.load(file)
     list_img_carousel_column = []
@@ -62,7 +62,7 @@ def handle_coupon_search(line_bot_api, reply_token):
     )
 
 
-def handle_branch_search(line_bot_api, reply_token):
+def handle_branch_search(line_bot_api, reply_token, text):
     bubble = FlexBubble(
         direction="ltr",
         hero=FlexImage(
@@ -101,7 +101,7 @@ def handle_branch_search(line_bot_api, reply_token):
     )
 
 
-def handle_talk_to_cj(line_bot_api, reply_token):
+def handle_talk_to_cj(line_bot_api, reply_token, text):
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=reply_token,
@@ -114,7 +114,31 @@ def handle_talk_to_cj(line_bot_api, reply_token):
     )
 
 
-def handle_return_static_flex(line_bot_api, reply_token, template_name):
+def handle_return_static_flex(line_bot_api, reply_token, text):
+    flex_temple_config = {
+        "[CJ] ลดสนั้น 7 วัน": "seven_days_discount",
+        "[CJ] สินค้าลดกระหน่ำ 7 วัน": "seven_days_discount_product",
+        "[CJ] 2024 Recap": "recap_2024",
+        "[Nine] โปรไฟลุก": "nine_hot_promotion",
+        "[Nine] ไอเทมหน้าหนาว": "nine_winner",
+        "[Nine] ติดตามข่าวสาร": "nine_news",
+        "[Nine] หมอลำเฟส": "nine_dancing_fastival",
+        "[UNO] Power Puff Girls": "uno_power_puff_girls",
+        "[UNO] Claim Free Bag": "uno_claim_free_bag",
+        "[UNO] 12.12 Sale": "uno_12_12_sale",
+        "[UNO] XMas Party": "uno_marry_xmas",
+        "[BAO] MarryXMas": "bao_marry_xmas",
+        "[BAO] Drink Menu": "bao_drink_menu",
+        "[BAO] Chocolate Dubai": "bao_chocolate_dubai",
+        "[BAO] Duo yummy": "bao_duo_yummy",
+        "[AHOME] ติดตามข่าวสาร": "ahome_news",
+        "[AHOME] Toy Story": "ahome_toy_story",
+        "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": "ahome_in_house_product",
+        "[AHOME] Car Lover Promotion": "ahome_car_lover_promotion"
+    }
+    if text in flex_temple_config:
+        template_name = flex_temple_config[text]
+
     print("handle_return_static_flex: " +template_name)
     with open(f"templates/static/{template_name}.json") as file:
         flex_temple = file.read()
@@ -141,67 +165,28 @@ def handle_text_by_keyword(event, line_bot_api):
         "ค้นหาคูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
-        "[CJ] ลดสนั้น 7 วัน": handle_return_static_flex(
-            line_bot_api, reply_token, "seven_days_discount"
-        ),
-        "[CJ] สินค้าลดกระหน่ำ 7 วัน" : handle_return_static_flex(
-            line_bot_api, reply_token, "seven_days_discount_product"
-        ),
-        "[CJ] 2024 Recap": handle_return_static_flex(
-            line_bot_api, reply_token, "recap_2024"
-        ),
-        "[Nine] โปรไฟลุก": handle_return_static_flex(
-            line_bot_api, reply_token, "nine_hot_promotion"
-        ),
-        "[Nine] ไอเทมหน้าหนาว": handle_return_static_flex(
-            line_bot_api, reply_token, "nine_winner"
-        ),
-        "[Nine] ติดตามข่าวสาร": handle_return_static_flex(
-            line_bot_api, reply_token, "nine_news"
-        ),
-        "[Nine] หมอลำเฟส": handle_return_static_flex(
-            line_bot_api, reply_token, "nine_dancing_fastival"
-        ),
-        "[UNO] Power Puff Girls": handle_return_static_flex(
-            line_bot_api, reply_token, "uno_power_puff_girls"
-        ),
-        "[UNO] Claim Free Bag": handle_return_static_flex(
-            line_bot_api, reply_token, "uno_claim_free_bag"
-        ),
-        "[UNO] 12.12 Sale": handle_return_static_flex(
-            line_bot_api, reply_token, "uno_12_12_sale"
-        ),
-        "UNO] XMas Party": handle_return_static_flex(
-            line_bot_api, reply_token, "uno_marry_xmas"
-        ),
-        "[BAO] MarryXMas": handle_return_static_flex(
-            line_bot_api, reply_token, "bao_marry_xmas"
-        ),
-        "[BAO] Drink Menu": handle_return_static_flex(
-            line_bot_api, reply_token, "bao_drink_menu"
-        ),
-        "[BAO] Chocolate Dubai": handle_return_static_flex(
-            line_bot_api, reply_token, "bao_chocolate_dubai"
-        ),
-        "[BAO] Duo yummy": handle_return_static_flex(
-            line_bot_api, reply_token, "bao_duo_yummy"
-        ),
-        "[AHOME] ติดตามข่าวสาร": handle_return_static_flex(
-            line_bot_api, reply_token, "ahome_news"
-        ),
-        "[AHOME] Toy Story": handle_return_static_flex(
-            line_bot_api, reply_token, "ahome_toy_story"
-        ),
-        "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": handle_return_static_flex(
-            line_bot_api, reply_token, "ahome_in_house_product"
-        ),
-        "[AHOME] Car Lover Promotion": handle_return_static_flex(
-            line_bot_api, reply_token, "ahome_car_lover_promotion"
-        ),
-        
+        "[CJ] ลดสนั้น 7 วัน": handle_return_static_flex,
+        "[CJ] สินค้าลดกระหน่ำ 7 วัน" : handle_return_static_flex,
+        "[CJ] 2024 Recap": handle_return_static_flex,
+        "[Nine] โปรไฟลุก":handle_return_static_flex,
+        "[Nine] ไอเทมหน้าหนาว": handle_return_static_flex,
+        "[Nine] ติดตามข่าวสาร":handle_return_static_flex,
+        "[Nine] หมอลำเฟส": handle_return_static_flex,
+        "[UNO] Power Puff Girls": handle_return_static_flex,
+        "[UNO] Claim Free Bag": handle_return_static_flex,
+        "[UNO] 12.12 Sale": handle_return_static_flex,
+        "UNO] XMas Party": handle_return_static_flex,
+        "[BAO] MarryXMas": handle_return_static_flex,
+        "[BAO] Drink Menu": handle_return_static_flex,
+        "[BAO] Chocolate Dubai": handle_return_static_flex,
+        "[BAO] Duo yummy": handle_return_static_flex,
+        "[AHOME] ติดตามข่าวสาร": handle_return_static_flex,
+        "[AHOME] Toy Story": handle_return_static_flex,
+        "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": handle_return_static_flex,
+        "[AHOME] Car Lover Promotion": handle_return_static_flex
     }
     if text in function_map:
-        function_map[text](line_bot_api, reply_token)
+        function_map[text](line_bot_api, reply_token, text)
 
     elif text.startswith("#ค้นหา"):
         search_query = text[len("#ค้นหา") :].strip()

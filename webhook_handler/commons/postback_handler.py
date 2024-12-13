@@ -86,7 +86,7 @@ def handle_richmenu_switch_action(event, line_bot_api, postback_params):
     user_id = event.source.user_id
     rich_menu_id_config = {
         "main": "richmenu-db38e9f92a3c898106dd4306626c8c75",
-        "cj": "richrichmenu-4c7272287975fafd7d80fc36cbdb9062",
+        "cj": "richmenu-4c7272287975fafd7d80fc36cbdb9062",
         "nine": "richmenu-ca6673b31843ae20592960f536fc0f5b",
         "uno": "richmenu-d612e6dc259ca897ed5650c60220fed2",
         "ahome": "richmenu-76cfc91852a3582ea42306ede1e5ab5d",

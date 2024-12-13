@@ -1,0 +1,36 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/freeback.jpg",
+        "size": "full",
+        "aspectRatio": "20:20",
+        "aspectMode": "cover",
+        "action": {
+            "type": "uri",
+            "uri": "https://line.me/"
+        }
+    },
+    "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "button",
+                "style": "secondary",
+                "color": "#feda04",
+                "margin": "xxl",
+                "action": {
+                    "type": "uri",
+                    "label": "อ่านรายละเอียดเพิ่มเติม",
+                    "uri": "https://www.facebook.com/share/p/18UyhTrscW/"
+                }
+            }
+        ]
+    },
+    "styles": {
+        "footer": {
+            "backgroundColor": "#ff0c35"
+        }
+    }
+}

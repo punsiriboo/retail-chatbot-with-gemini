@@ -1,0 +1,36 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/ahome.png",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover",
+        "action": {
+            "type": "uri",
+            "uri": "https://line.me/"
+        }
+    },
+    "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "button",
+                "style": "secondary",
+                "color": "#feda04",
+                "margin": "xxl",
+                "action": {
+                    "type": "uri",
+                    "label": "ติดตามข่าวสาร AHOME",
+                    "uri": "https://www.facebook.com/AHomeTH"
+                }
+            }
+        ]
+    },
+    "styles": {
+        "footer": {
+            "backgroundColor": "#0051ba"
+        }
+    }
+}
