@@ -116,7 +116,7 @@ def handle_talk_to_cj(line_bot_api, reply_token, text):
 
 def handle_return_static_flex(line_bot_api, reply_token, text):
     flex_temple_config = {
-        "[CJ] ลดสนั้น 7 วัน": "seven_days_discount",
+        "[CJ] ลดสนั่น 7 วัน": "seven_days_discount",
         "[CJ] สินค้าลดกระหน่ำ 7 วัน": "seven_days_discount_product",
         "[CJ] 2024 Recap": "recap_2024",
         "[Nine] โปรไฟลุก": "nine_hot_promotion",
@@ -165,7 +165,7 @@ def handle_text_by_keyword(event, line_bot_api):
         "ค้นหาคูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
-        "[CJ] ลดสนั้น 7 วัน": handle_return_static_flex,
+        "[CJ] ลดสนั่น 7 วัน": handle_return_static_flex,
         "[CJ] สินค้าลดกระหน่ำ 7 วัน" : handle_return_static_flex,
         "[CJ] 2024 Recap": handle_return_static_flex,
         "[Nine] โปรไฟลุก":handle_return_static_flex,
