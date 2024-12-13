@@ -4,7 +4,7 @@
         "height": 1686
     },
     "selected": true,
-    "name": "Rich Menu 6",
+    "name": "Rich Menu Bao Cafe",
     "chatBarText": "Menu",
     "areas": [
         {
@@ -15,8 +15,9 @@
                 "height": 351
             },
             "action": {
-                "type": "message",
-                "text": "Area 1"
+                "type": "richmenuswitch",
+                "richMenuAliasId": "richmenu-alias-main",
+                "data": "action=richmenuswitch&menu=main"
             }
         },
         {
@@ -28,7 +29,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Action 2"
+                "text": "[BAO] MarryXMas"
             }
         },
         {
@@ -40,7 +41,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 3"
+                "text": "[BAO] Drink Menu"
             }
         },
         {
@@ -52,7 +53,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 4"
+                "text": "[BAO] Chocolate Dubai"
             }
         },
         {
@@ -64,7 +65,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 5"
+                "text": "[BAO] Duo yummy"
             }
         }
     ]

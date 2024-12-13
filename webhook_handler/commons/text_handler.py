@@ -140,12 +140,64 @@ def handle_text_by_keyword(event, line_bot_api):
         "ค้นหาคูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
+        "[CJ] ลดสนั้น 7 วัน": handle_return_static_flex(
+            line_bot_api, reply_token, "seven_days_discount"
+        ),
+        "[CJ] สินค้าลดกระหน่ำ 7 วัน" : handle_return_static_flex(
+            line_bot_api, reply_token, "seven_days_discount_product"
+        ),
+        "[CJ] 2024 Recap": handle_return_static_flex(
+            line_bot_api, reply_token, "recap_2024"
+        ),
         "[Nine] โปรไฟลุก": handle_return_static_flex(
             line_bot_api, reply_token, "nine_hot_promotion"
         ),
         "[Nine] ไอเทมหน้าหนาว": handle_return_static_flex(
             line_bot_api, reply_token, "nine_winner"
         ),
+        "[Nine] ติดตามข่าวสาร": handle_return_static_flex(
+            line_bot_api, reply_token, "nine_news"
+        ),
+        "[Nine] หมอลำเฟส": handle_return_static_flex(
+            line_bot_api, reply_token, "nine_dancing_fastival"
+        ),
+        "[UNO] Power Puff Girls": handle_return_static_flex(
+            line_bot_api, reply_token, "uno_power_puff_girls"
+        ),
+        "[UNO] Claim Free Bag": handle_return_static_flex(
+            line_bot_api, reply_token, "uno_claim_free_bag"
+        ),
+        "[UNO] 12.12 Sale": handle_return_static_flex(
+            line_bot_api, reply_token, "uno_12_12_sale"
+        ),
+        "UNO] XMas Party": handle_return_static_flex(
+            line_bot_api, reply_token, "uno_marry_xmas"
+        ),
+        "[BAO] MarryXMas": handle_return_static_flex(
+            line_bot_api, reply_token, "bao_marry_xmas"
+        ),
+        "[BAO] Drink Menu": handle_return_static_flex(
+            line_bot_api, reply_token, "bao_drink_menu"
+        ),
+        "[BAO] Chocolate Dubai": handle_return_static_flex(
+            line_bot_api, reply_token, "bao_chocolate_dubai"
+        ),
+        "[BAO] Duo yummy": handle_return_static_flex(
+            line_bot_api, reply_token, "bao_duo_yummy"
+        ),
+        "[AHOME] ติดตามข่าวสาร": handle_return_static_flex(
+            line_bot_api, reply_token, "ahome_news"
+        ),
+        "[AHOME] Toy Story": handle_return_static_flex(
+            line_bot_api, reply_token, "ahome_toy_story"
+        ),
+        "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": handle_return_static_flex(
+            line_bot_api, reply_token, "ahome_in_house_product"
+        ),
+        "[AHOME] Car Lover Promotion": handle_return_static_flex(
+            line_bot_api, reply_token, "ahome_car_lover_promotion"
+        ),
+        
     }
     if text in function_map:
         function_map[text](line_bot_api, reply_token)

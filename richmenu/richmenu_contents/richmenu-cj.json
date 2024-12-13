@@ -4,7 +4,7 @@
         "height": 1686
     },
     "selected": true,
-    "name": "Rich Menu 3",
+    "name": "Rich Menu CJ",
     "chatBarText": "Menu",
     "areas": [
         {
@@ -15,8 +15,9 @@
                 "height": 372
             },
             "action": {
-                "type": "message",
-                "text": "Area 1"
+                "type": "richmenuswitch",
+                "richMenuAliasId": "richmenu-alias-main",
+                "data": "action=richmenuswitch&menu=main"
             }
         },
         {
@@ -27,8 +28,8 @@
                 "height": 994
             },
             "action": {
-                "type": "message",
-                "text": "Area 2"
+                "type": "uri",
+                "uri": "https://www.cjexpress.co.th/upload/promotion/e-book/175/mobile/index.html"
             }
         },
         {
@@ -40,7 +41,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 3"
+                "text": "[CJ] ลดสนั้น 7 วัน"
             }
         },
         {
@@ -52,7 +53,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 4"
+                "text": "[CJ] 2024 Recap"
             }
         }
     ]

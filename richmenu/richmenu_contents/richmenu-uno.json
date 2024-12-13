@@ -16,7 +16,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 1"
+                "text": "[UNO] Power Puff Girls"
             }
         },
         {
@@ -28,7 +28,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 2"
+                "text": "[UNO] Claim Free Bag"
             }
         },
         {
@@ -40,7 +40,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 3"
+                "text": "[UNO] 12.12 Sale"
             }
         },
         {
@@ -52,7 +52,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 4"
+                "text": "[UNO] XMas Party"
             }
         },
         {
@@ -63,8 +63,9 @@
                 "height": 330
             },
             "action": {
-                "type": "message",
-                "text": "Area 5"
+                "type": "richmenuswitch",
+                "richMenuAliasId": "richmenu-alias-main",
+                "data": "action=richmenuswitch&menu=main"
             }
         }
     ]

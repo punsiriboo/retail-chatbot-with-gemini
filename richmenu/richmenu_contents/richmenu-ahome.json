@@ -4,7 +4,7 @@
         "height": 1686
     },
     "selected": true,
-    "name": "Rich Menu 5",
+    "name": "Rich Menu Ahome",
     "chatBarText": "Menu",
     "areas": [
         {
@@ -16,7 +16,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 1"
+                "text": "[AHOME] ติดตามข่าวสาร"
             }
         },
         {
@@ -27,8 +27,9 @@
                 "height": 408
             },
             "action": {
-                "type": "message",
-                "text": "Area 2"
+                "type": "richmenuswitch",
+                "richMenuAliasId": "richmenu-alias-main",
+                "data": "action=richmenuswitch&menu=main"
             }
         },
         {
@@ -40,7 +41,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 3"
+                "text": "[AHOME] Toy Story"
             }
         },
         {
@@ -52,7 +53,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Action 4"
+                "text": "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน"
             }
         },
         {
@@ -64,7 +65,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "Area 5"
+                "text": "[AHOME] Car Lover Promotion"
             }
         }
     ]

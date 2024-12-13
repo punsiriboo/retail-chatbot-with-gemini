@@ -1,0 +1,151 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://www.cjexpress.co.th/upload/news/w9zoyxaig7wb7piut1xsnuz7.jpg",
+                "size": "full",
+                "aspectRatio": "20:15",
+                "aspectMode": "cover"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "ซีเจ มอรลำ เฟส ช้อปสนั่น มันสะเดิด",
+                        "weight": "bold",
+                        "size": "xl",
+                        "align": "center",
+                        "wrap": true
+                    },
+                    {
+                        "type": "text",
+                        "text": "25 ต.ค. - 24 ธ.ค. 67",
+                        "size": "md",
+                        "margin": "md",
+                        "align": "center"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cj-super-shoping.png",
+                "aspectMode": "fit",
+                "size": "full",
+                "aspectRatio": "20:26",
+                "gravity": "top",
+                "align": "start",
+                "margin": "none",
+                "position": "relative",
+                "backgroundColor": "#6508d8"
+            },
+            "styles": {
+                "header": {
+                    "backgroundColor": "#6508d8"
+                },
+                "body": {
+                    "backgroundColor": "#6508d8"
+                },
+                "footer": {
+                    "backgroundColor": "#6508d8"
+                }
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "ช้อปสนั่น",
+                        "weight": "bold",
+                        "size": "lg",
+                        "align": "center"
+                    },
+                    {
+                        "type": "text",
+                        "text": "สินค้าลดราคา\nเฉพาะสมาชิการ์ด\nทุกวัน ทั้งสิ้น 8 รอบ",
+                        "size": "md",
+                        "align": "center",
+                        "wrap": true
+                    },
+                    {
+                        "type": "separator",
+                        "margin": "lg"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "md",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 1: 31 ต.ค. - 6 พ.ย. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 2: 7 - 13 พ.ย. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 3: 14 - 20 พ.ย. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 4: 21 - 27 พ.ย. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 5: 28 พ.ย. - 4 ธ.ค. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 6: 5 - 11 ธ.ค. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 7: 12 - 18 ธ.ค. 67",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "➞ รอบ 8: 19 - 25 ธ.ค. 67",
+                                "size": "sm"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "MORE",
+                            "uri": "https://www.cjexpress.co.th/upload/promotion/e-book/175/mobile/index.html"
+                        },
+                        "style": "primary",
+                        "color": "#6508d8",
+                        "offsetTop": "lg"
+                    }
+                ]
+            }
+        }
+    ]
+}

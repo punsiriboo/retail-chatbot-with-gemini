@@ -1,17 +1,47 @@
 import requests
+import os
 
-richMenuId = "richmenu-96b2baf4159b57b22ae4b75200079430"
-url = f"https://api-data.line.me/v2/bot/richmenu/{richMenuId}/content"
+def upload_rich_menu_images(rich_menu_data):
+    """Uploads images to rich menus using a list of dictionaries.
 
-with open("richmenu/richmenu_json/2.jpg", "rb") as image:
-  f = image.read()
-payload = f
-headers = {
-  'Authorization': 'Bearer YAHHaUjhaSAPbSBbZSbZr7NL8JffU3pzRz8UousYTPthRzaSi7QLAxDe3F4NVyhFGF0vXapH3kuCA0Na5+OMQn1qeGUGYNCaOxBaYz6ZLPR9mFnQCSKxV2+z8FAj3ueN+/tQE/EGa9LZdsLJlbBMG49PbdgDzCFqoOLOYbqAITQ=',
-  'Content-Type': 'image/jpeg'
-}
+    Args:
+        rich_menu_data: A list of dictionaries, where each dictionary contains:
+            - 'rich_menu_id': The ID of the rich menu.
+            - 'image_path': The path to the image file.
+    """
 
-response = requests.request("POST", url, headers=headers, data=payload)
+    access_token = os.getenv("CHANNEL_ACCESS_TOKEN")  # Retrieve from environment variables
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'image/jpeg'  # Adjust if using different image types
+    }
 
-print(response.text)
-print(response)
+    for item in rich_menu_data:
+        rich_menu_id = item['rich_menu_id']
+        image_path = item['image_path']
+        url = f"https://api-data.line.me/v2/bot/richmenu/{rich_menu_id}/content"
+        try:
+            with open(image_path, "rb") as image_file:
+                response = requests.post(url, headers=headers, data=image_file)
+                response.raise_for_status()  # Raise an exception for bad status codes
+                print(f"Successfully uploaded image for rich menu {rich_menu_id}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error uploading image for rich menu {rich_menu_id}: {e}")
+        except FileNotFoundError:
+            print(f"Error: Image file not found at {image_path}")
+        except KeyError as e:
+            print(f"Error: Missing key in rich_menu_data: {e}")
+
+
+
+# Example usage:
+rich_menu_data = [
+    {'rich_menu_id': "richmenu-xxxxxxxxxxxxxxxxx", 'image_path': "richmenu/richmenu_contents/images/main.jpg"},
+    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/cj.jpg"},
+    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/nine.jpg"},
+    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/uno.jpg"},
+    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/ahome.jpg"},
+    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/bao-cafe.jpg"},
+] 
+
+upload_rich_menu_images(rich_menu_data)
