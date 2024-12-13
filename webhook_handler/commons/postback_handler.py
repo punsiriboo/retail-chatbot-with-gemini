@@ -71,12 +71,27 @@ def handle_make_payment_action(event, line_bot_api, postback_params):
     )
 
 
+def handle_richmenu_switch_action(event, line_bot_api, postback_params):
+    menu = postback_params.get("menu")
+    user_id = event.source.user_id
+    rich_menu_id_config = {
+        "main": "richmenu-db38e9f92a3c898106dd4306626c8c75",
+        "cj": "richrichmenu-4c7272287975fafd7d80fc36cbdb9062",
+        "nine": "richmenu-ca6673b31843ae20592960f536fc0f5b",
+        "uno": "richmenu-d612e6dc259ca897ed5650c60220fed2",
+        "ahome": "richmenu-76cfc91852a3582ea42306ede1e5ab5d",
+        "bao-cafe": "richmenu-ff6c0ba7302148ce1c0e158a205244e8",
+    }
+    rich_menu_id = rich_menu_id_config[menu]
+    line_bot_api.link_rich_menu_id_to_user(user_id, rich_menu_id)
+    
 def handle_postback_by_action(event, line_bot_api, postback_action, postback_params):
 
     function_map = {
         "add_item": handle_add_item_action,
         "summary_order": handle_summary_order_action,
         "make_payment": handle_make_payment_action,
+        "richmenuswitch": handle_richmenu_switch_action,
     }
     if (postback_action is not None) and (postback_action in function_map):
         function_map[postback_action](event, line_bot_api, postback_params)

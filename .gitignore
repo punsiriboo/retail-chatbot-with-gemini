@@ -5,3 +5,4 @@ __pycache__
 private/*
 credential/*
 .venv
+*.log

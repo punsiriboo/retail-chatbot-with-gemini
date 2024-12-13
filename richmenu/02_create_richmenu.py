@@ -2,7 +2,10 @@ import sys
 import requests
 import os
 import linebot
-from linebot.v3.messaging import RichMenuRequest
+from linebot.v3.messaging import (
+    RichMenuRequest,
+    CreateRichMenuAliasRequest
+)
 from linebot.v3.messaging.rest import ApiException
 from pprint import pprint
 
@@ -20,8 +23,6 @@ configuration = linebot.v3.messaging.Configuration(
 api_client = linebot.v3.messaging.ApiClient(configuration) 
 api_instance = linebot.v3.messaging.MessagingApi(api_client)
 
-richmenu_json = open("richmenu/richmenu_json/richmenu-main.json").read()
-rich_menu_request = RichMenuRequest.from_json(richmenu_json)
 
 def create_rich_menus(rich_menu_files):
     """Creates multiple rich menus based on a list of JSON files.
@@ -32,33 +33,43 @@ def create_rich_menus(rich_menu_files):
 
     for rich_menu_file in rich_menu_files:
         try:
-            with open(f"richmenu/richmenu_json/{rich_menu_file}", "r") as f:  # Construct path correctly
+            with open(f"richmenu/richmenu_contents/{rich_menu_file}", "r") as f:  # Construct path correctly
                 richmenu_json = f.read()
 
             rich_menu_request = RichMenuRequest.from_json(richmenu_json)
-            api_response = api_instance.create_rich_menu(rich_menu_reques=rich_menu_request) # Corrected parameter name
+            api_response = api_instance.create_rich_menu(rich_menu_request=rich_menu_request) # Corrected parameter name
             print(f"Successfully created rich menu from {rich_menu_file}:")
             pprint(api_response)
 
             # Extract the rich menu ID from the response for later use (e.g., image upload)
             rich_menu_id = api_response.rich_menu_id
             print(f"Rich menu ID: {rich_menu_id}")
-
-           # Example of how to then upload the image:
-            image_path = f"richmenu/richmenu_contents/images/{rich_menu_file.replace('.json', '.jpg')}" # Assuming image file follows a naming convention
-
-            try:
-               upload_rich_menu_image(rich_menu_id, image_path) 
-            except Exception as image_upload_error:
-                print(f"Error uploading image for {rich_menu_file}: {image_upload_error}")
-
-
+            
         except FileNotFoundError:
             print(f"Error: Rich menu JSON file not found: {rich_menu_file}")
         except ApiException as e:
             print(f"Error creating rich menu from {rich_menu_file}: {e}")
         except Exception as e:  # Catch other potential errors
              print(f"An unexpected error occurred processing {rich_menu_file}: {e}")
+
+        # Example of how to then upload the image:
+        image_path = f"richmenu/richmenu_contents/images/{rich_menu_file.replace('.json', '.jpg')}" # Assuming image file follows a naming convention
+
+        try:
+            upload_rich_menu_image(rich_menu_id, image_path) 
+        except Exception as image_upload_error:
+            print(f"Error uploading image for {rich_menu_file}: {image_upload_error}")
+        
+        create_rich_menu_alias_request = CreateRichMenuAliasRequest(
+            rich_menu_alias_id=rich_menu_file.replace('.json', ''),
+            rich_menu_id = rich_menu_id
+        ) 
+        try:
+            api_response = api_instance.create_rich_menu_alias(create_rich_menu_alias_request)
+            print("The response of MessagingApi->create_rich_menu_alias:\n")
+            pprint(api_response)
+        except Exception as e:
+            print("Exception when calling MessagingApi->create_rich_menu_alias: %s\n" % e)
 
 
 def upload_rich_menu_image(rich_menu_id, image_path):
@@ -86,6 +97,7 @@ list_rich_menu = [
     "richmenu-cj.json",
     "richmenu-nine.json",
     "richmenu-uno.json",
+    "richmenu-main.json",
 ]
 create_rich_menus(list_rich_menu)
 

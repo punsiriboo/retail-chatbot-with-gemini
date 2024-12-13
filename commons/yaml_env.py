@@ -12,7 +12,7 @@ def load_yaml_to_env(yaml_file):
                     os.environ[key] = str(
                         value
                     )  # Convert all values to strings for the environment
-                    # print(f"Set ENV {key} = {value}")
+                    print(f"Set ENV {key} = {value}")
             else:
                 print("Error: YAML content is not a valid dictionary.")
     except FileNotFoundError:
