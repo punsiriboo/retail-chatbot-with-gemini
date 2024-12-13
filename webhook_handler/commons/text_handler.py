@@ -115,6 +115,7 @@ def handle_talk_to_cj(line_bot_api, reply_token):
 
 
 def handle_return_static_flex(line_bot_api, reply_token, template_name):
+    print("handle_return_static_flex: " +template_name)
     with open(f"templates/static/{template_name}.json") as file:
         flex_temple = file.read()
 

@@ -175,9 +175,6 @@ def handle_sticker_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event: PostbackEvent):
-    line_bot_api.show_loading_animation_with_http_info(
-        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
-    )
     postback_params = {
         key: value[0] for key, value in parse_qs(event.postback.data).items()
     }

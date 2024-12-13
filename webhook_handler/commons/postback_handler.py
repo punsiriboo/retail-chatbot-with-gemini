@@ -3,10 +3,14 @@ from linebot.v3.messaging import (
     TextMessage,
     FlexMessage,
     FlexContainer,
+    ShowLoadingAnimationRequest
 )
 
 
 def handle_add_item_action(event, line_bot_api, postback_params):
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
     item_name = postback_params.get("item_name")
     item_image_url = postback_params.get("item_image_url")
     item_price = postback_params.get("item_price")
@@ -33,6 +37,9 @@ def handle_add_item_action(event, line_bot_api, postback_params):
 
 
 def handle_summary_order_action(event, line_bot_api, postback_params):
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
     item_name = postback_params.get("item_name")
     item_price = postback_params.get("item_price")
 
@@ -61,6 +68,9 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
 
 
 def handle_make_payment_action(event, line_bot_api, postback_params):
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
