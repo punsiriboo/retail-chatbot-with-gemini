@@ -9,7 +9,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/dubai1.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/baoduo1.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -27,7 +27,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/dubai2.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/baoduo2.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -45,7 +45,43 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/dubai3.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/baoduo3.jpg",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:2",
+                        "gravity": "top"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/baoduo4.jpg",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:2",
+                        "gravity": "top"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/baoduo5.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -61,8 +97,9 @@
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-main.jpg",
                 "size": "full",
-                "aspectRatio": "20:13",
-                "aspectMode": "cover"
+                "aspectRatio": "20:16",
+                "aspectMode": "cover",
+                "backgroundColor": "#4c3821"
             },
             "footer": {
                 "type": "box",
@@ -84,6 +121,9 @@
                 "flex": 0
             },
             "styles": {
+                "body": {
+                    "backgroundColor": "#4c3821"
+                },
                 "footer": {
                     "backgroundColor": "#4c3821"
                 }

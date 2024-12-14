@@ -115,7 +115,7 @@
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/ninemain.jpg",
                 "size": "full",
-                "aspectRatio": "20:13",
+                "aspectRatio": "20:16",
                 "aspectMode": "cover"
             },
             "footer": {

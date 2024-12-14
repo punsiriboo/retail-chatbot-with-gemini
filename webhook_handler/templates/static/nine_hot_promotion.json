@@ -9,7 +9,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nined1.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire1.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -27,7 +27,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nined2.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire2.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -45,7 +45,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nined3.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire3.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -63,7 +63,7 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nined4.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire4.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
@@ -81,7 +81,25 @@
                 "contents": [
                     {
                         "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nined5.jpg",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire5.jpg",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:2",
+                        "gravity": "top"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/nineonfire6.jpg",
                         "size": "full",
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",

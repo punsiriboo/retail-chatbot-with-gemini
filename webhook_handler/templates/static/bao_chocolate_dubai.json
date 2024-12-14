@@ -61,8 +61,9 @@
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-main.jpg",
                 "size": "full",
-                "aspectRatio": "20:13",
-                "aspectMode": "cover"
+                "aspectRatio": "20:16",
+                "aspectMode": "cover",
+                "backgroundColor": "#4c3821"
             },
             "footer": {
                 "type": "box",
@@ -84,6 +85,9 @@
                 "flex": 0
             },
             "styles": {
+                "body": {
+                    "backgroundColor": "#4c3821"
+                },
                 "footer": {
                     "backgroundColor": "#4c3821"
                 }

@@ -3,7 +3,7 @@ import json
 from commons.vertex_agent_search import vertex_search_retail_products
 from commons.dialogflowcx_answer import detect_intent_text
 from commons.flex_message_builder import build_flex_carousel_message
-from config import keyword_flex_temple_config as flex_temple_config
+from config.keyword_to_flex_mapping import keyword_flex_temple_config as flex_temple_config
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,

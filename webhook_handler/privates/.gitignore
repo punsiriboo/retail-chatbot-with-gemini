@@ -5,3 +5,4 @@
 # Script to convert to NDJSON
 *.py 
 *.txt
+*.yml

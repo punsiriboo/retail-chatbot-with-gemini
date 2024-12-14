@@ -692,12 +692,8 @@
                                                 "type": "filler"
                                             },
                                             {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
                                                 "type": "text",
-                                                "text": "Add to cart",
+                                                "text": "ติดตามข่าวสารเพิ่มเติม",
                                                 "color": "#ffffff",
                                                 "flex": 0,
                                                 "offsetTop": "-2px"
@@ -706,7 +702,13 @@
                                                 "type": "filler"
                                             }
                                         ],
-                                        "spacing": "sm"
+                                        "spacing": "sm",
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "action",
+                                            "uri": "https://www.facebook.com/AHomeTH"
+                                        }
+                            
                                     },
                                     {
                                         "type": "filler"
