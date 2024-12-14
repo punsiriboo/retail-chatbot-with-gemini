@@ -1,0 +1,1 @@
+from keyword_to_flex_mapping import keyword_flex_temple_config

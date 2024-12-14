@@ -14,61 +14,6 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#e64554cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"
@@ -306,61 +251,6 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#e64554cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"
@@ -379,61 +269,6 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#e64554cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"

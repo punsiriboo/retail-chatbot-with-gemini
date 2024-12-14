@@ -14,61 +14,6 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#015ca9cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"
@@ -87,61 +32,6 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#015ca9cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"
@@ -160,64 +50,43 @@
                         "aspectMode": "cover",
                         "aspectRatio": "2:2",
                         "gravity": "top"
-                    },
-                    {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents": [
-                                    {
-                                        "type": "filler"
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "contents": [
-                                            {
-                                                "type": "filler"
-                                            },
-                                            {
-                                                "type": "icon",
-                                                "url": "https://developers-resource.landpress.line.me/fx/clip/clip14.png"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "Add to cart",
-                                                "color": "#ffffff",
-                                                "flex": 0,
-                                                "offsetTop": "-2px"
-                                            },
-                                            {
-                                                "type": "filler"
-                                            }
-                                        ],
-                                        "spacing": "sm"
-                                    },
-                                    {
-                                        "type": "filler"
-                                    }
-                                ],
-                                "borderWidth": "1px",
-                                "cornerRadius": "4px",
-                                "spacing": "sm",
-                                "borderColor": "#ffffff",
-                                "margin": "xxl",
-                                "height": "40px"
-                            }
-                        ],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#015ca9cc",
-                        "paddingAll": "10px",
-                        "paddingTop": "0px"
                     }
                 ],
                 "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-main.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover"
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#4c3821"
+                    }
+                ],
+                "flex": 0
+            },
+            "styles": {
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
             }
         }
     ]

@@ -4,14 +4,10 @@ import json
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,
-    TemplateMessage,
-    CarouselTemplate,
-    CarouselColumn,
-    URIAction,
+    FlexContainer,
+    FlexMessage,
+    FlexCarousel
 )
-
-with open("privates/data/image_paths.json") as file:
-    image_paths = json.load(file)
 
 
 def calculate_distance(lat1, lng1, lat2, lng2, scale_lat=10, scale_lng=10):
@@ -50,32 +46,33 @@ def search_closest_branches(event, line_bot_api, user_lat, user_lng, top_n=5):
     )
     closest_branches = data.sort_values(by="distance").head(top_n)
 
-    carousel_columns = []
+    result_branch_list = []
+    with open("templates/flex_branch_bubble.json") as file:
+        branch_bubble_temple = file.read()
+
     for index, branch in closest_branches.iterrows():
-        carousel_columns.append(
-            CarouselColumn(
-                thumbnail_image_url=branch.get(
-                    "image_thumbnail_path",
-                    image_paths["branch_search_image"],
-                ),
-                title=branch["branch"],
-                actions=[
-                    URIAction(
-                        label="CALL ติดต่อสาขา",
-                        uri=f"tel:{branch['tel']}",
-                    ),
-                    URIAction(
-                        label="เปิด Google Maps",
-                        uri=f"https://www.google.com/maps/dir/?api=1&origin={user_lat},{user_lng}&destination={branch['lat']},{branch['lng']}",
-                    ),
-                ],
-            )
+        title = branch["branch"]
+        distance = branch["distance"]
+        phone_number = branch['tel']
+        map_url = f"https://www.google.com/maps/dir/?api=1&origin={user_lat},{user_lng}&destination={branch['lat']},{branch['lng']}"
+
+        branch_bubble_json = (
+            branch_bubble_temple.replace("<BRANCH_NAME>", title)
+            .replace("<BRANCH_DISTANCE>", str(distance))
+            .replace("<BRANCH_PHONE_NUMBER>", phone_number)
+            .replace("<BRANCH_MAP_URL>", map_url)
         )
-    carousel_template = CarouselTemplate(columns=carousel_columns)
-    template_message = TemplateMessage(
-        alt_text="สาขา CJ ที่ใกล้เคียง", template=carousel_template
+
+        result_branch_list.append(FlexContainer.from_json(branch_bubble_json))
+
+    carousel_flex_message = FlexMessage(
+        alt_text="สาขา CJ ที่ใกล้เคียง",
+        contents=FlexCarousel(
+            type="carousel",
+            contents=result_branch_list,
+        ),
     )
 
     line_bot_api.reply_message(
-        ReplyMessageRequest(reply_token=event.reply_token, messages=[template_message])
+        ReplyMessageRequest(reply_token=event.reply_token, messages=[carousel_flex_message])
     )

@@ -1,0 +1,21 @@
+keyword_flex_temple_config = {
+    "[CJ] ลดสนั่น 7 วัน": "seven_days_discount",
+    "[CJ] สินค้าลดกระหน่ำ 7 วัน": "seven_days_discount_product",
+    "[CJ] 2024 Recap": "recap_2024",
+    "[Nine] โปรไฟลุก": "nine_hot_promotion",
+    "[Nine] ไอเทมหน้าหนาว": "nine_winner",
+    "[Nine] ติดตามข่าวสาร": "nine_news",
+    "[Nine] หมอลำเฟส": "nine_dancing_fastival",
+    "[UNO] Power Puff Girls": "uno_power_puff_girls",
+    "[UNO] Claim Free Bag": "uno_claim_free_bag",
+    "[UNO] 12.12 Sale": "uno_12_12_sale",
+    "[UNO] XMas Party": "uno_marry_xmas",
+    "[BAO] MarryXMas": "bao_marry_xmas",
+    "[BAO] Drink Menu": "bao_drink_menu",
+    "[BAO] Chocolate Dubai": "bao_chocolate_dubai",
+    "[BAO] Duo yummy": "bao_duo_yummy",
+    "[AHOME] ติดตามข่าวสาร": "ahome_news",
+    "[AHOME] Toy Story": "ahome_toy_story",
+    "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": "ahome_in_house_product",
+    "[AHOME] Car Lover Promotion": "ahome_car_lover_promotion"
+}

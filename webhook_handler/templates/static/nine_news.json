@@ -1,0 +1,34 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/ninemain.jpg",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover"
+    },
+    "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+            {
+                "type": "button",
+                "action": {
+                    "type": "uri",
+                    "label": "ติดตาม NINE Beauty",
+                    "uri": "https://www.facebook.com/ninebeauty.th"
+                },
+                "style": "primary",
+                "height": "sm",
+                "color": "#ed018c"
+            }
+        ],
+        "flex": 0
+    },
+    "styles": {
+        "footer": {
+            "backgroundColor": "#ed018c"
+        }
+    }
+}

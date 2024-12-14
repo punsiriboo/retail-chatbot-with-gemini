@@ -1,0 +1,75 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-menu.webp",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:2",
+                        "gravity": "top"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-discount.png",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:2",
+                        "gravity": "top"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-main.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover"
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#4c3821"
+                    }
+                ],
+                "flex": 0
+            },
+            "styles": {
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
+            }
+        }
+    ]
+}

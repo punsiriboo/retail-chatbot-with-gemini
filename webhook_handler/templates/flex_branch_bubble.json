@@ -1,0 +1,91 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cj-branch-location.png",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "สาขา<BRANCH_NAME>",
+                "weight": "bold",
+                "size": "xl",
+                "wrap": true
+            },
+            {
+                "type": "box",
+                "layout": "baseline",
+                "margin": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "เบอร์โทร:",
+                        "size": "sm",
+                        "color": "#555555"
+                    },
+                    {
+                        "type": "text",
+                        "text": "<BRANCH_PHONE_NUMBER>",
+                        "size": "sm",
+                        "color": "#111111",
+                        "weight": "bold"
+                    }
+                ]
+            },
+            {
+                "type": "box",
+                "layout": "baseline",
+                "margin": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "ระยะทาง:",
+                        "size": "sm",
+                        "color": "#555555"
+                    },
+                    {
+                        "type": "text",
+                        "text": "<BRANCH_DISTANCE>",
+                        "size": "sm",
+                        "color": "#111111",
+                        "weight": "bold"
+                    }
+                ]
+            }
+        ]
+    },
+    "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+            {
+                "type": "button",
+                "style": "primary",
+                "height": "sm",
+                "action": {
+                    "type": "uri",
+                    "label": "เปิด Google Maps",
+                    "uri": "<BRANCH_MAP_URL>"
+                }
+            },
+            {
+                "type": "button",
+                "action": {
+                    "type": "uri",
+                    "label": "CALL โทรติดต่อสาขา",
+                    "uri": "tel:<BRANCH_PHONE_NUMBER>"
+                },
+                "style": "primary",
+                "height": "sm"
+            }
+        ],
+        "flex": 0
+    }
+}
