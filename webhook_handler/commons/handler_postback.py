@@ -1,3 +1,4 @@
+import copy
 from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
@@ -19,6 +20,7 @@ def handle_add_item_action(event, line_bot_api, postback_params):
     item_image_url = postback_params.get("item_image_url")
     item_price = postback_params.get("item_price")
     flex_add_to_basket = open("templates/flex_add_to_basket.json").read()
+
     flex_add_to_basket = (
         flex_add_to_basket.replace("<PRODUCT_NAME>", item_name)
         .replace("<PRODUCT_IMAGE_URL>", item_image_url)
@@ -32,6 +34,8 @@ def handle_add_item_action(event, line_bot_api, postback_params):
     datastore_client.add_user_items_action(
         user_id=event.source.user_id, item_name=item_name, item_price=item_price
     )
+
+    print(flex_add_to_basket_msg)
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
@@ -48,27 +52,31 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
-    
+
     datastore_client = DatastoreClient()
-    total_items, total_final_price, grouped_items = datastore_client.get_all_items_in_basket(user_id=event.source.user_id)
-     
+    total_items, total_final_price, grouped_items = (
+        datastore_client.calculate_all_items_in_basket(user_id=event.source.user_id)
+    )
+
     all_items_box = []
-    box_product_info = open("templates/box_product_info.json").read()
-    
-    for item_name, details in grouped_items.items():    
+    box_product_template= open("templates/box_product_info.json").read()
+    box_product_info = copy.deepcopy(box_product_template)
+
+    for item_name, details in grouped_items.items():
         box_product_info = box_product_info.replace(
             "<PRODUCT_NAME>", f"{item_name} - จำนวน: {details['quantity']}"
         ).replace("<PRODUCT_PRICE>", f"{details['total_price']:.2f}")
-        
+
         all_items_box.append(box_product_info)
 
     all_items_box_str = ",".join(all_items_box)
     flex_summary_order = open("templates/flex_summary_order.json").read()
-    flex_summary_order = flex_summary_order.replace(
-        "<BOX_PRODUCT_INFO_JSON>", all_items_box_str
-    ).replace("<TOTAL_ITEMS>", total_items).replace("<TOTAL_FINAL_PRICE>", total_final_price)
-    
-    
+    flex_summary_order = (
+        flex_summary_order.replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
+        .replace("<SUM_TOTAL_ITEMS>", total_items)
+        .replace("<SUM_TOTAL_PRICE>", total_final_price)
+    )
+
     flex_summary_order_msg = FlexMessage(
         alt_text="สรุปการสั้งซื้อสินค้า",
         contents=FlexContainer.from_json(flex_summary_order),

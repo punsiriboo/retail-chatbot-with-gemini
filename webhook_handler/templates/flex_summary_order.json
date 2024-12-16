@@ -54,7 +54,7 @@
                             },
                             {
                                 "type": "text",
-                                "text": "<FINAL_ITEMS>",
+                                "text": "<SUM_TOTAL_ITEMS>",
                                 "size": "sm",
                                 "color": "#111111",
                                 "align": "end"
@@ -73,7 +73,7 @@
                             },
                             {
                                 "type": "text",
-                                "text": "<FINAL_PRICE>",
+                                "text": "<SUM_TOTAL_PRICE>",
                                 "size": "sm",
                                 "color": "#111111",
                                 "align": "end"

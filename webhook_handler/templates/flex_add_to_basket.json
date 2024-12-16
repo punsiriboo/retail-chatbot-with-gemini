@@ -1,5 +1,6 @@
 {
     "type": "bubble",
+    "size": "giga",
     "body": {
         "type": "box",
         "layout": "vertical",
@@ -14,14 +15,13 @@
                         "contents": [
                             {
                                 "type": "image",
-                                "url": "<PRODUCT_IMAGE_URL>",
                                 "aspectMode": "cover",
-                                "size": "full"
+                                "size": "full",
+                                "url": "<PRODUCT_IMAGE_URL>"
                             }
                         ],
-                        "cornerRadius": "100px",
-                        "width": "72px",
-                        "height": "72px"
+                        "width": "100px",
+                        "height": "100px"
                     },
                     {
                         "type": "box",
@@ -45,7 +45,7 @@
                                                 "weight": "bold"
                                             }
                                         ],
-                                        "offsetStart": "2px"
+                                        "offsetStart": "-10px"
                                     }
                                 ]
                             },
