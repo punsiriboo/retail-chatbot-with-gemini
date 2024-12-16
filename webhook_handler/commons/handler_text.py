@@ -104,12 +104,20 @@ def handle_branch_search(line_bot_api, reply_token, text):
 
 
 def handle_talk_to_cj(line_bot_api, reply_token, text):
+    flex_temple = open("templates/static/nong_cj_feature.json").read()
+    static_flex_message = FlexMessage(
+        alt_text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE!",
+        contents=FlexContainer.from_json(flex_temple),
+    )
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=reply_token,
             messages=[
+                static_flex_message,
                 TextMessage(
-                    text="สวัสดีค่ะ ยินดีต้อนรับสู่ร้านค้า​ CJ MORE มีอะไรให้ช่วยเหลือไหมคะ? คุณสามารถพิมพ์สอบถามเกี่ยวกับ CJ หรือ พิมพ์ #ค้นหา ตามด้วยชื่อสินค้าได้เลยตค่ะ เช่น #ค้นหาน้ำดื่ม"
+                    text="สวัสดีค่ะ ยินดีต้อนรับสู่ร้านค้า​ CJ MORE มีอะไรให้ช่วยเหลือไหมคะ?" + 
+                    "\n\nคุณสามารถพิมพ์สอบถามเกี่ยวกับ CJ หรือ พิมพ์ #ค้นหา ตามด้วยชื่อสินค้าได้เลยตค่ะ เช่น #ค้นหาน้ำดื่ม" +
+                    "\nหรือสามารถคุยเล่นทั่วไปสอบถามน้อง CJ ได้เลยค่ะ"
                 ),
             ],
         )

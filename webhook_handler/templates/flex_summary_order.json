@@ -1,5 +1,6 @@
 {
     "type": "bubble",
+    "size": "giga",
     "hero": {
         "type": "image",
         "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/shopping_sum.png",
@@ -89,14 +90,26 @@
         "layout": "vertical",
         "contents": [
             {
-                "type": "button",
-                "action": {
-                    "type": "postback",
-                    "label": "ชำระเงิน",
-                    "data": "action=make_payment"
-                },
-                "color": "#00A150",
-                "style": "primary"
+              "style": "primary",
+              "type": "button",
+              "action": {
+                "data": "action=make_payment",
+                "label": "ชำระเงิน",
+                "type": "postback"
+              },
+              "color": "#00A150",
+              "height": "sm"
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "postback",
+                "label": "ยกเลิกรายการสั่งซื้อ",
+                "data": "action=cancle_order"
+              },
+              "style": "secondary",
+              "offsetTop": "2px",
+              "height": "sm"
             }
         ]
     },

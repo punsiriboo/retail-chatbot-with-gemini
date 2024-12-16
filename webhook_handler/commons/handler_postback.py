@@ -35,8 +35,6 @@ def handle_add_item_action(event, line_bot_api, postback_params):
         user_id=event.source.user_id, item_name=item_name, item_price=item_price
     )
 
-    print(flex_add_to_basket_msg)
-
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
@@ -59,10 +57,10 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
     )
 
     all_items_box = []
-    box_product_template= open("templates/box_product_info.json").read()
-    box_product_info = copy.deepcopy(box_product_template)
+    box_product_template = open("templates/box_product_info.json").read()
 
     for item_name, details in grouped_items.items():
+        box_product_info = copy.deepcopy(box_product_template)
         box_product_info = box_product_info.replace(
             "<PRODUCT_NAME>", f"{item_name} - จำนวน: {details['quantity']}"
         ).replace("<PRODUCT_PRICE>", f"{details['total_price']:.2f}")

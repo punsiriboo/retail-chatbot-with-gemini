@@ -1,0 +1,119 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/12.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/14.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/15.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/16.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "image",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/17.png",
+                        "size": "full",
+                        "aspectRatio": "10:6",
+                        "gravity": "top",
+                        "aspectMode": "cover"
+                    }
+                ],
+                "paddingAll": "0px"
+            }
+        }
+    ]
+}

@@ -3,7 +3,7 @@
     "size": "giga",
     "hero": {
         "type": "image",
-        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cj-tutor.png",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
         "size": "full",
         "aspectMode": "cover",
         "aspectRatio": "320:213"

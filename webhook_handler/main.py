@@ -196,20 +196,32 @@ def handle_beacon(event: BeaconEvent):
 @handler.add(FollowEvent)
 def handle_follow(event):
     print("Got Follow event:" + event.source.user_id)
-    with open("templates/static/about_cj_more.json") as file:
-        flex_temple = file.read()
-
+    flex_temple = open("templates/static/about_cj_more.json").read()
+    profile = line_bot_api.get_profile(user_id=event.source.user_id)
+    if event.follow.is_unblocked:
+        text_message = TextMessage(
+            text="สวัสดีค่ะ คุณ "
+            + profile.display_name
+            + " ยินดีต้อนรับกลับเข้าสู่แชทบอทของ​ CJ MORE! อีกครั้งนะค่ะ\n\nแชทบอท 'น้อง CJ' 👧🏻 จะขอเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา"
+        )
+    
+    else:
+        text_message = TextMessage(
+            text="สวัสดีค่ะ คุณ "
+            + profile.display_name
+            + " ยินดีต้อนรับสู่​ CR MORE! แชทบอท 'น้อง CJ' 👧🏻 \nจะขอเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา เพราะเราเป็นมากกว่ามากกว่าซูเปอร์มาร์เก็ต"
+        )
+    
     static_flex_message = FlexMessage(
         alt_text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE!",
         contents=FlexContainer.from_json(flex_temple),
     )
+    
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
-                TextMessage(
-                    text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE! แชทบอท ซึ่งจะเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา"
-                ),
+                text_message,
                 static_flex_message,
             ],
         )
@@ -223,11 +235,21 @@ def handle_unfollow(event):
 
 @handler.add(JoinEvent)
 def handle_join(event):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text="Joined this " + event.source.type)],
-            )
+    group_id = event.source.group_id
+    
+    flex_temple = open("templates/static/nong_cj_feature.json").read()
+    
+    static_flex_message = FlexMessage(
+        alt_text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE!",
+        contents=FlexContainer.from_json(flex_temple),
+    )
+    
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text="สวัสดีค่ะ น้อง CJ ยินดีให้บริการ 👧🏻\n คุณสามารถพิมพ์ #ค้นหาตามด้วยชื่อสินค้า\nค้นหา และshoping สินค้าแบบกลุ่มได้ค่ะ"),
+                static_flex_message
+            ],
         )
+    )

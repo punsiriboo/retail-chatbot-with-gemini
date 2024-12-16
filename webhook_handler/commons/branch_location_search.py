@@ -1,6 +1,5 @@
 import pandas as pd
 import math
-import json
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -58,7 +57,7 @@ def search_closest_branches(event, line_bot_api, user_lat, user_lng, top_n=5):
 
         branch_bubble_json = (
             branch_bubble_temple.replace("<BRANCH_NAME>", title)
-            .replace("<BRANCH_DISTANCE>", str(distance))
+            .replace("<BRANCH_DISTANCE>", f"{distance:.2f} กม.")
             .replace("<BRANCH_PHONE_NUMBER>", phone_number)
             .replace("<BRANCH_MAP_URL>", map_url)
         )

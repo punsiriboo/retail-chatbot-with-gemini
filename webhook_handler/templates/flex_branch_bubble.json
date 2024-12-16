@@ -45,7 +45,7 @@
                 "contents": [
                     {
                         "type": "text",
-                        "text": "ระยะทาง:",
+                        "text": "ระยะทางกระจัด:",
                         "size": "sm",
                         "color": "#555555"
                     },
@@ -68,6 +68,7 @@
             {
                 "type": "button",
                 "style": "primary",
+                "color": "#00A150",
                 "height": "sm",
                 "action": {
                     "type": "uri",
@@ -83,7 +84,8 @@
                     "uri": "tel:<BRANCH_PHONE_NUMBER>"
                 },
                 "style": "primary",
-                "height": "sm"
+                "height": "sm",
+                "color": "#00A150"
             }
         ],
         "flex": 0
