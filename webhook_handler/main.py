@@ -15,7 +15,7 @@ from linebot.v3.webhooks import (
     BeaconEvent,
     FollowEvent,
     UnfollowEvent,
-    JoinEvent
+    JoinEvent,
 )
 from linebot.v3.messaging import (
     Configuration,
@@ -42,8 +42,6 @@ from commons.audio_to_text import transcribe
 from commons.handler_text import handle_text_by_keyword
 from commons.handler_postback import handle_postback_by_action
 from commons.handler_beacon import handle_beacon_by_user_profile
-
-
 
 
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
@@ -87,6 +85,7 @@ def handle_text_message(event):
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
     handle_text_by_keyword(event, line_bot_api)
+
 
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):
@@ -148,6 +147,7 @@ def handle_audio_message(event):
         )
     )
 
+
 @handler.add(MessageEvent, message=LocationMessageContent)
 def handle_location_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -159,6 +159,7 @@ def handle_location_message(event):
     search_closest_branches(
         user_lat=latitude, user_lng=longitude, event=event, line_bot_api=line_bot_api
     )
+
 
 @handler.add(MessageEvent, message=StickerMessageContent)
 def handle_sticker_message(event):
@@ -177,6 +178,7 @@ def handle_sticker_message(event):
         )
     )
 
+
 @handler.add(PostbackEvent)
 def handle_postback(event: PostbackEvent):
     postback_params = {
@@ -185,10 +187,12 @@ def handle_postback(event: PostbackEvent):
     postback_action = postback_params.get("action")
     handle_postback_by_action(event, line_bot_api, postback_action, postback_params)
 
+
 @handler.add(BeaconEvent)
 def handle_beacon(event: BeaconEvent):
     handle_beacon_by_user_profile(event, line_bot_api)
-        
+
+
 @handler.add(FollowEvent)
 def handle_follow(event):
     print("Got Follow event:" + event.source.user_id)
@@ -203,15 +207,19 @@ def handle_follow(event):
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
-                TextMessage(text='สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE! แชทบอท ซึ่งจะเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา'),
-                static_flex_message
-            ]
+                TextMessage(
+                    text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE! แชทบอท ซึ่งจะเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา"
+                ),
+                static_flex_message,
+            ],
         )
     )
+
 
 @handler.add(UnfollowEvent)
 def handle_unfollow(event):
     print("Got Unfollow event:" + event.source.user_id)
+
 
 @handler.add(JoinEvent)
 def handle_join(event):
@@ -220,6 +228,6 @@ def handle_join(event):
         line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text='Joined this ' + event.source.type)]
+                messages=[TextMessage(text="Joined this " + event.source.type)],
             )
         )

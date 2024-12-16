@@ -7,3 +7,4 @@ credential/*
 .venv
 *.log
 .vscode
+.pytest_cache
