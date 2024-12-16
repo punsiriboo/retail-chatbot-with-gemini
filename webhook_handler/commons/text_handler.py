@@ -3,7 +3,9 @@ import json
 from commons.vertex_agent_search import vertex_search_retail_products
 from commons.dialogflowcx_answer import detect_intent_text
 from commons.flex_message_builder import build_flex_carousel_message
-from config.keyword_to_flex_mapping import keyword_flex_temple_config as flex_temple_config
+from config.keyword_to_flex_mapping import (
+    keyword_flex_temple_config as flex_temple_config,
+)
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -116,7 +118,7 @@ def handle_talk_to_cj(line_bot_api, reply_token, text):
 
 
 def handle_return_static_flex(line_bot_api, reply_token, template_name):
-    
+
     print("handle_return_static_flex: " + template_name)
     with open(f"templates/static/{template_name}.json") as file:
         flex_temple = file.read()
@@ -142,11 +144,11 @@ def handle_text_by_keyword(event, line_bot_api):
     function_map = {
         "ค้นหาคูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
-        "คุยกับน้อง CJ": handle_talk_to_cj
+        "คุยกับน้อง CJ": handle_talk_to_cj,
     }
     if text in function_map:
         function_map[text](line_bot_api, reply_token, text)
-    
+
     elif text in flex_temple_config:
         template_name = flex_temple_config[text]
         handle_return_static_flex(line_bot_api, reply_token, template_name)

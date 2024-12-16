@@ -3,11 +3,15 @@ from linebot.v3.messaging import (
     TextMessage,
     FlexMessage,
     FlexContainer,
-    ShowLoadingAnimationRequest
+    ShowLoadingAnimationRequest,
 )
+
+from commons.datastore_client import DatastoreClient
 
 
 def handle_add_item_action(event, line_bot_api, postback_params):
+    datastore_client = DatastoreClient()
+
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
@@ -23,6 +27,10 @@ def handle_add_item_action(event, line_bot_api, postback_params):
     flex_add_to_basket_msg = FlexMessage(
         alt_text=f"สั่งซื้อสินค้า: {item_name}",
         contents=FlexContainer.from_json(flex_add_to_basket),
+    )
+
+    datastore_client.add_user_items_action(
+        user_id=event.source.user_id, item_name=item_name, item_price=item_price
     )
 
     line_bot_api.reply_message(
@@ -42,12 +50,19 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
     )
     item_name = postback_params.get("item_name")
     item_price = postback_params.get("item_price")
+    trim_item_len = 60
+    trim_item_name = (
+        (item_name[:trim_item_len] + "..")
+        if len(item_name) > trim_item_len
+        else item_name
+    )
 
     box_product_info = open("templates/box_product_info.json").read()
     flex_summary_order = open("templates/flex_summary_order.json").read()
-    box_product_info = box_product_info.replace("<PRODUCT_NAME>", item_name).replace(
-        "<PRODUCT_PRICE>", item_price
-    )
+
+    box_product_info = box_product_info.replace(
+        "<PRODUCT_NAME>", trim_item_name
+    ).replace("<PRODUCT_PRICE>", item_price)
     flex_summary_order = flex_summary_order.replace(
         "<BOX_PRODUCT_INFO_JSON>", box_product_info
     )
@@ -94,7 +109,8 @@ def handle_richmenu_switch_action(event, line_bot_api, postback_params):
     }
     rich_menu_id = rich_menu_id_config[menu]
     line_bot_api.link_rich_menu_id_to_user(user_id, rich_menu_id)
-    
+
+
 def handle_postback_by_action(event, line_bot_api, postback_action, postback_params):
 
     function_map = {

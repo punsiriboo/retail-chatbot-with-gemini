@@ -1,0 +1,65 @@
+{
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cjmain.jpg",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover",
+        "action": {
+            "type": "uri",
+            "uri": "https://line.me/"
+        }
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": " \"CJ MORE มากกว่าซูเปอร์มาร์เก็ต\"",
+                "color": "#0a9550",
+                "style": "italic",
+                "position": "relative",
+                "align": "center"
+            }
+        ]
+    },
+    "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+            {
+                "type": "button",
+                "style": "primary",
+                "height": "sm",
+                "action": {
+                    "type": "uri",
+                    "label": "FACEBOOK",
+                    "uri": "https://line.me/"
+                },
+                "color": "#0a9550"
+            },
+            {
+                "type": "button",
+                "style": "primary",
+                "height": "sm",
+                "action": {
+                    "type": "uri",
+                    "label": "WEBSITE",
+                    "uri": "https://www.cjexpress.co.th/about"
+                },
+                "color": "#0a9550",
+                "margin": "md"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [],
+                "margin": "sm"
+            }
+        ],
+        "flex": 0
+    }
+}

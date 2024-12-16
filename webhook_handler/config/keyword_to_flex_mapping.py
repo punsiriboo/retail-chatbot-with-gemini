@@ -1,4 +1,5 @@
 keyword_flex_temple_config = {
+    "เกี่ยวกับร้านค้า CJ MORE": "about_cj_more",
     "[CJ] ลดสนั่น 7 วัน": "seven_days_discount",
     "[CJ] สินค้าลดกระหน่ำ 7 วัน": "seven_days_discount_product",
     "[CJ] 2024 Recap": "recap_2024",
@@ -17,5 +18,5 @@ keyword_flex_temple_config = {
     "[AHOME] ติดตามข่าวสาร": "ahome_news",
     "[AHOME] Toy Story": "ahome_toy_story",
     "[AHOME] เครื่องใช้ไฟฟ้าในบ้าน": "ahome_in_house_product",
-    "[AHOME] Car Lover Promotion": "ahome_car_lover_promotion"
+    "[AHOME] Car Lover Promotion": "ahome_car_lover_promotion",
 }

@@ -2,7 +2,7 @@
     "type": "bubble",
     "hero": {
         "type": "image",
-        "url": "https://storage.googleapis.com/retail-gemini-vertex/cj-bot-photo/cj_branch2.png",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/shopping_sum.png",
         "size": "full",
         "aspectRatio": "2:1",
         "aspectMode": "cover",

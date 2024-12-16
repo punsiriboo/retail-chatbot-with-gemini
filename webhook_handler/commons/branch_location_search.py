@@ -6,7 +6,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     FlexContainer,
     FlexMessage,
-    FlexCarousel
+    FlexCarousel,
 )
 
 
@@ -53,7 +53,7 @@ def search_closest_branches(event, line_bot_api, user_lat, user_lng, top_n=5):
     for index, branch in closest_branches.iterrows():
         title = branch["branch"]
         distance = branch["distance"]
-        phone_number = branch['tel']
+        phone_number = branch["tel"]
         map_url = f"https://www.google.com/maps/dir/?api=1&origin={user_lat},{user_lng}&destination={branch['lat']},{branch['lng']}"
 
         branch_bubble_json = (
@@ -74,5 +74,7 @@ def search_closest_branches(event, line_bot_api, user_lat, user_lng, top_n=5):
     )
 
     line_bot_api.reply_message(
-        ReplyMessageRequest(reply_token=event.reply_token, messages=[carousel_flex_message])
+        ReplyMessageRequest(
+            reply_token=event.reply_token, messages=[carousel_flex_message]
+        )
     )

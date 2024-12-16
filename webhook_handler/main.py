@@ -12,6 +12,10 @@ from linebot.v3.webhooks import (
     ImageMessageContent,
     AudioMessageContent,
     PostbackEvent,
+    BeaconEvent,
+    FollowEvent,
+    UnfollowEvent,
+    JoinEvent
 )
 from linebot.v3.messaging import (
     Configuration,
@@ -80,7 +84,6 @@ def handle_text_message(event):
     )
     handle_text_by_keyword(event, line_bot_api)
 
-
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -141,7 +144,6 @@ def handle_audio_message(event):
         )
     )
 
-
 @handler.add(MessageEvent, message=LocationMessageContent)
 def handle_location_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -153,7 +155,6 @@ def handle_location_message(event):
     search_closest_branches(
         user_lat=latitude, user_lng=longitude, event=event, line_bot_api=line_bot_api
     )
-
 
 @handler.add(MessageEvent, message=StickerMessageContent)
 def handle_sticker_message(event):
@@ -172,7 +173,6 @@ def handle_sticker_message(event):
         )
     )
 
-
 @handler.add(PostbackEvent)
 def handle_postback(event: PostbackEvent):
     postback_params = {
@@ -180,3 +180,44 @@ def handle_postback(event: PostbackEvent):
     }
     postback_action = postback_params.get("action")
     handle_postback_by_action(event, line_bot_api, postback_action, postback_params)
+
+
+@handler.add(BeaconEvent)
+def handle_beacon(event: BeaconEvent):
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text='Got beacon event. hwid={}, device_message(hex string)={}'.format(
+                    event.beacon.hwid, event.beacon.dm))]
+            )
+        )
+        
+@handler.add(FollowEvent)
+def handle_follow(event):
+    print("Got Follow event:" + event.source.user_id)
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text='Got follow event')]
+            )
+        )
+
+
+@handler.add(UnfollowEvent)
+def handle_unfollow(event):
+    print("Got Unfollow event:" + event.source.user_id)
+
+@handler.add(JoinEvent)
+def handle_join(event):
+    with ApiClient(configuration) as api_client:
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text='Joined this ' + event.source.type)]
+            )
+        )
