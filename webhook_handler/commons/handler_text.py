@@ -1,5 +1,4 @@
 import json
-
 from commons.vertex_agent_search import vertex_search_retail_products
 from commons.dialogflowcx_answer import detect_intent_text
 from commons.flex_message_builder import build_flex_carousel_message
@@ -142,7 +141,7 @@ def handle_text_by_keyword(event, line_bot_api):
     text = event.message.text
     reply_token = event.reply_token
     function_map = {
-        "ค้นหาคูปองส่วนลด": handle_coupon_search,
+        "คูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
     }

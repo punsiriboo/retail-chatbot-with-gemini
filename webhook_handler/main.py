@@ -33,13 +33,17 @@ from linebot.v3.messaging import (
 
 
 from commons.gcs_utils import upload_blob_from_memory
-from commons.text_handler import handle_text_by_keyword
 from commons.branch_location_search import search_closest_branches
 from commons.gemini_image_understanding import gemini_describe_image
 from commons.vertex_agent_search import vertex_search_retail_products
 from commons.flex_message_builder import build_flex_carousel_message
 from commons.audio_to_text import transcribe
-from commons.postback_handler import handle_postback_by_action
+
+from commons.handler_text import handle_text_by_keyword
+from commons.handler_postback import handle_postback_by_action
+from commons.handler_beacon import handle_beacon_by_user_profile
+
+
 
 
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
@@ -181,31 +185,29 @@ def handle_postback(event: PostbackEvent):
     postback_action = postback_params.get("action")
     handle_postback_by_action(event, line_bot_api, postback_action, postback_params)
 
-
 @handler.add(BeaconEvent)
 def handle_beacon(event: BeaconEvent):
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text='Got beacon event. hwid={}, device_message(hex string)={}'.format(
-                    event.beacon.hwid, event.beacon.dm))]
-            )
-        )
+    handle_beacon_by_user_profile(event, line_bot_api)
         
 @handler.add(FollowEvent)
 def handle_follow(event):
     print("Got Follow event:" + event.source.user_id)
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text='Got follow event')]
-            )
-        )
+    with open("templates/static/about_cj_more.json") as file:
+        flex_temple = file.read()
 
+    static_flex_message = FlexMessage(
+        alt_text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE!",
+        contents=FlexContainer.from_json(flex_temple),
+    )
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text='สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE! แชทบอท ซึ่งจะเป็นผู้ช่วยของคุณในการ Shopping แนะนำสินค้าของเรา'),
+                static_flex_message
+            ]
+        )
+    )
 
 @handler.add(UnfollowEvent)
 def handle_unfollow(event):

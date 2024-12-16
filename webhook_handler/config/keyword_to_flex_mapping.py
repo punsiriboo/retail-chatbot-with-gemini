@@ -1,5 +1,6 @@
 keyword_flex_temple_config = {
     "เกี่ยวกับร้านค้า CJ MORE": "about_cj_more",
+    "ค้นหาสินค้า": "search_product_tutor",
     "[CJ] ลดสนั่น 7 วัน": "seven_days_discount",
     "[CJ] สินค้าลดกระหน่ำ 7 วัน": "seven_days_discount_product",
     "[CJ] 2024 Recap": "recap_2024",

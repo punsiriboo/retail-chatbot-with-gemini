@@ -1,6 +1,6 @@
 from google.cloud import datastore
 from datetime import datetime
-
+from collections import defaultdict
 
 class DatastoreClient:
 
@@ -23,7 +23,7 @@ class DatastoreClient:
         self.datastore_client.put(entity)
 
     def get_user_action(self, user_id):
-        kind = "line_user_action"
+        kind = "add_items_action"
         key = self.datastore_client.key(kind, user_id)
         user = self.datastore_client.get(key)
 
@@ -32,8 +32,8 @@ class DatastoreClient:
         else:
             return False
 
-    def remove_user_action(self, user_id):
-        kind = "line_user_action"
+    def remove_add_items_document(self, user_id):
+        kind = "add_items_action"
         key = self.datastore_client.key(kind, user_id)
         self.datastore_client.delete(key)
 
@@ -47,3 +47,26 @@ class DatastoreClient:
         
         else:
             self.create_user_action_add_item(user_id, item_name, item_price)
+
+    def calculate_all_items_in_basket(self, user_id):
+        entity = self.get_user_action(user_id)
+        if entity:
+            items = entity['items']
+            # Grouping items
+            grouped_items = defaultdict(lambda: {"quantity": 0, "total_price": 0.0})
+
+            total_final_price = 0.0
+            total_items = 0
+
+            for item in items:
+                name = item["item_name"]
+                price = float(item["item_price"])
+                grouped_items[name]["price"] = price
+                grouped_items[name]["quantity"] += 1
+                grouped_items[name]["total_price"] += price
+                total_final_price += price
+                total_items += 1
+
+            total_items = str(total_items)
+            total_final_price  = f"{total_final_price:.2f}"
+            return total_items, total_final_price, grouped_items

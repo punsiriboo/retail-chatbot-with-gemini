@@ -1,65 +1,240 @@
 {
-    "type": "bubble",
-    "hero": {
-        "type": "image",
-        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cjmain.jpg",
-        "size": "full",
-        "aspectRatio": "20:13",
-        "aspectMode": "cover",
-        "action": {
-            "type": "uri",
-            "uri": "https://line.me/"
-        }
-    },
-    "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-            {
-                "type": "text",
-                "text": " \"CJ MORE มากกว่าซูเปอร์มาร์เก็ต\"",
-                "color": "#0a9550",
-                "style": "italic",
-                "position": "relative",
-                "align": "center"
-            }
-        ]
-    },
-    "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "sm",
-        "contents": [
-            {
-                "type": "button",
-                "style": "primary",
-                "height": "sm",
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cjmain.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
                 "action": {
                     "type": "uri",
-                    "label": "FACEBOOK",
                     "uri": "https://line.me/"
-                },
-                "color": "#0a9550"
+                }
             },
-            {
-                "type": "button",
-                "style": "primary",
-                "height": "sm",
-                "action": {
-                    "type": "uri",
-                    "label": "WEBSITE",
-                    "uri": "https://www.cjexpress.co.th/about"
-                },
-                "color": "#0a9550",
-                "margin": "md"
-            },
-            {
+            "body": {
                 "type": "box",
                 "layout": "vertical",
-                "contents": [],
-                "margin": "sm"
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": " \"CJ MORE มากกว่าซูเปอร์มาร์เก็ต\"",
+                        "color": "#0a9550",
+                        "style": "italic",
+                        "position": "relative",
+                        "align": "center"
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "height": "sm",
+                        "action": {
+                            "type": "uri",
+                            "label": "FACEBOOK",
+                            "uri": "https://line.me/"
+                        },
+                        "color": "#0a9550"
+                    },
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "height": "sm",
+                        "action": {
+                            "type": "uri",
+                            "label": "WEBSITE",
+                            "uri": "https://www.cjexpress.co.th/about"
+                        },
+                        "color": "#0a9550",
+                        "margin": "md"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [],
+                        "margin": "sm"
+                    }
+                ],
+                "flex": 0
             }
-        ],
-        "flex": 0
-    }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/recap%202024/recap1.jpg",
+                "size": "full",
+                "aspectRatio": "20:26",
+                "aspectMode": "cover",
+                "action": {
+                    "type": "message",
+                    "text": "[CJ] 2024 Recap"
+                }
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/img/ninemain.jpg",
+                "size": "full",
+                "aspectRatio": "20:20",
+                "aspectMode": "fit",
+                "backgroundColor": "#ed018c"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#ed018c"
+                    }
+                ]
+            },
+            "styles": {
+                "header": {
+                    "backgroundColor": "#4c3821"
+                },
+                "body": {
+                    "backgroundColor": "#ed018c"
+                },
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/bao-main.jpg",
+                "size": "full",
+                "aspectRatio": "20:20",
+                "aspectMode": "fit",
+                "backgroundColor": "#4c3821"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#4c3821"
+                    }
+                ]
+            },
+            "styles": {
+                "header": {
+                    "backgroundColor": "#4c3821"
+                },
+                "body": {
+                    "backgroundColor": "#4c3821"
+                },
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/unologo.png",
+                "size": "full",
+                "aspectRatio": "20:20",
+                "aspectMode": "fit",
+                "backgroundColor": "#fa0120"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#fa0120"
+                    }
+                ]
+            },
+            "styles": {
+                "header": {
+                    "backgroundColor": "#4c3821"
+                },
+                "body": {
+                    "backgroundColor": "#fa0120"
+                },
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/ahome.png",
+                "size": "full",
+                "aspectRatio": "20:20",
+                "aspectMode": "fit",
+                "backgroundColor": "#0255bc"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "ติดตาม BAO CAFE",
+                            "uri": "https://www.facebook.com/baocafeofficial"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#feda04"
+                    }
+                ]
+            },
+            "styles": {
+                "header": {
+                    "backgroundColor": "#0255bc"
+                },
+                "body": {
+                    "backgroundColor": "#0255bc"
+                },
+                "footer": {
+                    "backgroundColor": "#4c3821"
+                }
+            }
+        }
+    ]
 }

@@ -1,0 +1,47 @@
+{
+    "type": "bubble",
+    "size": "giga",
+    "hero": {
+        "type": "image",
+        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cj-tutor.png",
+        "size": "full",
+        "aspectMode": "cover",
+        "aspectRatio": "320:213"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "พิมพ์คำว่า \"#ค้นหา\" ตามด้วยชื่อสินค้า หรือ ส่งรูปได้เลยค่ะ",
+                "weight": "bold",
+                "size": "sm",
+                "wrap": true
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                "wrap": true,
+                                "color": "#8c8c8c",
+                                "size": "xs",
+                                "flex": 5
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "spacing": "sm",
+        "paddingAll": "13px"
+    }
+}

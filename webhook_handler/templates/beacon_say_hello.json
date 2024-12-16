@@ -1,0 +1,173 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "size": "kilo",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/CJ%20hello.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "สวัสดีค่ะ ยินดีต้องรับ\nCJ สาขาบ้านบีท",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "kilo",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/CJ%20Sabai%20card.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "Check Your Coupon",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ดู coupon ของคุณตอนนี้",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "uri",
+                            "label": "กดเพื่อดูคูปอง",
+                            "uri": "http://linecorp.com/"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#27a651"
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "kilo",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/cj-7-day/Screenshot%202567-12-16%20at%2014.00.53.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "[CJ] ลดสนั่น 7 วัน",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "ซีเจ มอร์ลำ เฟส ลดสนั่น 7 วันมันส์ สะเดิด🛒",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5,
+                                        "action": {
+                                            "type": "message",
+                                            "label": "action",
+                                            "text": "คูปองส่วนลด"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "message",
+                            "label": "[CJ] ลดสนั่น 7 วัน",
+                            "text": "[CJ] ลดสนั่น 7 วัน"
+                        },
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#27a651"
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
+        }
+    ]
+}

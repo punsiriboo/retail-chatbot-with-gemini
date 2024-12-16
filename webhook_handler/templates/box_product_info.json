@@ -7,7 +7,8 @@
             "text": "<PRODUCT_NAME>",
             "size": "sm",
             "color": "#555555",
-            "flex": 0
+            "flex": 2,
+            "wrap": true
         },
         {
             "type": "text",

@@ -54,7 +54,7 @@
                             },
                             {
                                 "type": "text",
-                                "text": "1",
+                                "text": "<FINAL_ITEMS>",
                                 "size": "sm",
                                 "color": "#111111",
                                 "align": "end"
@@ -73,7 +73,7 @@
                             },
                             {
                                 "type": "text",
-                                "text": "$7.31",
+                                "text": "<FINAL_PRICE>",
                                 "size": "sm",
                                 "color": "#111111",
                                 "align": "end"

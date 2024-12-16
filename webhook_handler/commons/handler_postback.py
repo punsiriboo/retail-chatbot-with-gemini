@@ -48,24 +48,27 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
-    item_name = postback_params.get("item_name")
-    item_price = postback_params.get("item_price")
-    trim_item_len = 60
-    trim_item_name = (
-        (item_name[:trim_item_len] + "..")
-        if len(item_name) > trim_item_len
-        else item_name
-    )
-
+    
+    datastore_client = DatastoreClient()
+    total_items, total_final_price, grouped_items = datastore_client.get_all_items_in_basket(user_id=event.source.user_id)
+     
+    all_items_box = []
     box_product_info = open("templates/box_product_info.json").read()
-    flex_summary_order = open("templates/flex_summary_order.json").read()
+    
+    for item_name, details in grouped_items.items():    
+        box_product_info = box_product_info.replace(
+            "<PRODUCT_NAME>", f"{item_name} - จำนวน: {details['quantity']}"
+        ).replace("<PRODUCT_PRICE>", f"{details['total_price']:.2f}")
+        
+        all_items_box.append(box_product_info)
 
-    box_product_info = box_product_info.replace(
-        "<PRODUCT_NAME>", trim_item_name
-    ).replace("<PRODUCT_PRICE>", item_price)
+    all_items_box_str = ",".join(all_items_box)
+    flex_summary_order = open("templates/flex_summary_order.json").read()
     flex_summary_order = flex_summary_order.replace(
-        "<BOX_PRODUCT_INFO_JSON>", box_product_info
-    )
+        "<BOX_PRODUCT_INFO_JSON>", all_items_box_str
+    ).replace("<TOTAL_ITEMS>", total_items).replace("<TOTAL_FINAL_PRICE>", total_final_price)
+    
+    
     flex_summary_order_msg = FlexMessage(
         alt_text="สรุปการสั้งซื้อสินค้า",
         contents=FlexContainer.from_json(flex_summary_order),
