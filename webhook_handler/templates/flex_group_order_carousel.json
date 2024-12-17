@@ -6,9 +6,8 @@
             "size": "mega",
             "hero": {
                 "type": "image",
-                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/sum_group_order.png",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/CJGROUP2.png",
                 "size": "full",
-                "aspectRatio": "20:15",
                 "aspectMode": "cover"
             },
             "body": {
@@ -84,7 +83,7 @@
                         "style": "primary",
                         "type": "button",
                         "action": {
-                            "data": "action=make_group_payment&type=pay_full",
+                            "data": "action=make_group_payment&type=select_payer&total_price=<TOTAL_PRICE>",
                             "label": "ชำระเงินแบบเลือกผู้ชำระ",
                             "type": "postback"
                         },
@@ -96,7 +95,7 @@
                         "offsetTop": "2px",
                         "type": "button",
                         "action": {
-                            "data": "action=make_group_payment&type=pay_equally",
+                            "data": "action=make_group_payment&type=pay_equally&total_price=<TOTAL_PRICE>",
                             "label": "ชำระเงินแบบหารเท่า",
                             "type": "postback"
                         },
@@ -107,7 +106,7 @@
                         "action": {
                             "type": "postback",
                             "label": "ยกเลิกรายการสั่งซื้อ",
-                            "data": "action=cancle_order"
+                            "data": "action=cancle_group_order"
                         },
                         "style": "secondary",
                         "offsetTop": "2px",
@@ -117,6 +116,6 @@
                 "flex": 0
             }
         },
-        <PER_USER_TEMPLATE>
+        <ALL_USER_ORDER_BUBBLE_JSON>
     ]
 }

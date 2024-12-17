@@ -51,7 +51,7 @@
                             },
                             {
                                 "type": "text",
-                                "text": "User Name: <USER_DISPLAY_NAME>",
+                                "text": "User: <USER_DISPLAY_NAME>",
                                 "size": "sm",
                                 "color": "#00A150",
                                 "weight": "bold"

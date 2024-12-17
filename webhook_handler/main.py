@@ -1,6 +1,5 @@
 import os
 import functions_framework
-from urllib.parse import parse_qs
 
 from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
@@ -23,7 +22,6 @@ from linebot.v3.messaging import (
     MessagingApi,
     MessagingApiBlob,
     ReplyMessageRequest,
-    PushMessageRequest,
     TextMessage,
     StickerMessage,
     FlexMessage,
@@ -40,7 +38,7 @@ from commons.flex_message_builder import build_flex_carousel_message
 from commons.audio_to_text import transcribe
 
 from commons.handler_text import handle_text_by_keyword
-from commons.handler_postback import handle_postback_by_action
+from commons.handler_postback import PostbackHandler
 from commons.handler_beacon import handle_beacon_by_user_profile
 
 
@@ -174,11 +172,8 @@ def handle_sticker_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event: PostbackEvent):
-    postback_params = {
-        key: value[0] for key, value in parse_qs(event.postback.data).items()
-    }
-    postback_action = postback_params.get("action")
-    handle_postback_by_action(event, line_bot_api, postback_action, postback_params)
+    posback_handler = PostbackHandler(line_bot_api, event)
+    posback_handler.handle_postback_by_action()
 
 
 @handler.add(BeaconEvent)
@@ -228,8 +223,6 @@ def handle_unfollow(event):
 
 @handler.add(JoinEvent)
 def handle_join(event):
-    group_id = event.source.group_id
-
     flex_temple = open("templates/static/nong_cj_feature.json").read()
 
     static_flex_message = FlexMessage(

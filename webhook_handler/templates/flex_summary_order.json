@@ -105,7 +105,7 @@
                 "action": {
                     "type": "postback",
                     "label": "ยกเลิกรายการสั่งซื้อ",
-                    "data": "action=cancle_order"
+                    "data": "action=cancle_user_order"
                 },
                 "style": "secondary",
                 "offsetTop": "2px",

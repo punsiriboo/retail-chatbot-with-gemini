@@ -1,0 +1,21 @@
+{
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+        {
+            "type": "text",
+            "text": "@<LINE_USER_NAME>",
+            "align": "start",
+            "weight": "bold"
+        },
+        {
+            "type": "text",
+            "text": "<PAY_AMOUNT> บาท",
+            "align": "end",
+            "weight": "bold"
+        }
+    ],
+    "paddingStart": "20px",
+    "paddingEnd": "30px",
+    "paddingAll": "10px"
+}
