@@ -3,116 +3,313 @@
     "contents": [
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/12.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "น้อง CJ"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/12.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "พิมพ์คำว่า 'น้อง CJ' หรือพิมพ์อื่นๆ เพื่อพูดคุยกันได้เลย",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         },
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "ลองค้นหาสินค้ากับน้อง CJ"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "พิมพ์คำว่า \"#ค้นหา\" ตามด้วยชื่อสินค้า หรือ ส่งรูปได้เลยค่ะ",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         },
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/14.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "ค้นหาคูปอง"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/14.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "พิมพ์คำว่า \"ค้นหาคูปอง\" เพื่อเก็บคูปองลดราคาไว้ใช้ได้เลยค่ะ",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         },
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/15.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "ค้นหาสาขา"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/15.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "จะค้นหาสาขาใกล้เคียง เพียงแค่แชร์โลเคชั่นมาได้เลย",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         },
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/16.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "uri",
+                    "uri": "https://line.me/R/nv/recommendOA/%40805vuzfx"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/16.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "Shopping แบบกลุ่มส่งพร้อมกัน เพียงแค่เพิ่มน้อง CJ ในกลุ่ม แล้วพิมพ์ \"#ค้นหา\" ตามด้วยชื่อสินค้า หรือ ส่งรูปได้เลยค่ะ",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         },
         {
             "type": "bubble",
-            "size": "mega",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/17.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "[CJ] สบายการ์ด"
+                }
+            },
             "body": {
                 "type": "box",
                 "layout": "vertical",
                 "contents": [
                     {
-                        "type": "image",
-                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/17.png",
-                        "size": "full",
-                        "aspectRatio": "10:6",
-                        "gravity": "top",
-                        "aspectMode": "cover"
+                        "type": "text",
+                        "text": "อย่าลืมสมัครสมาชิกสบายการ์ดเพื่อสิทธิประโยชน์สูงสุดสำหรับคุณ",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
-                "paddingAll": "0px"
+                "spacing": "sm",
+                "paddingAll": "13px"
             }
         }
     ]

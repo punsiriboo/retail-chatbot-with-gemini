@@ -16,6 +16,7 @@ def handle_add_item_action(event, line_bot_api, postback_params):
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
+
     item_name = postback_params.get("item_name")
     item_image_url = postback_params.get("item_image_url")
     item_price = postback_params.get("item_price")
@@ -30,10 +31,16 @@ def handle_add_item_action(event, line_bot_api, postback_params):
         alt_text=f"สั่งซื้อสินค้า: {item_name}",
         contents=FlexContainer.from_json(flex_add_to_basket),
     )
-
-    datastore_client.add_user_items_action(
-        user_id=event.source.user_id, item_name=item_name, item_price=item_price
-    )
+    user_id = event.source.user_id
+    if event.source.type == "user":
+        datastore_client.add_user_items_action(
+            user_id=user_id, item_name=item_name, item_price=item_price
+        )
+    elif event.source.type == "group":
+        datastore_client.add_group_items_action(
+            group_id=event.source.group_id,
+            user_id=user_id, item_name=item_name, item_price=item_price
+        )
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
@@ -52,9 +59,18 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
     )
 
     datastore_client = DatastoreClient()
-    total_items, total_final_price, grouped_items = (
-        datastore_client.calculate_all_items_in_basket(user_id=event.source.user_id)
-    )
+    
+    user_id = event.source.user_id
+    group_id = event.source.group_id
+    
+    if event.source.type == "user":
+        total_items, total_final_price, grouped_items = (
+            datastore_client.calculate_user_items_in_basket(user_id=user_id)
+        )    
+    elif event.source.type == "group":
+        total_items, total_final_price, grouped_items = (
+            datastore_client.calculate_group_items_in_basket(group_id=group_id)
+        )
 
     all_items_box = []
     box_product_template = open("templates/box_product_info.json").read()

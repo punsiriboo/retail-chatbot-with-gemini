@@ -92,6 +92,43 @@
                     "backgroundColor": "#4c3821"
                 }
             }
+        },
+        {
+            "type": "bubble",
+            "direction": "ltr",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/branch-search.png",
+                "size": "full",
+                "aspectRatio": "20:16",
+                "aspectMode": "cover"
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "height": "sm",
+                        "color": "#2E7B22FF",
+                        "action": {
+                            "type": "uri",
+                            "label": "ค้นหาสาขา CJ Express",
+                            "uri": "https://line.me/R/nv/location/"
+                        }
+                    }
+                ]
+            },
+            "styles": {
+                "body": {
+                    "backgroundColor": "#00a647"
+                },
+                "footer": {
+                    "backgroundColor": "#00a647"
+                }
+            }
         }
     ]
 }

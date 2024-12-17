@@ -40,10 +40,6 @@ from linebot.v3.messaging import (
 )
 
 
-with open("privates/data/image_paths.json") as file:
-    image_paths = json.load(file)
-
-
 def handle_coupon_search(line_bot_api, reply_token, text):
     with open("privates/data/coupons.json") as file:
         coupons_data = json.load(file)
@@ -68,7 +64,7 @@ def handle_branch_search(line_bot_api, reply_token, text):
     bubble = FlexBubble(
         direction="ltr",
         hero=FlexImage(
-            url=image_paths["location_service"],
+            url="https://storage.googleapis.com/line-cj-demo-chatboot/image/branch-search.png",
             size="full",
             aspect_ratio="20:13",
             aspect_mode="cover",
