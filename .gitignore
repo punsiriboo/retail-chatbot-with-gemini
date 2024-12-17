@@ -3,7 +3,7 @@ __pycache__
 
 # credential Folder NOT FOR GIT
 private/*
-credential/*
+credential/line_secret.yml
 .venv
 *.log
 .vscode

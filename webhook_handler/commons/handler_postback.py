@@ -1,4 +1,5 @@
 import copy
+
 from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
@@ -8,6 +9,7 @@ from linebot.v3.messaging import (
 )
 
 from commons.datastore_client import DatastoreClient
+from linepay.utils import request_payment
 
 
 def handle_add_item_action(event, line_bot_api, postback_params):
@@ -108,9 +110,44 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
 
 
 def handle_make_payment_action(event, line_bot_api, postback_params):
+
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
+    
+    request_detail = {
+                "amount": 250,
+                "currency": "THB",
+                "orderId": "001A",
+                "packages": [
+                    {
+                        "id": "01A",
+                        "amount": 250,
+                        "name": "Toy Package",
+                        "products": [
+                            {
+                                "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Cony",
+                                "quantity": 1,
+                                "price": 100,
+                                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/512x512bb.jpg?alt=media&token=7cfd10b0-6d01-4612-b42e-b1b4d0105acd"
+                            },
+                            {
+                                "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Sally",
+                                "quantity": 1,
+                                "price": 150,
+                                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/8cd724371a6f169b977684fd69cc2339.jpg?alt=media&token=e2008ff7-1cad-4476-a2e4-cda5f8af6561"
+                            }
+                        ]
+                    }
+                ],
+                "redirectUrls": {
+                    "confirmUrl": f"https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
+                    "cancelUrl": "https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder"
+                }
+            }
+    result = request_payment(request_detail)
+    print(result)   
+
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
@@ -119,8 +156,30 @@ def handle_make_payment_action(event, line_bot_api, postback_params):
             ],
         )
     )
+   
 
 
+def handle_cancle_order_action(event, line_bot_api, postback_params):
+    datastore_client = DatastoreClient()
+
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
+    user_id = event.source.user_id
+    if event.source.type == "user":
+        datastore_client.remove_user_order(user_id=user_id)
+    elif event.source.type == "group":
+        datastore_client.remove_group_order(group_id=event.source.group_id)
+
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text="ยกเลิกกรายการสั้งซื้อปัจุบัันของท่านเรียบร้อยค่ะ"),
+            ],
+        )
+    )
+                            
 def handle_richmenu_switch_action(event, line_bot_api, postback_params):
     menu = postback_params.get("menu")
     user_id = event.source.user_id
@@ -143,6 +202,7 @@ def handle_postback_by_action(event, line_bot_api, postback_action, postback_par
         "summary_order": handle_summary_order_action,
         "make_payment": handle_make_payment_action,
         "richmenuswitch": handle_richmenu_switch_action,
+        "cancle_order": handle_cancle_order_action
     }
     if (postback_action is not None) and (postback_action in function_map):
         function_map[postback_action](event, line_bot_api, postback_params)
