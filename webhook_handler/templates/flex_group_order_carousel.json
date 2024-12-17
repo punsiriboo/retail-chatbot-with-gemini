@@ -81,17 +81,6 @@
                 "contents": [
                     {
                         "style": "primary",
-                        "type": "button",
-                        "action": {
-                            "data": "action=make_group_payment&type=select_payer&total_price=<TOTAL_PRICE>",
-                            "label": "ชำระเงินแบบเลือกผู้ชำระ",
-                            "type": "postback"
-                        },
-                        "color": "#00A150",
-                        "height": "sm"
-                    },
-                    {
-                        "style": "secondary",
                         "offsetTop": "2px",
                         "type": "button",
                         "action": {
@@ -99,6 +88,28 @@
                             "label": "ชำระเงินแบบหารเท่า",
                             "type": "postback"
                         },
+                        "height": "sm"
+                    },
+                    {
+                        "style": "secondary",
+                        "offsetTop": "2px",
+                        "type": "button",
+                        "action": {
+                            "data": "action=make_group_payment&type=pay_own&total_price=<TOTAL_PRICE>",
+                            "label": "ชำระเงินแยกตามจริง",
+                            "type": "postback"
+                        },
+                        "height": "sm"
+                    },
+                    {
+                        "style": "secondary",
+                        "type": "button",
+                        "action": {
+                            "data": "action=make_group_payment&type=select_payer&total_price=<TOTAL_PRICE>",
+                            "label": "ชำระเงินแบบเลือกผู้ชำระ",
+                            "type": "postback"
+                        },
+                        "color": "#00A150",
                         "height": "sm"
                     },
                     {

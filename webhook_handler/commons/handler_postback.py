@@ -3,12 +3,15 @@ from urllib.parse import parse_qs
 from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
+    TextMessageV2,
+    MentionSubstitutionObject,
     FlexMessage,
     FlexContainer,
     ShowLoadingAnimationRequest,
     QuickReply,
     QuickReplyItem,
     PostbackAction,
+    UserMentionTarget
 )
 from commons.datastore_client import DatastoreClient
 from linepay.utils import request_payment
@@ -267,7 +270,10 @@ class PostbackHandler:
                 pay_each_user_list.append(pay_each_box_flex)
             
             flex_group_pay = open("templates/flex_group_pay.json").read()
-            flex_group_pay = flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_user_list))
+            flex_group_pay = (
+                flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_user_list))
+                .replace("<GROUP_PAY_TYPE>", "เรียกเก็บเงินแบบหารเท่า")
+            )
             
             flex_summary_order_msg = FlexMessage(
                 alt_text="กรุณากดจ่ายเงิน",
@@ -308,6 +314,9 @@ class PostbackHandler:
                 )
             )
     
+        elif type == "pay_own":
+            pass
+
     def handle_group_pay_select_payer(self):
         group_id = self.event.source.group_id
         user_id = self.postback_params.get("user_id")
@@ -319,12 +328,14 @@ class PostbackHandler:
         
         pay_each_box_flex = (
             pay_each_box_flex.replace("<LINE_USER_NAME>", line_user_name)
-            .replace("<TOTAL_PRICE>", total_price)
+            .replace("<PAY_AMOUNT>", total_price)
         )
    
-            
         flex_group_pay = open("templates/flex_group_pay.json").read()
-        flex_group_pay = flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_box_flex))
+        flex_group_pay = (
+            flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>", pay_each_box_flex)
+            .replace("<GROUP_PAY_TYPE>", "เรียกเก็บเงินจากตัวแทนกลุ่ม")
+        )
         
         flex_summary_order_msg = FlexMessage(
             alt_text="กรุณากดจ่ายเงิน",
@@ -336,7 +347,12 @@ class PostbackHandler:
                 reply_token=self.reply_token,
                 messages=[
                     flex_summary_order_msg,
-                    TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                    TextMessageV2(
+                        text="คุณ {pay_user}, คุณได้เป็นตัวแทนในการจ่ายบิลนี้ พร้อมแล้วกดชำระเงินได้เลยนะค่ะ",
+                        substitution={
+                            "pay_user": MentionSubstitutionObject(mentionee=UserMentionTarget(userId=user_id))
+                        }
+                    ),
                 ],
             )
         )
