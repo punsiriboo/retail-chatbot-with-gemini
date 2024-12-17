@@ -72,8 +72,8 @@ def test_remove_user_order(datastore_client):
         print("Real delete test passed. Verify manually.")
 
 def test_add_user_items_action_existing_user(datastore_client):
-    user_id = "test_user"
-    item_name = "test_item_2"
+    user_id = "test_user_1"
+    item_name = "test_item_1"
     item_price = 200
 
     datastore_client.add_user_items_action(user_id, item_name, item_price)
@@ -116,12 +116,12 @@ def test_calculate_all_items_in_basket(datastore_client):
 def test_create_group_action_add_item(datastore_client):
     """Test create_user_action_add_item with both Mock and Real Datastore."""
     group_id = "test_group"
-    user_id = "test_user"
-    item_name = "test_item"
+    user_id = "test_user_1"
+    item_name = "test_item_1"
     item_price = 100
 
     # Call the method under test
-    datastore_client.create_group_action_add_item(group_id, user_id, item_name, item_price)
+    result = datastore_client.create_group_action_add_item(group_id, user_id, item_name, item_price)
 
     if USE_MOCK:
         # Assertions for the mocked client
@@ -135,19 +135,24 @@ def test_create_group_action_add_item(datastore_client):
         assert put_call_args["items"] == [{"item_name": item_name, "item_price": item_price}]
         assert "createdAt" in put_call_args
     else:
-        # For real Datastore tests, print success message
+        assert result.key == datastore.Client().key('cj_group_orders', 'LINE_GROUP_test_group')
+        assert result.kind == "cj_group_orders"
+        assert len(result['items']) == 1
         print("Real Datastore test passed. Verify the entry manually in Datastore.")
 
 def test_add_group_items_to_existing_group(datastore_client):
     group_id = "test_group"
     users = [
         {"user_id": "test_user_1", "items": [
-            {"item_name": "test_item_1", "item_price": 100},
-            {"item_name": "test_item_2", "item_price": 200}
+            {"item_name": "test_item_2", "item_price": 100},
+            {"item_name": "test_item_3", "item_price": 100}
         ]},
         {"user_id": "test_user_2", "items": [
-            {"item_name": "test_item_3", "item_price": 150},
-            {"item_name": "test_item_4", "item_price": 250}
+            {"item_name": "test_item_2", "item_price": 100},
+            {"item_name": "test_item_2", "item_price": 100}
+        ]},
+        {"user_id": "test_user_1", "items": [
+            {"item_name": "test_item_2", "item_price": 100},
         ]}
     ]
 
@@ -162,10 +167,6 @@ def test_add_group_items_to_existing_group(datastore_client):
 def test_get_group_order(datastore_client):
     """Test fetching a group order."""
     group_id = "test_group"
-
-    if USE_MOCK:
-        # Mock behavior for Datastore `get` method
-        datastore_client.datastore_client.get.return_value = {"user": "test_user", "items": []}
 
     result = datastore_client.get_group_order(group_id)
 
@@ -182,17 +183,19 @@ def test_calculate_group_items_in_basket(datastore_client):
     """Test calculation of group items in a basket."""
     group_id = "test_group"
     # Call the function
-    total_items, total_final_price, grouped_items, user_totals = datastore_client.calculate_group_items_in_basket(group_id)
+    total_items, total_final_price, user_items_summary, user_totals = datastore_client.calculate_group_items_in_basket(group_id)
 
     # Print results
     print("Total Items:", total_items)
     print("Total Final Price:", total_final_price)
-    print("Grouped Items:")
-    for (user, item_name), data in grouped_items.items():
-        print(f"User: {user}, Item: {item_name}, Quantity: {data['quantity']}, Total Price: {data['total_price']}")
+    print("User Items Summary:")
+    for user_id, items_list in user_items_summary.items():
+        print(f"User: {user_id}")
+        for item in items_list:
+            print(f"  Item: {item[0]}, Quantity: {item[1]}, Total Price: {item[2]}")
     print("User Totals:")
     for user, totals in user_totals.items():
-        print(f"User: {user}, Total Items: {totals['total_items']}, Total Price: {totals['total_price']}")
+        print(f"User: {user}, Total Items: {totals['total_items']}, Total Price: {totals['total_price']:.2f}")
 
 def test_remove_group_order(datastore_client):
     group_id = "test_group"

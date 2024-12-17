@@ -82,6 +82,7 @@ class DatastoreClient:
             }
         )
         self.datastore_client.put(entity)
+        return entity
     
     def get_group_order(self, group_id):
         kind = "cj_group_orders"
@@ -113,14 +114,20 @@ class DatastoreClient:
             self.create_group_action_add_item(group_id, user_id, item_name, item_price)
     
     def calculate_group_items_in_basket(self, group_id):
+        # Summary structure
         entity = self.get_group_order(group_id)
-        grouped_items = defaultdict(lambda: {"quantity": 0, "total_price": 0.0})
+        if entity:
+            items = entity["items"]
+            
         user_totals = defaultdict(lambda: {"total_items": 0, "total_price": 0.0})
 
         total_final_price = 0.0
         total_items = 0
 
-        for item in entity["items"]:
+        # Temporary storage for grouping
+        grouped_items = defaultdict(lambda: {"quantity": 0, "total_price": 0.0})
+
+        for item in items:
             user_id = item.get("user_id") or item.get("user")
             item_name = item["item_name"]
             item_price = float(item["item_price"])
@@ -138,6 +145,15 @@ class DatastoreClient:
             total_final_price += item_price
             total_items += 1
 
+        # Convert grouped items to user-wise lists
+        user_items_summary = defaultdict(list) 
+        for (user_id, item_name), data in grouped_items.items():
+            user_items_summary[user_id].append([
+                item_name,  # Item name
+                data["quantity"],  # Quantity
+                f"{data['total_price']:.2f}"  # Total price per item
+            ])
+
         total_items = str(total_items)
         total_final_price = f"{total_final_price:.2f}"
-        return total_items, total_final_price, grouped_items, user_totals
+        return total_items, total_final_price, user_items_summary, user_totals
