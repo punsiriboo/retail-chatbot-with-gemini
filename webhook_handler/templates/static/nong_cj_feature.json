@@ -311,6 +311,58 @@
                 "spacing": "sm",
                 "paddingAll": "13px"
             }
+        },
+        {
+            "type": "bubble",
+            "size": "mega",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/18.png",
+                "size": "full",
+                "aspectMode": "cover",
+                "aspectRatio": "320:213",
+                "action": {
+                    "type": "message",
+                    "label": "action",
+                    "text": "#น้องCJออกไป"
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "เมื่อคุณต้องการให้น้อง CJ อกกจากกลุ่ม เพิียงแค่พิมพ์ #น้องCJออกไป",
+                        "weight": "bold",
+                        "size": "sm",
+                        "wrap": true
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "“More Than Supermarket - มากกว่าซูเปอร์มาร์เก็ต”",
+                                        "wrap": true,
+                                        "color": "#8c8c8c",
+                                        "size": "xs",
+                                        "flex": 5
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "spacing": "sm",
+                "paddingAll": "13px"
+            }
         }
     ]
 }
