@@ -24,7 +24,7 @@ from linebot.v3.messaging import (
 )
 
 
-def handle_coupon_search(line_bot_api, reply_token, text):
+def handle_coupon_search(line_bot_api, event, text):
     with open("privates/data/coupons.json") as file:
         coupons_data = json.load(file)
     list_img_carousel_column = []
@@ -40,11 +40,11 @@ def handle_coupon_search(line_bot_api, reply_token, text):
         alt_text="คูปองสินค้า CJ", template=image_carousel_template
     )
     line_bot_api.reply_message(
-        ReplyMessageRequest(reply_token=reply_token, messages=[template_message])
+        ReplyMessageRequest(reply_token=event.reply_token, messages=[template_message])
     )
 
 
-def handle_branch_search(line_bot_api, reply_token, text):
+def handle_branch_search(line_bot_api, event, text):
     bubble = FlexBubble(
         direction="ltr",
         hero=FlexImage(
@@ -77,13 +77,13 @@ def handle_branch_search(line_bot_api, reply_token, text):
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
-            reply_token=reply_token,
+            reply_token=event.reply_token,
             messages=[FlexMessage(alt_text="กรุณากด share location", contents=bubble)],
         )
     )
 
 
-def handle_talk_to_cj(line_bot_api, reply_token, text):
+def handle_talk_to_cj(line_bot_api, event, text):
     flex_temple = open("templates/static/nong_cj_feature.json").read()
     static_flex_message = FlexMessage(
         alt_text="สวัสดีค่ะ ยินดีต้อนรับสู่​ CJ MORE!",
@@ -91,7 +91,7 @@ def handle_talk_to_cj(line_bot_api, reply_token, text):
     )
     line_bot_api.reply_message(
         ReplyMessageRequest(
-            reply_token=reply_token,
+            reply_token=event.reply_token,
             messages=[
                 static_flex_message,
                 TextMessage(
@@ -101,10 +101,9 @@ def handle_talk_to_cj(line_bot_api, reply_token, text):
                 ),
             ],
         )
-    )
+    )    
 
-
-def handle_return_static_flex(line_bot_api, reply_token, template_name):
+def handle_return_static_flex(line_bot_api, event, template_name):
 
     print("handle_return_static_flex: " + template_name)
     with open(f"templates/static/{template_name}.json") as file:
@@ -117,12 +116,27 @@ def handle_return_static_flex(line_bot_api, reply_token, template_name):
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
-            reply_token=reply_token,
+            reply_token=event.reply_token,
             messages=[
                 static_flex_message,
             ],
         )
     )
+    
+def handle_nong_cj_leave_group(line_bot_api, event, text):
+    if event.source.type == "group":
+        line_bot_api.leave_group(event.source.group_id)
+    else:
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    TextMessage(
+                        text="Feature นี้ใช้ได้ เมื่อเชิญ น้อง​​ CJ เข้ากลุ่มแล้วเท่านั้นค่ะ"
+                    ),
+                ],
+            )
+        )
 
 
 def handle_text_by_keyword(event, line_bot_api):
@@ -132,9 +146,10 @@ def handle_text_by_keyword(event, line_bot_api):
         "คูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
+        "#น้องCJออกไป": handle_nong_cj_leave_group,
     }
     if text in function_map:
-        function_map[text](line_bot_api, reply_token, text)
+        function_map[text](line_bot_api, event, text)
 
     elif text in flex_temple_config:
         template_name = flex_temple_config[text]
