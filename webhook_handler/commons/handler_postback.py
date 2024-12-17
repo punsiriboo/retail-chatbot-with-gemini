@@ -250,8 +250,8 @@ class PostbackHandler:
 
         if type == "pay_equally":
             total_price = self.postback_params.get("total_price")
-            member_count = self.line_bot_api.get_group_member_count(group_id).count
-            pay_each = total_price/member_count
+            member_count = self.line_bot_api.get_group_member_count(group_id)
+            pay_each = float(total_price)/int(member_count.count)
             
             user_ids = self.datastore_client.get_group_users(group_id)
             
@@ -262,16 +262,16 @@ class PostbackHandler:
                 pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
                 pay_each_box_flex = (
                     pay_each_box_flex.replace("<LINE_USER_NAME>", line_user_name)
-                    .replace("<TOTAL_PRICE>", pay_each)
+                    .replace("<PAY_AMOUNT>", str(pay_each))
                 )
                 pay_each_user_list.append(pay_each_box_flex)
             
-            pay_each_box_tamplate = open("templates/pay_each_box_tamplate.json").read()
-            pay_each_box_tamplate = pay_each_box_tamplate.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_user_list))
+            flex_group_pay = open("templates/flex_group_pay.json").read()
+            flex_group_pay = flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_user_list))
             
             flex_summary_order_msg = FlexMessage(
                 alt_text="กรุณากดจ่ายเงิน",
-                contents=FlexContainer.from_json(pay_each_box_tamplate),
+                contents=FlexContainer.from_json(flex_group_pay),
             )   
 
             self.line_bot_api.reply_message(
@@ -286,13 +286,13 @@ class PostbackHandler:
              
         elif type == "select_payer":
             user_ids = self.datastore_client.get_group_users(group_id)
-            
+            total_price = self.postback_params.get("total_price")
             quick_reply_items = []
             for user_id in user_ids:
                 line_user_name = self.line_bot_api.get_group_member_profile(group_id, user_id).display_name
                 quick_reply_items.append(
                     QuickReplyItem(
-                        action=PostbackAction(label=line_user_name, data=f"action=group_pay_select_payer&user_id={user_id}")
+                        action=PostbackAction(label=line_user_name, data=f"action=group_pay_selected_payer&user_id={user_id}&total_price={total_price}")
                     )
                 )
                 
@@ -307,6 +307,40 @@ class PostbackHandler:
                     ]
                 )
             )
+    
+    def handle_group_pay_select_payer(self):
+        group_id = self.event.source.group_id
+        user_id = self.postback_params.get("user_id")
+        total_price = self.postback_params.get("total_price")
+
+        line_user_name = self.line_bot_api.get_group_member_profile(group_id, user_id).display_name
+        pay_each_box_tamplate = open("templates/pay_each_box_tamplate.json").read()
+        pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
+        
+        pay_each_box_flex = (
+            pay_each_box_flex.replace("<LINE_USER_NAME>", line_user_name)
+            .replace("<TOTAL_PRICE>", total_price)
+        )
+   
+            
+        flex_group_pay = open("templates/flex_group_pay.json").read()
+        flex_group_pay = flex_group_pay.replace("<PAY_EACH_USER_TEMPLATE>",",".join(pay_each_box_flex))
+        
+        flex_summary_order_msg = FlexMessage(
+            alt_text="กรุณากดจ่ายเงิน",
+            contents=FlexContainer.from_json(flex_group_pay),
+        )   
+
+        self.line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=self.reply_token,
+                messages=[
+                    flex_summary_order_msg,
+                    TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                ],
+            )
+        )
+    
     def handle_cancle_user_order_action(self):
         user_id = self.event.source.user_id
         if self.event.source.type == "user":
@@ -344,6 +378,7 @@ class PostbackHandler:
             "richmenuswitch": self.handle_richmenu_switch_action,
             "cancle_user_order": self.handle_cancle_user_order_action,
             "cancle_group_order": self.handle_cancle_group_order_action,
+            "group_pay_selected_payer": self.handle_group_pay_select_payer
         }
 
         if postback_action and postback_action in function_map:

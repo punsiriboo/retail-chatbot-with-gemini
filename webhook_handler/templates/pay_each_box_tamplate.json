@@ -10,7 +10,7 @@
         },
         {
             "type": "text",
-            "text": "<PAY_AMOUNT> บาท",
+            "text": "฿ <PAY_AMOUNT>",
             "align": "end",
             "weight": "bold"
         }

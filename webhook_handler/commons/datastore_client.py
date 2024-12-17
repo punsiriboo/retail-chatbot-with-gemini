@@ -177,7 +177,7 @@ class DatastoreClient:
                     f"{data['total_price']:.2f}",  # Total price per item
                 ]
             )
-        user_list = user_items_summary.keys()
+        user_list = list(user_items_summary.keys())
         self.create_group_users(group_id, user_list)
 
         total_items = str(total_items)
