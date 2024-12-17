@@ -177,7 +177,26 @@ class DatastoreClient:
                     f"{data['total_price']:.2f}",  # Total price per item
                 ]
             )
+        user_list = user_items_summary.keys()
+        self.create_group_users(group_id, user_list)
 
         total_items = str(total_items)
         total_final_price = f"{total_final_price:.2f}"
         return total_items, total_final_price, user_items_summary, user_totals
+
+    def create_group_users(self, group_id, users_list):
+        kind = "cj_chat_group"
+        complete_key = self.datastore_client.key(kind, group_id)
+        entity = datastore.Entity(key=complete_key)
+        entity.update(
+            {
+                "users": users_list,
+            }
+        )
+        self.datastore_client.put(entity)
+    
+    def get_group_users(self, group_id):
+        kind = "cj_chat_group"
+        key = self.datastore_client.key(kind, group_id)
+        users_list = self.datastore_client.get(key)
+        return users_list['users']
