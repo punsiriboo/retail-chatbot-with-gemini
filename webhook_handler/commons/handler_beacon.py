@@ -5,11 +5,15 @@ from linebot.v3.messaging import (
     FlexContainer,
 )
 
+from commons.datastore_client import DatastoreClient
+
 
 def handle_beacon_by_user_profile(event, line_bot_api):
+    datastore_client = DatastoreClient()
     if event.beacon.type == "enter":
         # event.beacon.hwid
         # event.beacon.dm
+        datastore_client.add_user_beacon_enter(user_id=event.source.user_id)
         print("handle_return_static_flex: beacon_say_hello")
         with open("templates/static/beacon_say_hello.json") as file:
             flex_temple = file.read()

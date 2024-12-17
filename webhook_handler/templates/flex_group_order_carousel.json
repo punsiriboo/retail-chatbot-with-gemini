@@ -1,0 +1,122 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "size": "giga",
+            "hero": {
+                "type": "image",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/sum_group_order.png",
+                "size": "full",
+                "aspectRatio": "20:15",
+                "aspectMode": "cover"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": " \"CJ MORE มากกว่าซูเปอร์มาร์เก็ต\"",
+                        "color": "#0a9550",
+                        "style": "italic",
+                        "position": "relative",
+                        "align": "center"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "จำนวนสินค้าทั้งหมด: ",
+                                "size": "md",
+                                "color": "#555555",
+                                "flex": 0,
+                                "weight": "bold"
+                            },
+                            {
+                                "type": "text",
+                                "text": "<TOTAL_ITEMS> ชิ้น",
+                                "size": "md",
+                                "color": "#ce353c",
+                                "align": "start",
+                                "flex": 0
+                            }
+                        ],
+                        "spacing": "md",
+                        "margin": "md",
+                        "justifyContent": "center"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "รวมยอดสั่งซื้อทั้งสิ้น: ",
+                                "size": "md",
+                                "color": "#555555",
+                                "flex": 0,
+                                "weight": "bold"
+                            },
+                            {
+                                "type": "text",
+                                "text": "<TOTAL_PRICE> บาท",
+                                "size": "md",
+                                "color": "#ce353c",
+                                "align": "start",
+                                "flex": 0
+                            }
+                        ],
+                        "spacing": "md",
+                        "margin": "md",
+                        "justifyContent": "center"
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "style": "primary",
+                        "type": "button",
+                        "action": {
+                            "data": "action=make_group_payment&type=pay_full",
+                            "label": "ชำระเงินแบบเลือกผู้ชำระ",
+                            "type": "postback"
+                        },
+                        "color": "#00A150",
+                        "height": "sm"
+                    },
+                    {
+                        "style": "secondary",
+                        "offsetTop": "2px",
+                        "type": "button",
+                        "action": {
+                            "data": "action=make_group_payment&type=pay_equally",
+                            "label": "ชำระเงินแบบหารเท่า",
+                            "type": "postback"
+                        },
+                        "height": "sm"
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "postback",
+                            "label": "ยกเลิกรายการสั่งซื้อ",
+                            "data": "action=cancle_order"
+                        },
+                        "style": "secondary",
+                        "offsetTop": "2px",
+                        "height": "sm"
+                    }
+                ],
+                "flex": 0
+            }
+        },
+        <PER_USER_TEMPLATE>
+    ]
+}

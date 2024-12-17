@@ -17,61 +17,49 @@
                 "type": "box",
                 "layout": "horizontal",
                 "contents": [
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                      {
-                        "type": "image",
-                        "url": "https://developers-resource.landpress.line.me/fx/clip/clip13.jpg",
-                        "aspectMode": "cover",
-                        "size": "full"
-                      }
-                    ],
-                    "cornerRadius": "100px",
-                    "width": "72px",
-                    "height": "72px"
-                  },
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                      {
-                        "type": "text",
+                    {
+                        "type": "box",
+                        "layout": "vertical",
                         "contents": [
-                          {
-                            "type": "span",
-                            "text": "brown_05csdfdsfdsnfkdfkdsjflkdaj\n",
-                            "weight": "bold",
-                            "color": "#000000"
-                          },
-                          {
-                            "type": "span",
-                            "text": "brown_05csdfdsfdsnfkdfkdsjflkdaj\n",
-                            "weight": "bold",
-                            "color": "#000000"
-                          }
+                            {
+                                "type": "image",
+                                "url": "<USER_PROFILE_URL>",
+                                "aspectMode": "cover",
+                                "size": "full"
+                            }
                         ],
-                        "size": "sm",
-                        "wrap": true
-                      }
-                    ]
-                  }
+                        "cornerRadius": "100px",
+                        "width": "72px",
+                        "height": "72px"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "RECEIPT",
+                                "size": "md",
+                                "color": "#1DB446",
+                                "weight": "bold"
+                            },
+                            {
+                                "type": "text",
+                                "text": "สรุปรายการสั้งซื้อ",
+                                "color": "#aaaaaa",
+                                "size": "sm"
+                            },
+                            {
+                                "type": "text",
+                                "text": "User Name: <USER_DISPLAY_NAME>",
+                                "size": "sm",
+                                "color": "#00A150",
+                                "weight": "bold"
+                            }
+                        ],
+                        "offsetStart": "10px"
+                    }
                 ]
-            },
-            {
-                "type": "text",
-                "text": "RECEIPT",
-                "weight": "bold",
-                "color": "#1DB446",
-                "size": "md"
-            },
-            {
-                "type": "text",
-                "text": "สรุปรายการสั้งซื้อ",
-                "size": "sm",
-                "color": "#aaaaaa",
-                "wrap": true
             },
             {
                 "type": "separator",
@@ -83,7 +71,6 @@
                 "margin": "xxl",
                 "spacing": "sm",
                 "contents": [
-
                     {
                         "type": "separator",
                         "margin": "xxl"
@@ -128,34 +115,6 @@
                         ]
                     }
                 ]
-            }
-        ]
-    },
-    "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-            {
-              "style": "primary",
-              "type": "button",
-              "action": {
-                "data": "action=make_payment",
-                "label": "ชำระเงิน",
-                "type": "postback"
-              },
-              "color": "#00A150",
-              "height": "sm"
-            },
-            {
-              "type": "button",
-              "action": {
-                "type": "postback",
-                "label": "ยกเลิกรายการสั่งซื้อ",
-                "data": "action=cancle_order"
-              },
-              "style": "secondary",
-              "offsetTop": "2px",
-              "height": "sm"
             }
         ]
     },

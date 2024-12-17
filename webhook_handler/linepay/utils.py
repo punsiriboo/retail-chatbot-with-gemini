@@ -3,7 +3,6 @@ import hashlib
 import json
 import base64
 import uuid
-import jsonify
 import requests
 from typing import Any, Dict
 
@@ -12,8 +11,8 @@ LINE_PAY_CHANNEL_SECRET = "54c3aefd19225d8c05e5445902bf9461"
 LINE_PAY_URL = "https://sandbox-api-pay.line.me"
 
 path_url = "/v3/payments/request"
-    
-    
+
+
 def generate_line_pay_headers(
     channel_id: str,
     channel_secret: str,
@@ -42,9 +41,7 @@ def generate_line_pay_headers(
 
     # Generate HMAC-SHA256 signature
     signature = hmac.new(
-        channel_secret.encode("utf-8"),
-        data_to_sign.encode("utf-8"),
-        hashlib.sha256
+        channel_secret.encode("utf-8"), data_to_sign.encode("utf-8"), hashlib.sha256
     ).digest()
 
     # Encode signature in Base64
@@ -55,11 +52,12 @@ def generate_line_pay_headers(
         "Content-Type": "application/json",
         "X-LINE-ChannelId": channel_id,
         "X-LINE-Authorization-Nonce": nonce,
-        "X-LINE-Authorization": encoded_signature
+        "X-LINE-Authorization": encoded_signature,
     }
 
+
 def request_payment(detail):
-    
+
     header = generate_line_pay_headers(
         channel_id=LINE_PAY_CHANNEL_ID,
         channel_secret=LINE_PAY_CHANNEL_SECRET,
@@ -67,14 +65,17 @@ def request_payment(detail):
         body=detail,
     )
     try:
-        response = requests.post(f"{LINE_PAY_URL}{path_url}", headers=header, json=detail)
+        response = requests.post(
+            f"{LINE_PAY_URL}{path_url}", headers=header, json=detail
+        )
         response_data = response.json()
         payment_url = response_data["info"]["paymentUrl"]["web"]
         print(payment_url)
-        return jsonify({"status": "success"})
+        print({"status": "success"})
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "message": str(e)})
+        print({"status": "error", "message": str(e)})
+
 
 # channel_id = "2006680425"
 # channel_secret = "54c3aefd19225d8c05e5445902bf9461"

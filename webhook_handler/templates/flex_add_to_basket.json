@@ -1,6 +1,5 @@
 {
     "type": "bubble",
-    "size": "giga",
     "body": {
         "type": "box",
         "layout": "vertical",

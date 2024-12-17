@@ -8,6 +8,20 @@ class DatastoreClient:
     def __init__(self):
         self.datastore_client = datastore.Client()
 
+    def add_user_beacon_enter(self, user_id):
+        kind = "cj_users_beacons"
+        created_ad = datetime.utcnow()
+        complete_key = self.datastore_client.key(kind, user_id)
+        entity = datastore.Entity(key=complete_key)
+        entity.update(
+            {
+                "user": user_id,
+                "action": "beacons_enter",
+                "createdAt": created_ad,
+            }
+        )
+        self.datastore_client.put(entity)
+
     def create_user_action_add_item(self, user_id, item_name, item_price):
         kind = "cj_users_orders"
         created_ad = datetime.utcnow().timestamp()
@@ -70,20 +84,26 @@ class DatastoreClient:
             total_final_price = f"{total_final_price:.2f}"
             return total_items, total_final_price, grouped_items
 
-    def create_group_action_add_item(self,group_id, user_id, item_name, item_price):
+    def create_group_action_add_item(self, group_id, user_id, item_name, item_price):
         kind = "cj_group_orders"
         created_ad = datetime.utcnow()
         complete_key = self.datastore_client.key(kind, f"LINE_GROUP_{group_id}")
         entity = datastore.Entity(key=complete_key)
         entity.update(
             {
-                "items": [{"user_id": user_id,"item_name": item_name, "item_price": item_price}],
+                "items": [
+                    {
+                        "user_id": user_id,
+                        "item_name": item_name,
+                        "item_price": item_price,
+                    }
+                ],
                 "createdAt": created_ad,
             }
         )
         self.datastore_client.put(entity)
         return entity
-    
+
     def get_group_order(self, group_id):
         kind = "cj_group_orders"
         key = self.datastore_client.key(kind, f"LINE_GROUP_{group_id}")
@@ -93,7 +113,7 @@ class DatastoreClient:
             return group_data
         else:
             return False
-      
+
     def remove_group_order(self, group_id):
         kind = "cj_group_orders"
         key = self.datastore_client.key(kind, f"LINE_GROUP_{group_id}")
@@ -103,22 +123,24 @@ class DatastoreClient:
             return user
         else:
             return False
-          
+
     def add_group_items_action(self, group_id, user_id, item_name, item_price):
         entity = self.get_group_order(group_id)
         if entity:
-            entity["items"].append({"user_id": user_id,"item_name": item_name, "item_price": item_price})
+            entity["items"].append(
+                {"user_id": user_id, "item_name": item_name, "item_price": item_price}
+            )
             self.datastore_client.put(entity)
 
         else:
             self.create_group_action_add_item(group_id, user_id, item_name, item_price)
-    
+
     def calculate_group_items_in_basket(self, group_id):
         # Summary structure
         entity = self.get_group_order(group_id)
         if entity:
             items = entity["items"]
-            
+
         user_totals = defaultdict(lambda: {"total_items": 0, "total_price": 0.0})
 
         total_final_price = 0.0
@@ -146,13 +168,15 @@ class DatastoreClient:
             total_items += 1
 
         # Convert grouped items to user-wise lists
-        user_items_summary = defaultdict(list) 
+        user_items_summary = defaultdict(list)
         for (user_id, item_name), data in grouped_items.items():
-            user_items_summary[user_id].append([
-                item_name,  # Item name
-                data["quantity"],  # Quantity
-                f"{data['total_price']:.2f}"  # Total price per item
-            ])
+            user_items_summary[user_id].append(
+                [
+                    item_name,  # Item name
+                    data["quantity"],  # Quantity
+                    f"{data['total_price']:.2f}",  # Total price per item
+                ]
+            )
 
         total_items = str(total_items)
         total_final_price = f"{total_final_price:.2f}"

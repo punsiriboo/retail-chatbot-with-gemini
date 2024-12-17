@@ -41,7 +41,9 @@ def handle_add_item_action(event, line_bot_api, postback_params):
     elif event.source.type == "group":
         datastore_client.add_group_items_action(
             group_id=event.source.group_id,
-            user_id=user_id, item_name=item_name, item_price=item_price
+            user_id=user_id,
+            item_name=item_name,
+            item_price=item_price,
         )
 
     line_bot_api.reply_message(
@@ -56,97 +58,168 @@ def handle_add_item_action(event, line_bot_api, postback_params):
 
 
 def handle_summary_order_action(event, line_bot_api, postback_params):
-    line_bot_api.show_loading_animation_with_http_info(
-        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
-    )
-
     datastore_client = DatastoreClient()
-    
+
     user_id = event.source.user_id
     group_id = event.source.group_id
-    
+
     if event.source.type == "user":
+        line_bot_api.show_loading_animation_with_http_info(
+            ShowLoadingAnimationRequest(chat_id=user_id)
+        )
+        
         total_items, total_final_price, grouped_items = (
             datastore_client.calculate_user_items_in_basket(user_id=user_id)
-        )    
+        )
+        all_items_box = []
+        box_product_template = open("templates/box_product_info.json").read()
+
+        for item_name, details in grouped_items.items():
+            box_product_info = copy.deepcopy(box_product_template)
+            box_product_info = box_product_info.replace(
+                "<PRODUCT_NAME>", f"{item_name} - จำนวน: {details['quantity']}"
+            ).replace("<PRODUCT_PRICE>", f"{details['total_price']:.2f}")
+
+            all_items_box.append(box_product_info)
+
+        all_items_box_str = ",".join(all_items_box)
+        flex_summary_order = open("templates/flex_summary_order.json").read()
+        flex_summary_order = (
+            flex_summary_order.replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
+            .replace("<SUM_TOTAL_ITEMS>", total_items)
+            .replace("<SUM_TOTAL_PRICE>", total_final_price)
+        )
+
+        flex_summary_order_msg = FlexMessage(
+            alt_text="สรุปการสั้งซื้อสินค้า",
+            contents=FlexContainer.from_json(flex_summary_order),
+        )
+
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    flex_summary_order_msg,
+                    TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                ],
+            )
+        )
+
     elif event.source.type == "group":
-        total_items, total_final_price, grouped_items = (
-            datastore_client.calculate_group_items_in_basket(group_id=group_id)
+        total_items, total_final_price, user_items_summary, user_totals = (
+            datastore_client.calculate_group_items_in_basket(group_id)
         )
 
-    all_items_box = []
-    box_product_template = open("templates/box_product_info.json").read()
+        box_product_template = open("templates/box_product_info.json").read()
+        per_user_template = open(
+            "templates/flex_group_order_per_user_items.json"
+        ).read()
+        flex_group_order_carousel = open(
+            "templates/flex_group_order_carousel.json"
+        ).read()
+        
+        replacement_data = {
+            "<PER_USER_TEMPLATE>": per_user_template,
+            "<TOTAL_ITEMS>": total_items,
+            "<TOTAL_PRICE>": total_final_price
+        }
 
-    for item_name, details in grouped_items.items():
-        box_product_info = copy.deepcopy(box_product_template)
-        box_product_info = box_product_info.replace(
-            "<PRODUCT_NAME>", f"{item_name} - จำนวน: {details['quantity']}"
-        ).replace("<PRODUCT_PRICE>", f"{details['total_price']:.2f}")
+        for placeholder, value in replacement_data.items():
+            flex_group_order_carousel = flex_group_order_carousel.replace(placeholder, str(value))
 
-        all_items_box.append(box_product_info)
+        all_user_flex = []
+        for user_id, items_list in user_items_summary.items():
+            per_user_flex = copy.deepcopy(per_user_template)
+            profile = line_bot_api.get_profile(user_id=event.source.user_id)
+            user_display_name = profile.display_name
+            user_profile_url = (
+                profile.picture_url
+                if profile.picture_url
+                else "https://storage.googleapis.com/line-cj-demo-chatboot/image/user.png"
+            )
+            replacement_data = {
+                "<USER_DISPLAY_NAME>": user_display_name,
+                "<USER_PROFILE_URL>": user_profile_url,
+                "<SUM_TOTAL_ITEMS>": str(user_totals[user_id]["total_items"]),
+                "<SUM_TOTAL_PRICE>": f"{user_totals[user_id]['total_price']:.2f}"
+            }
 
-    all_items_box_str = ",".join(all_items_box)
-    flex_summary_order = open("templates/flex_summary_order.json").read()
-    flex_summary_order = (
-        flex_summary_order.replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
-        .replace("<SUM_TOTAL_ITEMS>", total_items)
-        .replace("<SUM_TOTAL_PRICE>", total_final_price)
-    )
+            for placeholder, value in replacement_data.items():
+                per_user_flex = per_user_flex.replace(placeholder, value)
+            
+            all_items_box = []
+            for item in items_list:           
+                box_product_info = copy.deepcopy(box_product_template)
+                box_product_info = box_product_info.replace(
+                    "<PRODUCT_NAME>", f"{item[0]} - จำนวน: {item[1]}"
+                ).replace("<PRODUCT_PRICE>", f"{item[2]}")
 
-    flex_summary_order_msg = FlexMessage(
-        alt_text="สรุปการสั้งซื้อสินค้า",
-        contents=FlexContainer.from_json(flex_summary_order),
-    )
-
-    line_bot_api.reply_message(
-        ReplyMessageRequest(
-            reply_token=event.reply_token,
-            messages=[
-                flex_summary_order_msg,
-                TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
-            ],
+                all_items_box.append(box_product_info)
+           
+            all_items_box_str = ",".join(all_items_box)
+            per_user_flex = (
+                per_user_flex.replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
+            )
+            all_user_flex.append(per_user_flex)
+        
+        all_user_flex_str = ",".join(all_user_flex)
+        flex_group_order_carousel = flex_group_order_carousel.replace(
+            "<ALL_USER_FLEX>", all_user_flex_str
         )
-    )
+        
+        flex_summary_order_msg = FlexMessage(
+            alt_text="สรุปการสั้งซื้อสินค้า",
+            contents=FlexContainer.from_json(flex_group_order_carousel),
+        )
 
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    flex_summary_order_msg,
+                    TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                ],
+            )
+        )
 
 def handle_make_payment_action(event, line_bot_api, postback_params):
 
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
-    
+
     request_detail = {
+        "amount": 250,
+        "currency": "THB",
+        "orderId": "001A",
+        "packages": [
+            {
+                "id": "01A",
                 "amount": 250,
-                "currency": "THB",
-                "orderId": "001A",
-                "packages": [
+                "name": "Toy Package",
+                "products": [
                     {
-                        "id": "01A",
-                        "amount": 250,
-                        "name": "Toy Package",
-                        "products": [
-                            {
-                                "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Cony",
-                                "quantity": 1,
-                                "price": 100,
-                                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/512x512bb.jpg?alt=media&token=7cfd10b0-6d01-4612-b42e-b1b4d0105acd"
-                            },
-                            {
-                                "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Sally",
-                                "quantity": 1,
-                                "price": 150,
-                                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/8cd724371a6f169b977684fd69cc2339.jpg?alt=media&token=e2008ff7-1cad-4476-a2e4-cda5f8af6561"
-                            }
-                        ]
-                    }
+                        "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Cony",
+                        "quantity": 1,
+                        "price": 100,
+                        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/512x512bb.jpg?alt=media&token=7cfd10b0-6d01-4612-b42e-b1b4d0105acd",
+                    },
+                    {
+                        "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Sally",
+                        "quantity": 1,
+                        "price": 150,
+                        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/8cd724371a6f169b977684fd69cc2339.jpg?alt=media&token=e2008ff7-1cad-4476-a2e4-cda5f8af6561",
+                    },
                 ],
-                "redirectUrls": {
-                    "confirmUrl": f"https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
-                    "cancelUrl": "https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder"
-                }
             }
+        ],
+        "redirectUrls": {
+            "confirmUrl": f"https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
+            "cancelUrl": "https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
+        },
+    }
     result = request_payment(request_detail)
-    print(result)   
+    print(result)
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
@@ -156,7 +229,6 @@ def handle_make_payment_action(event, line_bot_api, postback_params):
             ],
         )
     )
-   
 
 
 def handle_cancle_order_action(event, line_bot_api, postback_params):
@@ -179,7 +251,8 @@ def handle_cancle_order_action(event, line_bot_api, postback_params):
             ],
         )
     )
-                            
+
+
 def handle_richmenu_switch_action(event, line_bot_api, postback_params):
     menu = postback_params.get("menu")
     user_id = event.source.user_id
@@ -202,7 +275,7 @@ def handle_postback_by_action(event, line_bot_api, postback_action, postback_par
         "summary_order": handle_summary_order_action,
         "make_payment": handle_make_payment_action,
         "richmenuswitch": handle_richmenu_switch_action,
-        "cancle_order": handle_cancle_order_action
+        "cancle_order": handle_cancle_order_action,
     }
     if (postback_action is not None) and (postback_action in function_map):
         function_map[postback_action](event, line_bot_api, postback_params)
