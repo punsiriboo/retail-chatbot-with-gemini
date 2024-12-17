@@ -101,19 +101,12 @@ def handle_image_message(event):
         type="image",
     )
 
-    json, image_description = gemini_describe_image(
+    image_description = gemini_describe_image(
         user_id=event.source.user_id,
         message_id=event.message.id,
     )
 
     if image_description:
-        line_bot_api.push_message(
-            PushMessageRequest(
-                to=event.source.user_id,
-                messages=[TextMessage(text=str(json))],
-            )
-        )
-
         response_dict = vertex_search_retail_products(
             image_description["product_description"]
         )

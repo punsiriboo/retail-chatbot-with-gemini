@@ -1,6 +1,7 @@
 {
     "type": "box",
     "layout": "horizontal",
+    "paddingTop": "10px",
     "contents": [
         {
             "type": "text",

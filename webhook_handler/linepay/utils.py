@@ -80,36 +80,37 @@ def request_payment(detail):
 # channel_id = "2006680425"
 # channel_secret = "54c3aefd19225d8c05e5445902bf9461"
 # url = "https://sandbox-api-pay.line.me"
-# request_detail = body = {
-#             "amount": 250,
-#             "currency": "THB",
-#             "orderId": "001A",
-#             "packages": [
-#                 {
-#                     "id": "01A",
-#                     "amount": 250,
-#                     "name": "Toy Package",
-#                     "products": [
-#                         {
-#                             "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Cony",
-#                             "quantity": 1,
-#                             "price": 100,
-#                             "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/512x512bb.jpg?alt=media&token=7cfd10b0-6d01-4612-b42e-b1b4d0105acd"
-#                         },
-#                         {
-#                             "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Sally",
-#                             "quantity": 1,
-#                             "price": 150,
-#                             "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/8cd724371a6f169b977684fd69cc2339.jpg?alt=media&token=e2008ff7-1cad-4476-a2e4-cda5f8af6561"
-#                         }
-#                     ]
-#                 }
-#             ],
-#             "redirectUrls": {
-#                 "confirmUrl": f"https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
-#                 "cancelUrl": "https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder"
-#             }
-#         }
+request_detail = {
+    "amount": 250,
+    "currency": "THB",
+    "orderId": "001A",
+    "packages": [
+        {
+            "id": "01A",
+            "amount": 250,
+            "name": "Toy Package",
+            "products": [
+                {
+                    "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Cony",
+                    "quantity": 1,
+                    "price": 100,
+                    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/512x512bb.jpg?alt=media&token=7cfd10b0-6d01-4612-b42e-b1b4d0105acd",
+                },
+                {
+                    "name": "\u0E15\u0E38\u0E4A\u0E01\u0E15\u0E32 Sally",
+                    "quantity": 1,
+                    "price": 150,
+                    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/linedeveloper-63341.appspot.com/o/8cd724371a6f169b977684fd69cc2339.jpg?alt=media&token=e2008ff7-1cad-4476-a2e4-cda5f8af6561",
+                },
+            ],
+        }
+    ],
+    "redirectUrls": {
+        "confirmUrl": f"https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
+        "cancelUrl": "https://us-central1-linedeveloper-63341.cloudfunctions.net/confirmOrder",
+    },
+}
+request_payment(request_detail)
 
 # headers = generate_line_pay_headers(channel_id, channel_secret, url, request_detail)
 # print(headers)

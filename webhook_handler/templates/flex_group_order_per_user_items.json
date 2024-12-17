@@ -1,6 +1,6 @@
 {
     "type": "bubble",
-    "size": "giga",
+    "size": "mega",
     "hero": {
         "type": "image",
         "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/shopping_sum.png",
@@ -65,6 +65,7 @@
                 "type": "separator",
                 "margin": "xxl"
             },
+            <BOX_PRODUCT_INFO_JSON>,
             {
                 "type": "box",
                 "layout": "vertical",

@@ -14,52 +14,6 @@
         "layout": "vertical",
         "contents": [
             {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                      {
-                        "type": "image",
-                        "url": "https://developers-resource.landpress.line.me/fx/clip/clip13.jpg",
-                        "aspectMode": "cover",
-                        "size": "full"
-                      }
-                    ],
-                    "cornerRadius": "100px",
-                    "width": "72px",
-                    "height": "72px"
-                  },
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "contents": [
-                          {
-                            "type": "span",
-                            "text": "brown_05csdfdsfdsnfkdfkdsjflkdaj\n",
-                            "weight": "bold",
-                            "color": "#000000"
-                          },
-                          {
-                            "type": "span",
-                            "text": "brown_05csdfdsfdsnfkdfkdsjflkdaj\n",
-                            "weight": "bold",
-                            "color": "#000000"
-                          }
-                        ],
-                        "size": "sm",
-                        "wrap": true
-                      }
-                    ]
-                  }
-                ]
-            },
-            {
                 "type": "text",
                 "text": "RECEIPT",
                 "weight": "bold",
@@ -83,7 +37,7 @@
                 "margin": "xxl",
                 "spacing": "sm",
                 "contents": [
-
+                    <BOX_PRODUCT_INFO_JSON>,
                     {
                         "type": "separator",
                         "margin": "xxl"
@@ -136,26 +90,26 @@
         "layout": "vertical",
         "contents": [
             {
-              "style": "primary",
-              "type": "button",
-              "action": {
-                "data": "action=make_payment",
-                "label": "ชำระเงิน",
-                "type": "postback"
-              },
-              "color": "#00A150",
-              "height": "sm"
+                "style": "primary",
+                "type": "button",
+                "action": {
+                    "data": "action=make_payment",
+                    "label": "ชำระเงิน",
+                    "type": "postback"
+                },
+                "color": "#00A150",
+                "height": "sm"
             },
             {
-              "type": "button",
-              "action": {
-                "type": "postback",
-                "label": "ยกเลิกรายการสั่งซื้อ",
-                "data": "action=cancle_order"
-              },
-              "style": "secondary",
-              "offsetTop": "2px",
-              "height": "sm"
+                "type": "button",
+                "action": {
+                    "type": "postback",
+                    "label": "ยกเลิกรายการสั่งซื้อ",
+                    "data": "action=cancle_order"
+                },
+                "style": "secondary",
+                "offsetTop": "2px",
+                "height": "sm"
             }
         ]
     },

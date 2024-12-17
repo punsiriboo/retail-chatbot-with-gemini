@@ -1,14 +1,10 @@
 import os
+import sys
+import json
 from typing import List
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
 from google.protobuf.json_format import MessageToDict
-
-
-GCP_PROJECT_ID = os.environ["GCP_PROJECT_ID"]
-APP_LOCATION = os.environ["VERTEX_SEARCH_LOCATION"]
-VERTEX_ENGINE = os.environ["VERTEX_SEARCH_ID"]
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "privates/sa.json"
 
 
 def vertex_search_retail_products(
@@ -16,6 +12,10 @@ def vertex_search_retail_products(
 ) -> List[discoveryengine.SearchResponse]:
     #  For more information, refer to:
     # https://cloud.google.com/generative-ai-app-builder/docs/locations#specify_a_multi-region_for_your_data_store
+    GCP_PROJECT_ID = os.environ["GCP_PROJECT_ID"]
+    VERTEX_ENGINE = os.environ["VERTEX_SEARCH_ID"]
+    APP_LOCATION = os.environ["VERTEX_SEARCH_LOCATION"]
+
     client_options = (
         ClientOptions(api_endpoint=f"{APP_LOCATION}-discoveryengine.googleapis.com")
         if APP_LOCATION != "global"
@@ -66,5 +66,4 @@ def vertex_search_retail_products(
 
     response = client.search(request)
     response_dict = MessageToDict(response._pb)
-    print(response_dict)
     return response_dict

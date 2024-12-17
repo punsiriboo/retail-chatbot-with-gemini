@@ -3,7 +3,7 @@
     "contents": [
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/12.png",
@@ -55,7 +55,7 @@
         },
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
@@ -107,7 +107,7 @@
         },
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/14.png",
@@ -159,7 +159,7 @@
         },
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/15.png",
@@ -211,7 +211,7 @@
         },
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/16.png",
@@ -262,7 +262,7 @@
         },
         {
             "type": "bubble",
-            "size": "giga",
+            "size": "mega",
             "hero": {
                 "type": "image",
                 "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/17.png",

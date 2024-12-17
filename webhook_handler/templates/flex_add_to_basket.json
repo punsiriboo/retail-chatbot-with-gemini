@@ -6,6 +6,34 @@
         "contents": [
             {
                 "type": "box",
+                "layout": "baseline",
+                "contents": [
+                    {
+                        "type": "icon",
+                        "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image/shopping-basket-green.png"
+                    },
+                    {
+                        "type": "text",
+                        "contents": [
+                            {
+                                "type": "span",
+                                "text": "เพิ่มสินค้าในตระกร้า",
+                                "size": "md",
+                                "weight": "bold"
+                            }
+                        ],
+                        "offsetStart": "10px"
+                    }
+                ],
+                "paddingAll": "10px",
+                "paddingStart": "20px"
+            },
+            {
+                "type": "separator",
+                "margin": "xs"
+            },
+            {
+                "type": "box",
                 "layout": "horizontal",
                 "contents": [
                     {
@@ -19,51 +47,25 @@
                                 "url": "<PRODUCT_IMAGE_URL>"
                             }
                         ],
-                        "width": "100px",
-                        "height": "100px"
+                        "width": "80px",
+                        "height": "80px"
                     },
                     {
                         "type": "box",
                         "layout": "vertical",
                         "contents": [
                             {
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [
-                                    {
-                                        "type": "icon",
-                                        "url": "https://storage.googleapis.com/retail-gemini-vertex/cj-bot-photo/shopping-bag-24.png"
-                                    },
-                                    {
-                                        "type": "text",
-                                        "contents": [
-                                            {
-                                                "type": "span",
-                                                "text": "เพิ่มสินค้าในตระกร้า",
-                                                "size": "md",
-                                                "weight": "bold"
-                                            }
-                                        ],
-                                        "offsetStart": "-10px"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "separator",
-                                "margin": "3px"
-                            },
-                            {
                                 "type": "text",
                                 "text": "<PRODUCT_NAME>",
-                                "offsetTop": "10px",
                                 "wrap": true,
-                                "size": "sm"
+                                "size": "sm",
+                                "align": "start"
                             }
                         ]
                     }
                 ],
                 "spacing": "xl",
-                "paddingAll": "20px"
+                "paddingAll": "15px"
             }
         ],
         "paddingAll": "0px"
@@ -80,7 +82,8 @@
                     "data": "action=summary_order&item_price=<PRODUCT_PRICE>&item_name=<PRODUCT_NAME>"
                 },
                 "style": "primary",
-                "color": "#00A150"
+                "color": "#00A150",
+                "height": "sm"
             }
         ],
         "offsetTop": "-10px"

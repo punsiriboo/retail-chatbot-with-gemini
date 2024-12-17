@@ -28,7 +28,7 @@ def handle_beacon_by_user_profile(event, line_bot_api):
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(
-                        text="สวัสดีค่ะ ยินดีต้องรับสู่ CJ สาขาบ้านบีท\nอย่าลืมตรวจสอบคูปองที่มี และส่วนลดเพื่อการ Shopping ที่มากกว่าที่ CJ"
+                        text="[LINE BEACON] สวัสดีค่ะ ยินดีต้องรับสู่ CJ สาขาบ้านบีท\nอย่าลืมตรวจสอบคูปองที่มี และส่วนลดเพื่อการ Shopping ที่มากกว่าที่ CJ"
                     ),
                     static_flex_message,
                 ],

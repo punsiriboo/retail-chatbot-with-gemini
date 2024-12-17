@@ -60,14 +60,12 @@ def handle_add_item_action(event, line_bot_api, postback_params):
 def handle_summary_order_action(event, line_bot_api, postback_params):
     datastore_client = DatastoreClient()
 
-    user_id = event.source.user_id
-    group_id = event.source.group_id
-
     if event.source.type == "user":
+        user_id = event.source.user_id
         line_bot_api.show_loading_animation_with_http_info(
             ShowLoadingAnimationRequest(chat_id=user_id)
         )
-        
+
         total_items, total_final_price, grouped_items = (
             datastore_client.calculate_user_items_in_basket(user_id=user_id)
         )
@@ -106,6 +104,7 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
         )
 
     elif event.source.type == "group":
+        group_id = event.source.group_id
         total_items, total_final_price, user_items_summary, user_totals = (
             datastore_client.calculate_group_items_in_basket(group_id)
         )
@@ -117,56 +116,54 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
         flex_group_order_carousel = open(
             "templates/flex_group_order_carousel.json"
         ).read()
-        
-        replacement_data = {
-            "<PER_USER_TEMPLATE>": per_user_template,
-            "<TOTAL_ITEMS>": total_items,
-            "<TOTAL_PRICE>": total_final_price
-        }
-
-        for placeholder, value in replacement_data.items():
-            flex_group_order_carousel = flex_group_order_carousel.replace(placeholder, str(value))
 
         all_user_flex = []
         for user_id, items_list in user_items_summary.items():
-            per_user_flex = copy.deepcopy(per_user_template)
-            profile = line_bot_api.get_profile(user_id=event.source.user_id)
-            user_display_name = profile.display_name
-            user_profile_url = (
-                profile.picture_url
-                if profile.picture_url
-                else "https://storage.googleapis.com/line-cj-demo-chatboot/image/user.png"
-            )
-            replacement_data = {
-                "<USER_DISPLAY_NAME>": user_display_name,
-                "<USER_PROFILE_URL>": user_profile_url,
-                "<SUM_TOTAL_ITEMS>": str(user_totals[user_id]["total_items"]),
-                "<SUM_TOTAL_PRICE>": f"{user_totals[user_id]['total_price']:.2f}"
-            }
+            try: 
+                profile = line_bot_api.get_profile(user_id=user_id)
+                user_display_name = profile.display_name
+                user_profile_url = (
+                    profile.picture_url
+                    if profile.picture_url
+                    else "https://storage.googleapis.com/line-cj-demo-chatboot/image/user.png"
+                )
+            except Exception as e:
+                # Handle any errors when fetching user profile
+                print(f"Error fetching LINE profile for user_id {user_id}: {str(e)}")
+                user_display_name = user_id
+                user_profile_url = "https://storage.googleapis.com/line-cj-demo-chatboot/image/user.png"
 
-            for placeholder, value in replacement_data.items():
-                per_user_flex = per_user_flex.replace(placeholder, value)
-            
             all_items_box = []
-            for item in items_list:           
+            for item in items_list:
                 box_product_info = copy.deepcopy(box_product_template)
                 box_product_info = box_product_info.replace(
                     "<PRODUCT_NAME>", f"{item[0]} - จำนวน: {item[1]}"
                 ).replace("<PRODUCT_PRICE>", f"{item[2]}")
 
                 all_items_box.append(box_product_info)
-           
+
             all_items_box_str = ",".join(all_items_box)
+
+            per_user_flex = copy.deepcopy(per_user_template)
             per_user_flex = (
-                per_user_flex.replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
+                per_user_flex.replace("<USER_DISPLAY_NAME>", user_display_name)
+                .replace("<USER_PROFILE_URL>", user_profile_url)
+                .replace("<SUM_TOTAL_ITEMS>", str(user_totals[user_id]["total_items"]))
+                .replace(
+                    "<SUM_TOTAL_PRICE>", f"{user_totals[user_id]['total_price']:.2f}"
+                )
+                .replace("<BOX_PRODUCT_INFO_JSON>", all_items_box_str)
             )
+
             all_user_flex.append(per_user_flex)
-        
+
         all_user_flex_str = ",".join(all_user_flex)
-        flex_group_order_carousel = flex_group_order_carousel.replace(
-            "<ALL_USER_FLEX>", all_user_flex_str
+        flex_group_order_carousel = (
+            flex_group_order_carousel.replace("<PER_USER_TEMPLATE>", all_user_flex_str)
+            .replace("<TOTAL_ITEMS>", total_items)
+            .replace("<TOTAL_PRICE>", total_final_price)
         )
-        
+
         flex_summary_order_msg = FlexMessage(
             alt_text="สรุปการสั้งซื้อสินค้า",
             contents=FlexContainer.from_json(flex_group_order_carousel),
@@ -181,6 +178,7 @@ def handle_summary_order_action(event, line_bot_api, postback_params):
                 ],
             )
         )
+
 
 def handle_make_payment_action(event, line_bot_api, postback_params):
 

@@ -1,6 +1,6 @@
 {
     "type": "bubble",
-    "size": "giga",
+    "size": "mega",
     "hero": {
         "type": "image",
         "url": "https://storage.googleapis.com/line-cj-demo-chatboot/nong_cj/13.png",
