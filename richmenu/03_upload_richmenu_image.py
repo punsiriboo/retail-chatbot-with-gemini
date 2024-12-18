@@ -1,5 +1,12 @@
 import requests
 import os
+import sys
+
+outer_lib_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+sys.path.append(outer_lib_path)
+from commons.yaml_env import load_yaml_to_env
+
+load_yaml_to_env("credential/line_secret.yml")
 
 def upload_rich_menu_images(rich_menu_data):
     """Uploads images to rich menus using a list of dictionaries.

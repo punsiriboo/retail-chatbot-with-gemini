@@ -27,7 +27,7 @@ class PostbackHandler:
         }
         self.datastore_client = DatastoreClient()
         self.rich_menu_id_config = {
-            "main": "richmenu-db38e9f92a3c898106dd4306626c8c75",
+            "main": "richmenu-644e1536d98549fce47e55b083465704",
             "cj": "richmenu-4c7272287975fafd7d80fc36cbdb9062",
             "nine": "richmenu-ca6673b31843ae20592960f536fc0f5b",
             "uno": "richmenu-d612e6dc259ca897ed5650c60220fed2",

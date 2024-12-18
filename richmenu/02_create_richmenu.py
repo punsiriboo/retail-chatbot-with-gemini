@@ -98,6 +98,7 @@ list_rich_menu = [
     "richmenu-nine.json",
     "richmenu-uno.json",
     "richmenu-main.json",
+    "richmenu-main-2.json"
 ]
 create_rich_menus(list_rich_menu)
 

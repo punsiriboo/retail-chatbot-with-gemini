@@ -15,7 +15,7 @@ configuration = linebot.v3.messaging.Configuration(
 
 api_client = linebot.v3.messaging.ApiClient(configuration)
 api_instance = linebot.v3.messaging.MessagingApi(api_client)
-rich_menu_id = "richmenu-db38e9f92a3c898106dd4306626c8c75"  # str | ID of a rich menu
+rich_menu_id = "richmenu-644e1536d98549fce47e55b083465704"  # str | ID of a rich menu
 
 try:
     # api_response = api_instance.get_rich_menu_alias_list()
