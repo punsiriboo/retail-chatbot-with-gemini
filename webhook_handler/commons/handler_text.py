@@ -141,7 +141,6 @@ def handle_nong_cj_leave_group(line_bot_api, event, text):
 
 def handle_text_by_keyword(event, line_bot_api):
     text = event.message.text
-    reply_token = event.reply_token
     function_map = {
         "คูปองส่วนลด": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
@@ -153,7 +152,7 @@ def handle_text_by_keyword(event, line_bot_api):
 
     elif text in flex_temple_config:
         template_name = flex_temple_config[text]
-        handle_return_static_flex(line_bot_api, reply_token, template_name)
+        handle_return_static_flex(line_bot_api, event, template_name)
 
     elif text.startswith("#ค้นหา"):
         search_query = text[len("#ค้นหา") :].strip()

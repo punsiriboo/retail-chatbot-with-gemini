@@ -1,0 +1,127 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/CJ%20Sabai%20card.png"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "สิทธิพิเศษสำหรับสมาชิกสบายการ์ด",
+                        "wrap": true,
+                        "weight": "bold",
+                        "size": "lg"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "สบายกว่า ด้วยการสะสมแต้ม เพื่อแลกจ่ายแทนเงินสด หรือแลกสินค้าแลกแต้มสุดคุ้ม สบายกว่า กับการซื้อสินค้าในราคาสมาชิกที่ถูกกว่า สบายกว่า กับกิจกรรมพิเศษและโปรโมชั่นต่างๆ มากมายตลอดปี",
+                                "wrap": true,
+                                "weight": "regular",
+                                "size": "sm",
+                                "flex": 0
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "\nสมัครที่จุดเคาน์เตอร์ของ CJ More ทุกสาขา ลูกค้าสามารถสมัครซีเจ สบายการ์ดได้ฟรี เพียงเตรียมบัตรประจำตัวประชาชน เพื่อยืนยันตัวบุคคล และรับบัตรซีเจ สบายการ์ด พร้อมรับสิทธิพิเศษทันที\n\n  สมัครผ่าน Line CJMore",
+                                "wrap": true,
+                                "weight": "regular",
+                                "size": "sm",
+                                "flex": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "action": {
+                            "type": "uri",
+                            "label": "สมัคร",
+                            "uri": "https://line.me/"
+                        },
+                        "color": "#00A150",
+                        "height": "sm"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "size": "full",
+                "aspectRatio": "10:15",
+                "aspectMode": "cover",
+                "url": "https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/member-howto1.png"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "วิธีการสมัครสมาชิก",
+                        "wrap": true,
+                        "weight": "bold",
+                        "size": "lg"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "**การสมัครสมาชิกผ่านช่องทาง LINE ลูกค้าจะไม่ได้รับบัตรแข็งเหมือนกับการสมัครที่สาขา**​"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "action": {
+                            "type": "uri",
+                            "label": "สมัคร",
+                            "uri": "https://line.me/"
+                        },
+                        "color": "#00A150",
+                        "height": "sm"
+                    }
+                ]
+            }
+        }
+    ]
+}

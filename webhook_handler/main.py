@@ -15,7 +15,9 @@ from linebot.v3.webhooks import (
     FollowEvent,
     UnfollowEvent,
     JoinEvent,
+    MemberJoinedEvent,
 )
+
 from linebot.v3.messaging import (
     Configuration,
     ApiClient,
@@ -27,6 +29,9 @@ from linebot.v3.messaging import (
     FlexMessage,
     FlexContainer,
     ShowLoadingAnimationRequest,
+    MentionSubstitutionObject,
+    TextMessageV2,
+    UserMentionTarget
 )
 
 
@@ -239,5 +244,22 @@ def handle_join(event):
                 ),
                 static_flex_message,
             ],
+        )
+    )
+    
+@handler.add(MemberJoinedEvent)
+def handle_member_joined(event):
+    user_id = event.source.user_id
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessageV2(
+                    text="สวัสดีค่ะ คุณ {new_group_member}, ยินดีต้อนรับเข้ากลุ่ม หาต้องการสั่งซื็อสินค้าแบบกลุ่ม สามารถพิมพ์ #ค้นหาตามด้วยชื่อสินค้า หรือส่งรูปสินค้าได้เลยค่ะ",
+                        substitution={
+                        "new_group_member": MentionSubstitutionObject(mentionee=UserMentionTarget(userId=user_id))
+                    }
+                )
+            ]
         )
     )

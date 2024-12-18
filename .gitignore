@@ -8,3 +8,4 @@ credential/line_secret.yml
 *.log
 .vscode
 .pytest_cache
+.DS_Store
