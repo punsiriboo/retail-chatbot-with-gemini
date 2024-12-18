@@ -70,7 +70,7 @@ body {
     margin-bottom: 22px;
 }
 .formbold-input-flex > div {
-    width: 50%;
+    width: 100%;
 }
 .formbold-form-input {
     width: 100%;
@@ -107,6 +107,10 @@ body {
     color: #536387;
     margin-bottom: 22px;
     width: 75%;
+}
+.error-message {
+    font-size: 14px;
+    color: red;
 }
 .formbold-form-confirm > div {
     display: flex;

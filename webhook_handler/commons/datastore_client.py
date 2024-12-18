@@ -194,9 +194,9 @@ class DatastoreClient:
             }
         )
         self.datastore_client.put(entity)
-    
+
     def get_group_users(self, group_id):
         kind = "cj_chat_group"
         key = self.datastore_client.key(kind, group_id)
         users_list = self.datastore_client.get(key)
-        return users_list['users']
+        return users_list["users"]

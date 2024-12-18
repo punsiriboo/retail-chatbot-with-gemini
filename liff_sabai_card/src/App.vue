@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="section-card" v-if="profile">
+        <div class="section-card" v-if="profile" ref="headerSabaiCard">
             <div class="bg-web-banner card-1 img-cover">
                 <div class="wrapper">
                 </div>
@@ -12,7 +12,7 @@
                 <h2 class="profile-name">{{ profile.displayName }}</h2>
             </div>
             <div class="profile-body">
-                <div class="formbold-main-wrapper">
+                <div class="formbold-main-wrapper" ref="registerForm">
                     <div class="formbold-form-wrapper">
                         <div class="formbold-steps">
                             <ul>
@@ -52,14 +52,23 @@
                                 </div>
                                 <div class="formbold-input-flex">
                                     <div>
-                                        <label for="email" class="formbold-form-label">Email Address</label>
+                                        <label for="email" class="formbold-form-label">Email</label>
                                         <input v-model="formData.email" type="email" required placeholder="example@mail.com" id="email" class="formbold-form-input" />
                                     </div>
                                 </div>
+                                <div class="formbold-input-flex">
+                                    <div>
+                                        <label for="phone" class="formbold-form-label">Phone Number</label>
+                                        <input v-model="formData.phone" type="tel" id="phone" placeholder="Enter your phone number" class="formbold-form-input" @input="formatPhoneNumber" />
+                                        <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
+                                    </div>
+                                </div>
     
-                                <div>
-                                    <label for="address" class="formbold-form-label">Address</label>
-                                    <input v-model="formData.address" type="text" id="address" required placeholder="Flat 4, 24 Castle Street, Perth" class="formbold-form-input" />
+                                <div class="formbold-input-flex">
+                                    <div>
+                                        <label for="address" class="formbold-form-label">Address</label>
+                                        <input v-model="formData.address" type="text" id="address" required placeholder="Flat 4, 24 Castle Street, Perth" class="formbold-form-input" />
+                                    </div>
                                 </div>
                             </div>
     
@@ -99,8 +108,8 @@
                             <!-- Buttons -->
                             <div class="formbold-form-btn-wrapper">
                                 <button type="button" v-if="currentStep > 1" class="formbold-back-btn active" @click="prevStep">
-                                        Back
-                                        </button>
+                                                                    Back
+                                                                    </button>
                                 <button type="submit" class="formbold-btn">{{ currentStep === 3 ? 'Submit' : 'Next Step' }}</button>
                             </div>
                         </form>
@@ -113,6 +122,8 @@
 
 <script>
 import liff from "@line/liff";
+import axios from "axios";
+
 export default {
     beforeCreate() {
         liff
@@ -150,7 +161,9 @@ export default {
                 dob: '',
                 email: '',
                 address: '',
+                phone: '',
             },
+            phoneError: '',
         };
     },
     async mounted() {
@@ -165,6 +178,9 @@ export default {
 
                     const profile = await liff.getProfile();
                     this.profile = profile;
+
+                    await this.checkIsExistingUser(this.profile.userId)
+
                     const friendShip = await liff.getFriendship()
                     this.friendShip = friendShip.friendFlag
                     // console.log(friendShip);
@@ -201,10 +217,73 @@ export default {
             if (this.currentStep < 3) {
                 this.nextStep();
             } else {
-                alert('Form Submitted Successfully!');
                 console.log(this.formData);
+                this.addNewUser();
+                alert('Form Submitted Successfully!');
+                const form = this.$refs.registerForm;
+                if (form) {
+                    form.style.display = 'none';
+                }
             }
         },
+        formatPhoneNumber(event) {
+            const input = event.target.value.replace(/\D/g, ''); // เอาตัวเลขเท่านั้น
+            let formattedNumber = '';
+
+            if (input.length > 0) {
+                formattedNumber += input.slice(0, 3);
+            }
+            if (input.length >= 4) {
+                formattedNumber += '-' + input.slice(3, 6);
+            }
+            if (input.length >= 7) {
+                formattedNumber += '-' + input.slice(6, 10);
+            }
+
+            this.formData.phone = formattedNumber;
+
+            // ตรวจสอบความยาวเบอร์โทร
+            if (input.length > 10) {
+                this.phoneError = 'Phone number should not exceed 10 digits.';
+            } else {
+                this.phoneError = '';
+            }
+        },
+        async addNewUser() {
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+            const payload = {
+                action: "insert",
+                kind: "CJ_USER",
+                "id": this.profile.userId,
+                data: this.formData
+            };
+            const response = await axios.post(gcf_url, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        async checkIsExistingUser(userId) {
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+            const payload = {
+                action: "get",
+                kind: "CJ_USER",
+                "id": userId,
+            };
+            const response = await axios.post(gcf_url, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status == 200) {
+                const form = this.$refs.registerForm;
+                if (form) {
+                    form.style.display = 'none';
+                    this.member = true;
+                }
+            }
+        },
+
     },
 };
 </script>

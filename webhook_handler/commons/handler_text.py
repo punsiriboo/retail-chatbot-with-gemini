@@ -1,10 +1,13 @@
 import json
 from commons.vertex_agent_search import vertex_search_retail_products
 from commons.dialogflowcx_answer import detect_intent_text
-from commons.flex_message_builder import build_flex_carousel_message
+from commons.flex_message_builder import build_products_search_result_carousel
+from commons.datastore_client import DatastoreClient
+
 from config.keyword_to_flex_mapping import (
     keyword_flex_temple_config as flex_temple_config,
 )
+from commons.flex_message_builder import build_flex_user_order_summary
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -108,7 +111,8 @@ def handle_talk_to_cj(line_bot_api, event, text):
                 ),
             ],
         )
-    )    
+    )
+
 
 def handle_return_static_flex(line_bot_api, event, template_name):
 
@@ -129,7 +133,8 @@ def handle_return_static_flex(line_bot_api, event, template_name):
             ],
         )
     )
-    
+
+
 def handle_nong_cj_leave_group(line_bot_api, event, text):
     if event.source.type == "group":
         line_bot_api.leave_group(event.source.group_id)
@@ -138,24 +143,22 @@ def handle_nong_cj_leave_group(line_bot_api, event, text):
             ReplyMessageRequest(
                 reply_token=event.reply_token,
                 messages=[
-                    TextMessage(
-                        text="Feature นี้ใช้ได้ เมื่อเชิญ น้อง​​ CJ เข้ากลุ่มแล้วเท่านั้นค่ะ"
-                    ),
+                    TextMessage(text="Feature นี้ใช้ได้ เมื่อเชิญ น้อง​​ CJ เข้ากลุ่มแล้วเท่านั้นค่ะ"),
                 ],
             )
         )
 
+
 def handle_search_example(line_bot_api, event, text):
     line_bot_api.reply_message(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[
-                    TextMessage(
-                        text="พิมพ์ว่า #ค้นหา ตามด้วยสินค้าได้เลย เช่น #ค้นหาลิปมัน"
-                    ),
-                ],
-            )
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text="พิมพ์ว่า #ค้นหา ตามด้วยสินค้าได้เลย เช่น #ค้นหาลิปมัน"),
+            ],
         )
+    )
+
 
 def handle_calling_nong_cj(line_bot_api, event, text):
     line_bot_api.reply_message(
@@ -163,33 +166,85 @@ def handle_calling_nong_cj(line_bot_api, event, text):
             reply_token=event.reply_token,
             messages=[
                 TextMessage(
-                    text="Quick reply",
+                    text="อยากให้น้อง CJ ช่วยอะไรดีค่ะ",
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyItem(
-                                action=PostbackAction(label="label1", data="data1")
+                                action=MessageAction(
+                                    label="ดูโปรล่าสุด", text="[CJ] สินค้าลดกระหน่ำ 7 วัน"
+                                )
                             ),
                             QuickReplyItem(
-                                action=MessageAction(label="label2", text="text2")
+                                action=MessageAction(
+                                    label="ค้นหาคูปองส่วนลด", text="ค้นหาคูปองส่วนลด"
+                                )
                             ),
                             QuickReplyItem(
-                                image_url="",
                                 action=CameraAction(label="ส่งรูปสินค้าที่ต้องการค้นหา")
                             ),
                             QuickReplyItem(
-                                image_url="",
                                 action=CameraRollAction(label="ถ่ายรูปสินค้าที่ต้องการค้นหา")
                             ),
-                            QuickReplyItem(
-                                image_url="",
-                                action=LocationAction(label="ค้นหาสาขา")
-                            ),
+                            QuickReplyItem(action=LocationAction(label="ค้นหาสาขา")),
                         ]
                     ),
                 )
             ],
         )
     )
+
+
+def handle_my_basket_check(line_bot_api, event, text):
+    datastore_client = DatastoreClient()
+    order = datastore_client.get_user_order(user_id=event.source.user_id)
+    if order:
+        total_items, total_final_price, grouped_items = (
+            datastore_client.calculate_user_items_in_basket(
+                user_id=event.source.user_id
+            )
+        )
+        flex_summary_order_msg = build_flex_user_order_summary(
+            total_items, total_final_price, grouped_items
+        )
+
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    flex_summary_order_msg,
+                    TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                ],
+            )
+        )
+    else:
+        line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    TextMessage(
+                        text="คุณยังไม่มี่รายการสั่งซื้อในตระกร้าค่ะ",
+                        quick_reply=QuickReply(
+                            items=[
+                                QuickReplyItem(
+                                    action=MessageAction(
+                                        label="พิมพ์เพื่อค้นหาสินค้่า",
+                                        text="ลองค้นหาสินค้ากับน้อง CJ",
+                                    )
+                                ),
+                                QuickReplyItem(
+                                    action=CameraAction(label="ส่งรูปสินค้าที่ต้องการค้นหา")
+                                ),
+                                QuickReplyItem(
+                                    action=CameraRollAction(
+                                        label="ถ่ายรูปสินค้าที่ต้องการค้นหา"
+                                    )
+                                ),
+                            ]
+                        ),
+                    ),
+                ],
+            )
+        )
 
 
 def handle_text_by_keyword(event, line_bot_api):
@@ -201,7 +256,9 @@ def handle_text_by_keyword(event, line_bot_api):
         "คุยกับน้อง CJ": handle_talk_to_cj,
         "#น้องCJออกไป": handle_nong_cj_leave_group,
         "ลองค้นหาสินค้ากับน้อง CJ": handle_search_example,
-        "น้อง​ CJ": handle_calling_nong_cj
+        "น้อง​ CJ": handle_calling_nong_cj,
+        "น้อง​CJ": handle_calling_nong_cj,
+        "ตระกร้าของฉัน": handle_my_basket_check,
     }
     if text in function_map:
         function_map[text](line_bot_api, event, text)
@@ -213,7 +270,7 @@ def handle_text_by_keyword(event, line_bot_api):
     elif text.startswith("#ค้นหา"):
         search_query = text[len("#ค้นหา") :].strip()
         response_dict = vertex_search_retail_products(search_query)
-        build_flex_carousel_message(
+        build_products_search_result_carousel(
             line_bot_api=line_bot_api,
             event=event,
             response_dict=response_dict,

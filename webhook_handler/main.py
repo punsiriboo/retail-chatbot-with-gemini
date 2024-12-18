@@ -31,7 +31,7 @@ from linebot.v3.messaging import (
     ShowLoadingAnimationRequest,
     MentionSubstitutionObject,
     TextMessageV2,
-    UserMentionTarget
+    UserMentionTarget,
 )
 
 
@@ -39,7 +39,7 @@ from commons.gcs_utils import upload_blob_from_memory
 from commons.branch_location_search import search_closest_branches
 from commons.gemini_image_understanding import gemini_describe_image
 from commons.vertex_agent_search import vertex_search_retail_products
-from commons.flex_message_builder import build_flex_carousel_message
+from commons.flex_message_builder import build_products_search_result_carousel
 from commons.audio_to_text import transcribe
 
 from commons.handler_text import handle_text_by_keyword
@@ -113,7 +113,7 @@ def handle_image_message(event):
         response_dict = vertex_search_retail_products(
             image_description["product_description"]
         )
-        build_flex_carousel_message(
+        build_products_search_result_carousel(
             line_bot_api=line_bot_api,
             event=event,
             response_dict=response_dict,
@@ -246,7 +246,8 @@ def handle_join(event):
             ],
         )
     )
-    
+
+
 @handler.add(MemberJoinedEvent)
 def handle_member_joined(event):
     user_id = event.source.user_id
@@ -256,10 +257,12 @@ def handle_member_joined(event):
             messages=[
                 TextMessageV2(
                     text="สวัสดีค่ะ คุณ {new_group_member}, ยินดีต้อนรับเข้ากลุ่ม หาต้องการสั่งซื็อสินค้าแบบกลุ่ม สามารถพิมพ์ #ค้นหาตามด้วยชื่อสินค้า หรือส่งรูปสินค้าได้เลยค่ะ",
-                        substitution={
-                        "new_group_member": MentionSubstitutionObject(mentionee=UserMentionTarget(userId=user_id))
-                    }
+                    substitution={
+                        "new_group_member": MentionSubstitutionObject(
+                            mentionee=UserMentionTarget(userId=user_id)
+                        )
+                    },
                 )
-            ]
+            ],
         )
     )

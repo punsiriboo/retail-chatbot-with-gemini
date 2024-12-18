@@ -1,0 +1,3 @@
+functions-framework==3.8.2
+google-cloud-datastore==2.20.2
+
