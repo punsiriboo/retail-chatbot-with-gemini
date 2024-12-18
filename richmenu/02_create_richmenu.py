@@ -92,12 +92,12 @@ def upload_rich_menu_image(rich_menu_id, image_path):
 
 # Example usage:
 list_rich_menu = [
-    "richmenu-ahome.json",
-    "richmenu-bao-cafe.json",
-    "richmenu-cj.json",
-    "richmenu-nine.json",
-    "richmenu-uno.json",
-    "richmenu-main.json",
+    # "richmenu-ahome.json",
+    # "richmenu-bao-cafe.json",
+    # "richmenu-cj.json",
+    # "richmenu-nine.json",
+    # "richmenu-uno.json",
+    # "richmenu-main.json",
     "richmenu-main-2.json"
 ]
 create_rich_menus(list_rich_menu)

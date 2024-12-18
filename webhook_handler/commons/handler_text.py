@@ -21,6 +21,13 @@ from linebot.v3.messaging import (
     FlexContainer,
     URIAction,
     PostbackAction,
+    QuickReplyItem,
+    QuickReply,
+    MessageAction,
+    DatetimePickerAction,
+    CameraAction,
+    CameraRollAction,
+    LocationAction,
 )
 
 
@@ -138,14 +145,63 @@ def handle_nong_cj_leave_group(line_bot_api, event, text):
             )
         )
 
+def handle_search_example(line_bot_api, event, text):
+    line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[
+                    TextMessage(
+                        text="พิมพ์ว่า #ค้นหา ตามด้วยสินค้าได้เลย เช่น #ค้นหาลิปมัน"
+                    ),
+                ],
+            )
+        )
+
+def handle_calling_nong_cj(line_bot_api, event, text):
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(
+                    text="Quick reply",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyItem(
+                                action=PostbackAction(label="label1", data="data1")
+                            ),
+                            QuickReplyItem(
+                                action=MessageAction(label="label2", text="text2")
+                            ),
+                            QuickReplyItem(
+                                image_url="",
+                                action=CameraAction(label="ส่งรูปสินค้าที่ต้องการค้นหา")
+                            ),
+                            QuickReplyItem(
+                                image_url="",
+                                action=CameraRollAction(label="ถ่ายรูปสินค้าที่ต้องการค้นหา")
+                            ),
+                            QuickReplyItem(
+                                image_url="",
+                                action=LocationAction(label="ค้นหาสาขา")
+                            ),
+                        ]
+                    ),
+                )
+            ],
+        )
+    )
+
 
 def handle_text_by_keyword(event, line_bot_api):
     text = event.message.text
     function_map = {
         "คูปองส่วนลด": handle_coupon_search,
+        "ค้นหาคูปอง": handle_coupon_search,
         "ค้นหาสาขา": handle_branch_search,
         "คุยกับน้อง CJ": handle_talk_to_cj,
         "#น้องCJออกไป": handle_nong_cj_leave_group,
+        "ลองค้นหาสินค้ากับน้อง CJ": handle_search_example,
+        "น้อง​ CJ": handle_calling_nong_cj
     }
     if text in function_map:
         function_map[text](line_bot_api, event, text)

@@ -43,12 +43,12 @@ def upload_rich_menu_images(rich_menu_data):
 
 # Example usage:
 rich_menu_data = [
-    {'rich_menu_id': "richmenu-xxxxxxxxxxxxxxxxx", 'image_path': "richmenu/richmenu_contents/images/main.jpg"},
-    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/cj.jpg"},
-    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/nine.jpg"},
-    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/uno.jpg"},
-    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/ahome.jpg"},
-    {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/bao-cafe.jpg"},
+    {'rich_menu_id': "richmenu-644e1536d98549fce47e55b083465704", 'image_path': "richmenu/richmenu_contents/images/richmenu-main-2.jpg"},
+    # {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/cj.jpg"},
+    # {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/nine.jpg"},
+    # {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/uno.jpg"},
+    # {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/ahome.jpg"},
+    # {'rich_menu_id': "richmenu-yyyyyyyyyyyyyyyyy", 'image_path': "richmenu/richmenu_contents/images/bao-cafe.jpg"},
 ] 
 
 upload_rich_menu_images(rich_menu_data)

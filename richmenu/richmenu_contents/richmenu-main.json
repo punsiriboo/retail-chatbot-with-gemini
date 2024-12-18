@@ -40,7 +40,7 @@
             },
             "action": {
                 "type": "message",
-                "text": "ค้นหาคูปองส่วนลด"
+                "text": "ตระกร้าของฉัน"
             }
         },
         {
@@ -51,8 +51,8 @@
                 "height": 556
             },
             "action": {
-                "type": "message",
-                "text": "บัตรสบายการ์ด"
+                "type": "uri",
+                "uri": "https://liff.line.me/2006689746-AvlxaqLP"
             }
         },
         {
