@@ -13,6 +13,45 @@
                 <h2 class="profile-name">{{ profile.displayName }}</h2>
             </div>
             <div class="profile-body">
+                <div ref="memberLogin" v-if="member">
+                    <div class="profile-item">
+                        <span class="label">Status Message:</span>
+                        <span>{{ profile.statusMessage || 'No status message' }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">First Name:</span>
+                        <span>{{ memberData.firstname }}</span>
+                    </div>
+                        <div class="profile-item">
+                        <span class="label">Last Name:</span>
+                        <span>{{ memberData.lastname }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Email:</span>
+                        <span>{{ memberData.email }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Date of Birth:</span>
+                        <span>{{ memberData.dob }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Phone:</span>
+                        <span>{{ memberData.phone }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Gender:</span>
+                        <span>{{ memberData.gender }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Address:</span>
+                        <span>{{ memberData.address }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">Point Collection:</span>
+                        <span>176 แต้ม</span>
+                    </div>
+                    
+                </div>
                 <div class="formbold-main-wrapper" ref="registerForm">
                     <div class="formbold-form-wrapper">
                         <div class="formbold-steps">
@@ -173,6 +212,16 @@ export default {
                 phone: '',
                 gender: '',
             },
+            memberData: {
+                firstname: '',
+                lastname: '',
+                dob: '',
+                email: '',
+                address: '',
+                phone: '',
+                gender: '',
+            },
+        
             phoneError: '',
         };
     },
@@ -290,6 +339,12 @@ export default {
                 if (form) {
                     form.style.display = 'none';
                     this.member = true;
+                    this.memberData.phone =  response.data.phone
+                    this.memberData.address =  response.data.address
+                    this.memberData.dob =  response.data.dob
+                    this.memberData.email =  response.data.email
+                    this.memberData.firstname =  response.data.firstname
+                    this.memberData.lastname =  response.data.lastname
                 }
             }
         },
