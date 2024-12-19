@@ -273,7 +273,7 @@ class PostbackHandler:
                 pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
                 pay_each_box_flex = pay_each_box_flex.replace(
                     "<LINE_USER_NAME>", line_user_name
-                ).replace("<PAY_AMOUNT>", str(pay_each))
+                ).replace("<PAY_AMOUNT>", f"{pay_each:.2f}")
                 pay_each_user_list.append(pay_each_box_flex)
 
             flex_group_pay = open("templates/flex_group_pay.json").read()
