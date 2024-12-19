@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+    
         <div class="section-card" v-if="profile" ref="headerSabaiCard">
             <div class="bg-web-banner card-1 img-cover">
                 <div class="wrapper">
@@ -50,6 +50,14 @@
                                         <label for="dob" class="formbold-form-label">Date of Birth</label>
                                         <input v-model="formData.dob" type="date" required id="dob" class="formbold-form-input" />
                                     </div>
+                                </div>
+                                <div class="formbold-input-flex">
+                                    <label for="gender" class="formbold-form-label">Gender</label>
+                                    <select v-model="formData.gender" required id="gender" class="formbold-form-input">
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
                                 </div>
                                 <div class="formbold-input-flex">
                                     <div>
@@ -109,8 +117,8 @@
                             <!-- Buttons -->
                             <div class="formbold-form-btn-wrapper">
                                 <button type="button" v-if="currentStep > 1" class="formbold-back-btn active" @click="prevStep">
-                                                                    Back
-                                                                    </button>
+                                                                        Back
+                                                                        </button>
                                 <button type="submit" class="formbold-btn">{{ currentStep === 3 ? 'Submit' : 'Next Step' }}</button>
                             </div>
                         </form>
@@ -163,6 +171,7 @@ export default {
                 email: '',
                 address: '',
                 phone: '',
+                gender: '',
             },
             phoneError: '',
         };

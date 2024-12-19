@@ -1,4 +1,5 @@
 import copy
+import jwt
 from urllib.parse import parse_qs
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -192,18 +193,18 @@ class PostbackHandler:
             member_count = self.line_bot_api.get_group_member_count(group_id)
             pay_each = float(total_price) / int(member_count.count)
 
-            user_ids = self.datastore_client.get_group_users(group_id)
-
+            group_chat = self.datastore_client.get_group_users(group_id)
+            
             pay_each_user_list = []
             pay_each_box_tamplate = open("templates/pay_each_box_tamplate.json").read()
-            for user_id in user_ids:
+            for user_id in group_chat['users']:
                 line_user_name = self.line_bot_api.get_group_member_profile(
                     group_id, user_id
                 ).display_name
                 pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
                 pay_each_box_flex = pay_each_box_flex.replace(
                     "<LINE_USER_NAME>", line_user_name
-                ).replace("<PAY_AMOUNT>", str(pay_each))
+                ).replace("<PAY_AMOUNT>", f"{pay_each:.2f}")
                 pay_each_user_list.append(pay_each_box_flex)
 
             flex_group_pay = open("templates/flex_group_pay.json").read()
@@ -227,18 +228,18 @@ class PostbackHandler:
             )
 
         elif type == "select_payer":
-            user_ids = self.datastore_client.get_group_users(group_id)
+            group_chat = self.datastore_client.get_group_users(group_id)
             total_price = self.postback_params.get("total_price")
             quick_reply_items = []
-            for user_id in user_ids:
-                line_user_name = self.line_bot_api.get_group_member_profile(
+            for user_id in group_chat['users']:
+                profile = self.line_bot_api.get_group_member_profile(
                     group_id, user_id
-                ).display_name
+                )
                 quick_reply_items.append(
                     QuickReplyItem(
                         action=PostbackAction(
-                            label=line_user_name,
-                            data=f"action=group_pay_selected_payer&user_id={user_id}&total_price={total_price}",
+                            label=profile.display_name,
+                            data=f"action=group_pay_selected_payer&user_id={user_id}&user_name={profile.display_name}&total_price={total_price}",
                         )
                     )
                 )
@@ -256,21 +257,44 @@ class PostbackHandler:
             )
 
         elif type == "pay_own":
-            pass
+            user_totals_jwt = self.postback_params.get("user_totals_jwt")
+            user_totals = jwt.decode(user_totals_jwt, "secret", algorithms=["HS256"])
+            for user_id, value in user_totals.items():
+
+                pay_each = value['total_price']
+                pay_each_box_tamplate = open("templates/pay_each_box_tamplate.json").read()
+    
+                line_user_name = self.line_bot_api.get_group_member_profile(
+                    group_id, user_id
+                ).display_name
+                pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
+                pay_each_box_flex = pay_each_box_flex.replace(
+                    "<LINE_USER_NAME>", line_user_name
+                ).replace("<PAY_AMOUNT>", str(pay_each))
+                pay_each_user_list.append(pay_each_box_flex)
+
+            flex_group_pay = open("templates/flex_group_pay.json").read()
+            flex_group_pay = flex_group_pay.replace(
+                "<PAY_EACH_USER_TEMPLATE>", ",".join(pay_each_user_list)
+            ).replace("<GROUP_PAY_TYPE>", "เรียกเก็บงานตามการสั่งจริง")
+
+            flex_summary_order_msg = FlexMessage(
+                alt_text="กรุณากดจ่ายเงิน",
+                contents=FlexContainer.from_json(flex_group_pay),
+            )
 
     def handle_group_pay_select_payer(self):
         group_id = self.event.source.group_id
         user_id = self.postback_params.get("user_id")
+        user_name = self.postback_params.get("user_name")
         total_price = self.postback_params.get("total_price")
 
-        line_user_name = self.line_bot_api.get_group_member_profile(
-            group_id, user_id
-        ).display_name
+        print(f"handle_group_pay_select_payer: {group_id}, {user_id}, {user_name}", {total_price})
         pay_each_box_tamplate = open("templates/pay_each_box_tamplate.json").read()
         pay_each_box_flex = copy.deepcopy(pay_each_box_tamplate)
 
         pay_each_box_flex = pay_each_box_flex.replace(
-            "<LINE_USER_NAME>", line_user_name
+            "<LINE_USER_NAME>", user_name
         ).replace("<PAY_AMOUNT>", total_price)
 
         flex_group_pay = open("templates/flex_group_pay.json").read()

@@ -1,4 +1,5 @@
 import copy
+import jwt
 
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -144,7 +145,8 @@ def build_flex_group_order_summary(
         box_product_info_json = ",".join(all_items)
         sum_total_items = str(user_totals[user_id]["total_items"])
         sum_total_price = f"{user_totals[user_id]['total_price']:.2f}"
-
+        
+        user_totals_jwt = jwt.encode(user_totals, "secret", algorithm="HS256")
         per_user_flex = copy.deepcopy(per_user_template)
         per_user_flex = (
             per_user_flex.replace("<USER_DISPLAY_NAME>", user_display_name)
@@ -152,6 +154,7 @@ def build_flex_group_order_summary(
             .replace("<SUM_TOTAL_ITEMS>", sum_total_items)
             .replace("<SUM_TOTAL_PRICE>", sum_total_price)
             .replace("<BOX_PRODUCT_INFO_JSON>", box_product_info_json)
+            .replace("<USER_TOTALS_JWT>", user_totals_jwt)
         )
 
         all_user_flex.append(per_user_flex)

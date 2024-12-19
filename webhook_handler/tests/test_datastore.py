@@ -225,7 +225,7 @@ def test_get_group_order(datastore_client):
 
 def test_calculate_group_items_in_basket(datastore_client):
     """Test calculation of group items in a basket."""
-    group_id = "test_group"
+    group_id = "C8f983564d0bb8b0ee3e30e4eab0806b3"
     # Call the function
     total_items, total_final_price, user_items_summary, user_totals = (
         datastore_client.calculate_group_items_in_basket(group_id)
@@ -242,6 +242,8 @@ def test_calculate_group_items_in_basket(datastore_client):
         print(
             f"Total Items: {user_totals[user_id]['total_items']}, Total Price: {user_totals[user_id]['total_price']:.2f}"
         )
+    print("="*10)
+    print(user_totals)
 
 
 def test_remove_group_order(datastore_client):
@@ -255,3 +257,8 @@ def test_remove_group_order(datastore_client):
         datastore_client.datastore_client.delete.assert_called_once()
     else:
         print("Real delete test passed. Verify manually.")
+        
+def test_get_group(datastore_client):
+    group_id = "C8f983564d0bb8b0ee3e30e4eab0806b3"
+    entity = datastore_client.get_group_users(group_id)
+    print(entity['users'])

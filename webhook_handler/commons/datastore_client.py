@@ -177,20 +177,18 @@ class DatastoreClient:
                     f"{data['total_price']:.2f}",  # Total price per item
                 ]
             )
-        user_list = list(user_items_summary.keys())
-        self.create_group_users(group_id, user_list)
 
         total_items = str(total_items)
         total_final_price = f"{total_final_price:.2f}"
         return total_items, total_final_price, user_items_summary, user_totals
 
-    def create_group_users(self, group_id, users_list):
+    def create_group_users(self, group_id, user_id):
         kind = "cj_chat_group"
         complete_key = self.datastore_client.key(kind, group_id)
         entity = datastore.Entity(key=complete_key)
         entity.update(
             {
-                "users": users_list,
+                "users": [user_id],
             }
         )
         self.datastore_client.put(entity)
@@ -198,14 +196,26 @@ class DatastoreClient:
     def get_group_users(self, group_id):
         kind = "cj_chat_group"
         key = self.datastore_client.key(kind, group_id)
-        users_list = self.datastore_client.get(key)
-        return users_list["users"]
+        group_chat = self.datastore_client.get(key)
+        if group_chat is not None:
+            return group_chat          
     
     def add_user_to_group(self, group_id, user_id):
-        kind = "cj_chat_group"
-        complete_key = self.datastore_client.key(kind, group_id)
-        entity = datastore.Entity(key=complete_key)
-        entity['users'].append(user_id)
-        entity['users'] = list(set(entity['users']))
-        self.datastore_client.put(entity)
+        group_chat = self.get_group_users(group_id)
+        
+        if group_chat:
+            users = group_chat['users']
+            users.append(user_id)
+            group_chat['users'] = list(set(group_chat['users']))
+            self.datastore_client.put(group_chat)
+        else: 
+            self.create_group_users(group_id, user_id)
+
+    def get_cj_membership(self, user_id):
+        kind = "CJ_USER"
+        key = self.datastore_client.key(kind, user_id)
+        member = self.datastore_client.get(key)
+        if member is not None:
+            return member          
+    
         

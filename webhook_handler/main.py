@@ -252,9 +252,10 @@ def handle_join(event):
 @handler.add(MemberJoinedEvent)
 def handle_member_joined(event):
     joined_members = event.joined.members
-    print(joined_members)
+
     user_id = joined_members[0].user_id
-    
+    print(joined_members[0].user_id)
+            
     group_id = event.source.group_id
     datastore_client = DatastoreClient()
     datastore_client.add_user_to_group(group_id, user_id)
@@ -266,7 +267,7 @@ def handle_member_joined(event):
                     text="สวัสดีค่ะ คุณ {new_group_member}, ยินดีต้อนรับเข้ากลุ่ม หาต้องการสั่งซื็อสินค้าแบบกลุ่ม สามารถพิมพ์ #ค้นหาตามด้วยชื่อสินค้า หรือส่งรูปสินค้าได้เลยค่ะ",
                     substitution={
                         "new_group_member": MentionSubstitutionObject(
-                            mentionee=UserMentionTarget(group_id, user_id)
+                            mentionee=UserMentionTarget(userId=user_id)
                         )
                     },
                 )
