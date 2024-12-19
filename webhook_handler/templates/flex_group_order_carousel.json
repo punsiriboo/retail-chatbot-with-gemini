@@ -82,6 +82,7 @@
                     {
                         "style": "primary",
                         "offsetTop": "2px",
+                        "color":"#00A150",
                         "type": "button",
                         "action": {
                             "data": "action=make_group_payment&type=pay_equally&total_price=<TOTAL_PRICE>",
@@ -109,7 +110,6 @@
                             "label": "ชำระเงินแบบเลือกผู้ชำระ",
                             "type": "postback"
                         },
-                        "color": "#00A150",
                         "height": "sm"
                     },
                     {
