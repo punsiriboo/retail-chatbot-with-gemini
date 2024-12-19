@@ -216,6 +216,23 @@ class DatastoreClient:
         key = self.datastore_client.key(kind, user_id)
         member = self.datastore_client.get(key)
         if member is not None:
-            return member          
+            return member     
+        
+    def create_group_pay_own(self, group_id, user_totals):
+        kind = "cj_group_pay_own"
+        complete_key = self.datastore_client.key(kind, group_id)
+        entity = datastore.Entity(key=complete_key)
+        entity.update(
+            {
+                "user_totals": user_totals
+            }
+        )
+        self.datastore_client.put(entity)
     
+    def get_group_pay_own(self, group_id):
+        kind = "cj_group_pay_own"
+        key = self.datastore_client.key(kind, group_id)
+        group_pay_own = self.datastore_client.get(key)
+        if group_pay_own is not None:
+            return group_pay_own 
         

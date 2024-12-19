@@ -96,7 +96,7 @@
                         "offsetTop": "2px",
                         "type": "button",
                         "action": {
-                            "data": "action=make_group_payment&type=pay_own&user_totals_jwt=<USER_TOTALS_JWT>",
+                            "data": "action=make_group_payment&type=pay_own",
                             "label": "ชำระเงินแยกตามจริง",
                             "type": "postback"
                         },

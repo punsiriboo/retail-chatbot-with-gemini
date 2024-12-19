@@ -1,5 +1,5 @@
 import copy
-import jwt
+
 from urllib.parse import parse_qs
 from linebot.v3.messaging import (
     ReplyMessageRequest,
@@ -257,8 +257,11 @@ class PostbackHandler:
             )
 
         elif type == "pay_own":
-            user_totals_jwt = self.postback_params.get("user_totals_jwt")
-            user_totals = jwt.decode(user_totals_jwt, "secret", algorithms=["HS256"])
+            datastore_client = DatastoreClient()
+            group_pay_own = datastore_client.get_group_pay_own(group_id)
+            user_totals = group_pay_own['user_totals']
+            
+            pay_each_user_list = []
             for user_id, value in user_totals.items():
 
                 pay_each = value['total_price']
@@ -281,6 +284,16 @@ class PostbackHandler:
             flex_summary_order_msg = FlexMessage(
                 alt_text="กรุณากดจ่ายเงิน",
                 contents=FlexContainer.from_json(flex_group_pay),
+            )
+            
+            self.line_bot_api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=self.reply_token,
+                    messages=[
+                        flex_summary_order_msg,
+                        TextMessage(text="กดจ่ายเงิน หรือพิมพ์คุยกับน้อง CJ เพื่อเพิ่มสินค้าได้ค่ะ"),
+                    ],
+                )
             )
 
     def handle_group_pay_select_payer(self):
