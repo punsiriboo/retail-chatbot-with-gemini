@@ -78,7 +78,7 @@
                 "type": "button",
                 "action": {
                     "type": "postback",
-                    "label": "สรุปรายการสั้งซื้อ",
+                    "label": "สรุปรายการสั่งซื้อ",
                     "data": "action=summary_order&item_price=<ITEM_PRICE>&item_name=<ITEM_NAME>"
                 },
                 "style": "primary",

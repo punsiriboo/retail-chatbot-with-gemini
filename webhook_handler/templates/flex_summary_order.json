@@ -22,7 +22,7 @@
             },
             {
                 "type": "text",
-                "text": "สรุปรายการสั้งซื้อ",
+                "text": "สรุปรายการสั่งซื้อ",
                 "size": "sm",
                 "color": "#aaaaaa",
                 "wrap": true
@@ -87,6 +87,7 @@
     },
     "footer": {
         "type": "box",
+        "spacing": "lg",
         "layout": "vertical",
         "contents": [
             {
@@ -103,12 +104,21 @@
             {
                 "type": "button",
                 "action": {
+                    "type": "uri",
+                    "label": "แก้ไขรายการสั่งซื้อ",
+                    "uri": "https://liff.line.me/2006689746-goVy86dW"
+                },
+                "style": "secondary",
+                "height": "sm"
+            },
+            {
+                "type": "button",
+                "action": {
                     "type": "postback",
                     "label": "ยกเลิกรายการสั่งซื้อ",
                     "data": "action=cancle_user_order"
                 },
                 "style": "secondary",
-                "offsetTop": "2px",
                 "height": "sm"
             }
         ]

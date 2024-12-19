@@ -22,7 +22,7 @@ class DatastoreClient:
         )
         self.datastore_client.put(entity)
 
-    def create_user_action_add_item(self, user_id, item_name, item_price):
+    def create_user_action_add_item(self, user_id, item_name, item_price, item_image_url):
         kind = "cj_users_orders"
         created_ad = datetime.utcnow().timestamp()
         complete_key = self.datastore_client.key(kind, user_id)
@@ -31,7 +31,7 @@ class DatastoreClient:
             {
                 "user": user_id,
                 "action": "add_items",
-                "items": [{"item_name": item_name, "item_price": item_price}],
+                "items": [{"item_name": item_name, "item_price": item_price, "item_image_url":item_image_url}],
                 "createdAt": created_ad,
             }
         )
@@ -52,14 +52,14 @@ class DatastoreClient:
         key = self.datastore_client.key(kind, user_id)
         self.datastore_client.delete(key)
 
-    def add_user_items_action(self, user_id, item_name, item_price):
+    def add_user_items_action(self, user_id, item_name, item_price, item_image_url):
         entity = self.get_user_order(user_id)
         if entity:
-            entity["items"].append({"item_name": item_name, "item_price": item_price})
+            entity["items"].append({"item_name": item_name, "item_price": item_price, "item_image_url":item_image_url})
             self.datastore_client.put(entity)
 
         else:
-            self.create_user_action_add_item(user_id, item_name, item_price)
+            self.create_user_action_add_item(user_id, item_name, item_price, item_image_url)
 
     def calculate_user_items_in_basket(self, user_id):
         entity = self.get_user_order(user_id)
@@ -200,3 +200,12 @@ class DatastoreClient:
         key = self.datastore_client.key(kind, group_id)
         users_list = self.datastore_client.get(key)
         return users_list["users"]
+    
+    def add_user_to_group(self, group_id, user_id):
+        kind = "cj_chat_group"
+        complete_key = self.datastore_client.key(kind, group_id)
+        entity = datastore.Entity(key=complete_key)
+        entity['users'].append(user_id)
+        entity['users'] = list(set(entity['users']))
+        self.datastore_client.put(entity)
+        

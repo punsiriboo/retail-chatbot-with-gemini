@@ -93,7 +93,7 @@ def build_flex_user_order_summary(sum_total_items, sum_total_price, grouped_item
     )
 
     flex_summary_order_msg = FlexMessage(
-        alt_text="สรุปการสั้งซื้อสินค้า",
+        alt_text="สรุปการสั่งซื้อสินค้า",
         contents=FlexContainer.from_json(flex_summary_order),
     )
 
@@ -166,7 +166,7 @@ def build_flex_group_order_summary(
     )
 
     flex_summary_order_msg = FlexMessage(
-        alt_text="สรุปการสั้งซื้อสินค้า",
+        alt_text="สรุปการสั่งซื้อสินค้า",
         contents=FlexContainer.from_json(flex_group_order_carousel),
     )
 

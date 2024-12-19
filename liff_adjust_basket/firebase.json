@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "cj-adjust-basket",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
+
+

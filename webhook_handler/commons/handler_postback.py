@@ -53,7 +53,10 @@ class PostbackHandler:
         if self.event.source.type == "user":
             self.show_loading()
             self.datastore_client.add_user_items_action(
-                user_id=user_id, item_name=item_name, item_price=item_price
+                user_id=user_id, 
+                item_name=item_name, 
+                item_price=item_price,
+                item_image_url=item_image_url
             )
         elif self.event.source.type == "group":
             self.datastore_client.add_group_items_action(
@@ -299,19 +302,13 @@ class PostbackHandler:
 
     def handle_cancle_user_order_action(self):
         user_id = self.event.source.user_id
-        if self.event.source.type == "user":
-            self.show_loading()
-            self.datastore_client.remove_user_order(user_id=user_id)
-        elif self.event.source.type == "group":
-            self.datastore_client.remove_group_order(
-                group_id=self.event.source.group_id
-            )
-
+        self.show_loading()
+        self.datastore_client.remove_user_order(user_id=user_id)
         self.line_bot_api.reply_message(
             ReplyMessageRequest(
                 reply_token=self.event.reply_token,
                 messages=[
-                    TextMessage(text="ยกเลิกกรายการสั้งซื้อปัจุบัันของท่านเรียบร้อยค่ะ"),
+                    TextMessage(text="ยกเลิกกรายการสั่งซื้อปัจจุบันของท่านเรียบร้อยค่ะ"),
                 ],
             )
         )
@@ -319,6 +316,14 @@ class PostbackHandler:
     def handle_cancle_group_order_action(self):
         group_id = self.event.source.group_id
         self.datastore_client.remove_group_order(group_id=group_id)
+        self.line_bot_api.reply_message(
+            ReplyMessageRequest(
+                reply_token=self.event.reply_token,
+                messages=[
+                    TextMessage(text="ยกเลิกกรายการสั่งซื้อปัจจุบันของท่านเรียบร้อยค่ะ"),
+                ],
+            )
+        )
 
     def handle_richmenu_switch_action(self):
         menu = self.postback_params.get("menu")

@@ -222,12 +222,12 @@ def handle_my_basket_check(line_bot_api, event, text):
                 reply_token=event.reply_token,
                 messages=[
                     TextMessage(
-                        text="คุณยังไม่มี่รายการสั่งซื้อในตระกร้าค่ะ",
+                        text="คุณยังไม่มีรายการสั่งซื้อในตระกร้าค่ะ",
                         quick_reply=QuickReply(
                             items=[
                                 QuickReplyItem(
                                     action=MessageAction(
-                                        label="พิมพ์เพื่อค้นหาสินค้่า",
+                                        label="พิมพ์เพื่อค้นหาสินค้า",
                                         text="ลองค้นหาสินค้ากับน้อง CJ",
                                     )
                                 ),
