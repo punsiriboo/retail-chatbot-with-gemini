@@ -9,3 +9,5 @@ credential/line_secret.yml
 .vscode
 .pytest_cache
 .DS_Store
+.codegpt
+.firebase
