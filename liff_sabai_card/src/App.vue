@@ -1,10 +1,13 @@
 <template>
     <div>
-        <div class="section-card" v-if="profile" ref="headerSabaiCard">
+        <div class="section-card" ref="headerSabaiCard">
             <div class="bg-web-banner card-1 img-cover">
                 <div class="wrapper">
                 </div>
             </div>
+        </div>
+        <div v-if="isLoading" class="centered">
+            <div class="camera-loading loader"></div>
         </div>
         <div class="profile-card" v-if="profile">
             <div class="profile-header">
@@ -90,12 +93,26 @@
                                     </div>
                                 </div>
                                 <div class="formbold-input-flex">
-                                    <label for="gender" class="formbold-form-label">Gender</label>
-                                    <select v-model="formData.gender" required id="gender" class="formbold-form-input">
-                                        <option value="" disabled selected>Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
+                                    <div class="formbold-input-radio-wrapper">
+                                        <label for="gender" class="formbold-form-label"> Select Gender</label>
+                                        <div class="formbold-radio-flex">
+                                            <div class="formbold-radio-group">
+                                                <label class="formbold-radio-label">
+                                                <input v-model="formData.gender" class="formbold-input-radio" type="radio" name="gender" id="gender">
+                                                Male
+                                                <span class="formbold-radio-checkmark"></span>
+                                                </label>
+                                            </div>
+
+                                            <div class="formbold-radio-group">
+                                                <label class="formbold-radio-label">
+                                                <input v-model="formData.gender" class="formbold-input-radio" type="radio" name="gender" id="gender">
+                                                Female
+                                                <span class="formbold-radio-checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="formbold-input-flex">
                                     <div>
@@ -187,6 +204,7 @@ export default {
     },
     data() {
         return {
+            isLoading: false,
             profile: null,
             member: null,
             friendShip: null,
@@ -209,7 +227,7 @@ export default {
                 email: '',
                 address: '',
                 phone: '',
-                gender: '',
+                gender: 'Female',
             },
             memberData: {
                 firstname: '',
@@ -225,6 +243,7 @@ export default {
         };
     },
     async mounted() {
+        this.isLoading = true;
         await this.checkLiffLogin()
     },
     methods: {
@@ -328,23 +347,33 @@ export default {
                 kind: "CJ_USER",
                 "id": userId,
             };
-            const response = await axios.post(gcf_url, payload, {
-                headers: {
-                    'Content-Type': 'application/json'
+
+            try {
+                const response = await axios.post(gcf_url, payload, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status == 200) {
+                    const form = this.$refs.registerForm;
+                    if (form) {
+                        form.style.display = 'none';
+                        this.member = true;
+                        this.memberData.phone = response.data.phone
+                        this.memberData.address = response.data.address
+                        this.memberData.dob = response.data.dob
+                        this.memberData.email = response.data.email
+                        this.memberData.firstname = response.data.firstname
+                        this.memberData.lastname = response.data.lastname
+                        this.memberData.gender = response.data.gender
+                    }
                 }
-            });
-            if (response.status == 200) {
-                const form = this.$refs.registerForm;
-                if (form) {
-                    form.style.display = 'none';
-                    this.member = true;
-                    this.memberData.phone =  response.data.phone
-                    this.memberData.address =  response.data.address
-                    this.memberData.dob =  response.data.dob
-                    this.memberData.email =  response.data.email
-                    this.memberData.firstname =  response.data.firstname
-                    this.memberData.lastname =  response.data.lastname
+            } catch (err) {
+                if (err.response.status == 404) {
+                    this.isLoading = false;
+                    this.member = false;
                 }
+                console.log(err);
             }
         },
 

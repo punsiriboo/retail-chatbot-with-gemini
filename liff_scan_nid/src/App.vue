@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <div class="section-card" v-if="!isCameraOpen" ref="headerSabaiCard">
+        <div class="section-card" v-if="!isCameraOpen || isLoading" ref="headerSabaiCard">
             <div class="bg-web-banner img-cover">
                 <div class="wrapper">
                 </div>
@@ -10,11 +10,6 @@
         <div class="web-camera-container">
             <div v-if="!isCameraOpen">
                 <h4>กรุณาเตรียมบัตรประชาชนของท่านเพื่อถ่ายรูป สแกนบัตรประชาชน</h4></br>
-                <div class="camera-shoot">
-                    <button type="button" class="button" @click="toggleCamera">
-                        <img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/arrow.png">
-                    </button>
-                </div>
             </div>
     
             <div v-show="isCameraOpen && isLoading" class="camera-loading loader">
@@ -22,6 +17,9 @@
             <div v-if="!isCameraOpen">
                 <img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/Animation%20-%201736414808469.gif" alt="NID" style="width: 100%; height: auto;">
             </div>
+            <button v-if="!isCameraOpen" class="formbold-btn" @click="toggleCamera">
+                เริ่มสแกนบัตรประชาชน
+            </button>
     
             <div v-if="isCameraOpen" v-show="!isLoading" class="camera-box" :class="{ 'flash' : isShotPhoto }">
     
@@ -34,6 +32,7 @@
                     <div class="nid-overlay">
                         <span class="overlay-text" ref="overlayText">กรุณาถ่ายรูปบัตรประชาชนของท่านภายในกรอบที่กำหนด</span>
                         <div class="nid-overlay-inner"></div>
+                        <div v-show="isOCRDectecting" class="loader"></div>
                     </div>
                 </div>
             </div>
@@ -138,7 +137,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color:rgb(180, 180, 180);
+    background-color: #eaeaea;
     border: none;
     cursor: pointer;
 }
@@ -150,8 +149,6 @@ body {
 
 .camera-loading {
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
 }
@@ -244,21 +241,52 @@ h4 {
     
 }
 
-
-/* HTML: <div class="loader"></div> */
-.loader {
-  width: 50px;
-  aspect-ratio: 1;
-  --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
-  background: 
-    var(--_c) top,
-    var(--_c) left,
-    var(--_c) right,
-    var(--_c) bottom;
-  background-size: 12px 12px;
-  animation: l7 1s infinite;
+.formbold-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #009e00;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
 }
-@keyframes l7 {to{transform: rotate(.5turn)}}
+
+.formbold-btn:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border:10px solid #FFF;
+    border-radius: 50%;
+    position: relative;
+    transform:rotate(45deg);
+    box-sizing: border-box;
+}
+.loader::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    inset:-10px;
+    border-radius: 50%;
+    border:10px solid #009e00;
+    animation: prixClipFix 2s infinite linear;
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+}
+      
 </style>
 
 <script>
@@ -279,18 +307,19 @@ export default {
                 this.error = `${e}`;
             });
     },
-    async mounted() {
-        await this.checkLiffLogin()
-    },
     data() {
         return {
             isCameraOpen: false,
             isPhotoTaken: false,
             isShotPhoto: false,
             isLoading: false,
+            isOCRDectecting: false,
             link: "#",
             idToken: null,
         };
+    },
+    async mounted() {
+        await this.checkLiffLogin()
     },
     methods: {
         async checkLiffLogin() {
@@ -412,16 +441,18 @@ export default {
             const imageDataURL = canvas.toDataURL('image/jpeg', 0.8); // Convert to data URL (JPEG with quality 0.8)
             const base64Image = imageDataURL.split(',')[1]; // Get the base64 image data
             console.log(base64Image);
-            liff.sendMessages([{
-                    type: "text",
-                    text: "Hello, World! " + base64Image,
-                }, ])
-                .then(() => {
-                    console.log("message sent");
-                })
-                .catch((err) => {
-                    console.log("error", err);
-                });
+            this.isOCRDectecting = true;
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_nid_ocr'
+            const payload = {
+                "user_id": this.profile.userId,
+                "image_base64": base64Image
+            };
+            const response = await axios.post(gcf_url, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response.data);
         }
 
     },

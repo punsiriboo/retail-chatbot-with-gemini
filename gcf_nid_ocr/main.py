@@ -32,64 +32,8 @@ def datastore_handler(request):
             return ("Invalid request: JSON body required", 400, headers)
 
         # Extract required fields
-        action = request_json.get("action")
-        kind = request_json.get("kind")
-        key_id = request_json.get("id")
-        data = request_json.get("data")
+        image_base64 = request_json.get("image_base64")
 
-        if not action or not kind:
-            return ("Missing 'action' or 'kind' in the request body", 400, headers)
-
-        # Perform actions
-        if action == "insert":
-            return insert_entity(kind, key_id, data, headers)
-        elif action == "get":
-            return get_entity(kind, key_id, headers)
-        elif action == "update":
-            return update_entity(kind, key_id, data, headers)
-        else:
-            return (f"Invalid action '{action}'", 400, headers)
 
     except Exception as e:
         return (f"Error: {str(e)}", 500, headers)
-
-def insert_entity(kind, key_id, data, headers):
-    """Insert a new entity into Datastore."""
-    if not data:
-        return ("'data' field is required for insert action", 400, headers)
-
-    key = client.key(kind, key_id)
-    entity = datastore.Entity(key=key)
-    entity.update(data)
-    client.put(entity)
-
-    return (json.dumps({"message": f"Entity inserted into kind '{kind}'"}), 200, headers)
-
-def get_entity(kind, key_id, headers):
-    """Retrieve an entity from Datastore."""
-    if not key_id:
-        return ("'id' field is required for get action", 400, headers)
-
-    key = client.key(kind, key_id)
-    entity = client.get(key)
-
-    if entity:
-        return (json.dumps(dict(entity)), 200, headers)
-    else:
-        return (f"Entity with ID '{key_id}' not found in kind '{kind}'", 404, headers)
-
-def update_entity(kind, key_id, data, headers):
-    """Update an existing entity."""
-    if not key_id or not data:
-        return ("'id' and 'data' fields are required for update action", 400, headers)
-
-    key = client.key(kind, key_id)
-    entity = client.get(key)
-
-    if not entity:
-        return (f"Entity with ID '{key_id}' not found in kind '{kind}'", 404, headers)
-
-    entity.update(data)
-    client.put(entity)
-
-    return (json.dumps({"message": f"Entity with ID '{key_id}' updated"}), 200, headers)

@@ -39,7 +39,7 @@ body {
     align-items: center;
     gap: 14px;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #536387;
 }
@@ -52,7 +52,7 @@ body {
     width: 36px;
     height: 36px;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #536387;
 }
@@ -79,7 +79,7 @@ body {
     border: 1px solid #DDE3EC;
     background: #FFFFFF;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     color: #536387;
     outline: none;
     resize: none;
@@ -102,7 +102,7 @@ body {
     padding-bottom: 35px;
 }
 .formbold-form-confirm p {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #536387;
     margin-bottom: 22px;
@@ -124,7 +124,7 @@ body {
     background: #FFFFFF;
     border: 0.5px solid #DDE3EC;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #536387;
     cursor: pointer;
@@ -159,7 +159,7 @@ body {
     border: none;
     color: #07074D;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     display: none;
 }
@@ -170,7 +170,7 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 5px;
     padding: 10px 25px;
     border: none;

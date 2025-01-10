@@ -5,6 +5,12 @@
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+    font-size: 14px;
+}
+
+div {
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
 }
 
 .profile-card {
@@ -93,4 +99,40 @@
 
 .btn:hover {
     background-color: #009e00;
+}
+
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border:10px solid #FFF;
+    border-radius: 50%;
+    position: relative;
+    transform:rotate(45deg);
+    box-sizing: border-box;
+    align-self: center;
+}
+.loader::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    inset:-10px;
+    border-radius: 50%;
+    border:10px solid #009e00;
+    animation: prixClipFix 2s infinite linear;
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
 }
