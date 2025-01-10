@@ -1,6 +1,5 @@
 <template>
     <div>
-    
         <div class="section-card" v-if="profile" ref="headerSabaiCard">
             <div class="bg-web-banner card-1 img-cover">
                 <div class="wrapper">
