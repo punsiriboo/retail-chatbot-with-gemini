@@ -1,53 +1,56 @@
 
 <template>
     <div>
-        <div class="section-card" v-if="!isCameraOpen || isLoading" ref="headerSabaiCard">
+        <div class="section-card" v-if="isbeforeCamera" ref="headerSabaiCard">
             <div class="bg-web-banner img-cover">
                 <div class="wrapper">
                 </div>
             </div>
         </div>
-        <div class="web-camera-container">
-            <div v-if="!isCameraOpen">
-                <h4>กรุณาเตรียมบัตรประชาชนของท่านเพื่อถ่ายรูป สแกนบัตรประชาชน</h4></br>
+        <div class="section-card" v-if="isCheckUser || isLoading" ref="headerSabaiCard">
+            <div class="bg-web-banner-2 img-cover">
+                <div class="wrapper">
+                </div>
             </div>
-    
-            <div v-show="isCameraOpen && isLoading" class="camera-loading loader">
+        </div>
+        <div v-if="isCheckUser || isLoading" class="centered">
+            <div class="camera-loading loader"></div>
+        </div>
+        <div class="web-camera-container" v-if="isbeforeCamera">
+            <div><h4>กรุณาเตรียมบัตรประชาชนของท่านเพื่อถ่ายรูป สแกนบัตรประชาชน</h4></br></div>
+            <div><img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/Animation%20-%201736414808469.gif" alt="NID" style="width: 200px; height: auto;"></div>
+            <div class="centered">
+                <button v-if="!isCameraOpen" class="formbold-btn" @click="openCamera">
+                    เริ่มสแกนบัตรประชาชน
+                </button>
             </div>
-            <div v-if="!isCameraOpen">
-                <img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/Animation%20-%201736414808469.gif" alt="NID" style="width: 100%; height: auto;">
-            </div>
-            <button v-if="!isCameraOpen" class="formbold-btn" @click="toggleCamera">
-                เริ่มสแกนบัตรประชาชน
-            </button>
-    
-            <div v-if="isCameraOpen" v-show="!isLoading" class="camera-box" :class="{ 'flash' : isShotPhoto }">
-    
+        </div>
+        <div v-if="isCameraOpen" class="web-camera-container">
+            <div class="camera-box" :class="{ 'flash' : isShotPhoto }">
                 <div class="camera-shutter" :class="{'flash' : isShotPhoto}"></div>
-    
                 <video v-show="!isPhotoTaken" ref="camera" autoplay muted playsinline></video>
-    
                 <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas"></canvas>
                 <div class="nid-overlay-container">
                     <div class="nid-overlay">
                         <span class="overlay-text" ref="overlayText">กรุณาถ่ายรูปบัตรประชาชนของท่านภายในกรอบที่กำหนด</span>
                         <div class="nid-overlay-inner"></div>
                         <div v-show="isOCRDectecting" class="loader"></div>
+                        <div v-show="isInvalidNID" class="warning-nid"></div>
                     </div>
                 </div>
             </div>
     
-            <div v-if="isCameraOpen && !isPhotoTaken && !isLoading" class="camera-shoot">
+            <div v-if="isCameraOpen && !isPhotoTaken" class="camera-shoot">
                 <button type="button" class="button" @click="takePhoto">
                     <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
                 </button>
             </div>
     
             <div v-if="isPhotoTaken" class="camera-shoot">
-                <button type="button" class="button" @click="retakePhoto">
+                <button v-show="isInvalidNID" type="button" class="button" @click="retakePhoto">
                     <img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/redo.png">
                 </button>
-                <button type="button" class="button" @click="ocrImage" style="margin-left: 10px;">
+                <button v-show="!isInvalidNID" type="button" class="button" @click="ocrImage" style="margin-left: 10px;">
                     <img src="https://storage.googleapis.com/line-cj-demo-chatboot/web/check.png">
                 </button>
             </div>
@@ -74,6 +77,13 @@ body {
     /* Prevent scrolling */
 }
 
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+
 .web-camera-container {
     margin: 0;
     padding: 0;
@@ -84,8 +94,6 @@ body {
     height: 100vh;
     /* Full viewport height */
     box-sizing: border-box;
-    background-color: #ffffff;
-    /* Black background for better camera contrast */
     overflow: hidden;
 }
 
@@ -216,7 +224,6 @@ body {
     --rem: 16;
     text-rendering: optimizeLegibility;
     font-size: 26px;
-    font-family: db_helvethaica_x_cond;
     line-height: 1.42857;
     box-sizing: border-box;
     background-repeat: no-repeat;
@@ -231,6 +238,25 @@ body {
     max-height: 350px;
     /* Optional: Limit the max height for larger screens */
 }
+
+.bg-web-banner-2 {
+    -webkit-text-size-adjust: 100%;
+    --rem: 16;
+    text-rendering: optimizeLegibility;
+    font-size: 26px;
+    line-height: 1.42857;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    padding: 0 40px;
+    background-image: url(https://storage.googleapis.com/line-cj-demo-chatboot/web/sabai-card-center.png);
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    min-height: 200px; /* Set a reasonable minimum height */
+    height: 35vh; /* Responsive height based on the viewport */
+    max-height: 350px; /* Optional: Limit the max height for larger screens */
+}
+
 h4 {
     font-size: 1rem;
     font-weight: 500;
@@ -286,6 +312,23 @@ h4 {
     75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
     100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
 }
+
+/* HTML: <div class="loader"></div> */
+.warning-nid {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  color: #0000;
+  background: linear-gradient(90deg,#C02942 calc(50% + 0.5ch),#000 0) right/calc(200% + 1ch) 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  animation: l7 2s infinite steps(11);
+}
+.warning-nid:before {
+  content:"Invalid National ID";
+}
+@keyframes l7 {to{background-position: left}}
       
 </style>
 
@@ -309,17 +352,25 @@ export default {
     },
     data() {
         return {
+            isCheckUser: false,
+            isbeforeCamera: false,
             isCameraOpen: false,
             isPhotoTaken: false,
             isShotPhoto: false,
             isLoading: false,
+            isInvalidNID: false,
             isOCRDectecting: false,
             link: "#",
             idToken: null,
         };
     },
     async mounted() {
+        this.isCheckUser = true;
         await this.checkLiffLogin()
+        console.log(this.profile);
+        if (this.profile) {
+            this.checkIsExistingUser(this.profile.userId)
+        }
     },
     methods: {
         async checkLiffLogin() {
@@ -330,46 +381,33 @@ export default {
 
                     const profile = await liff.getProfile();
                     this.profile = profile;
-                    const friendShip = await liff.getFriendship()
-                    this.friendShip = friendShip.friendFlag
-                    console.log(friendShip);
-
-                    const deIdToken = liff.getDecodedIDToken();
-                    console.log(deIdToken);
-                    this.email = deIdToken.email;
-                    console.log(deIdToken.name);
+                    console.log(profile);
 
                     const idToken = liff.getIDToken();
                     console.log(idToken);
 
-                    // ดึงข้อมูลต่าง ๆ ของ LIFF
+                    const deIdToken = liff.getDecodedIDToken();
+                    console.log(deIdToken);
+
                     this.os = liff.getOS();
                     this.appLanguage = liff.getAppLanguage();
                     this.liffLanguage = liff.getLanguage();
                     this.liffVersion = liff.getVersion();
                     this.lineVersion = liff.getLineVersion();
                     this.isInClient = liff.isInClient();
-                    if (liff.isInClient()) {
-                        this.isShowButton = true
-                    }
                     this.isApiAvailable = liff.isApiAvailable('shareTargetPicker'); // ตัวอย่างการตรวจสอบ API
                 }
             })
         },
-        toggleCamera() {
-            if (this.isCameraOpen) {
-                this.closeCamera();
-            } else {
-                this.openCamera();
-            }
-        },
         retakePhoto() {
             this.isPhotoTaken = false;
+            this.isOCRDectecting = false;
+            this.isInvalidNID = false;
             this.$refs.overlayText.innerText = "กรุณาถ่ายรูปบัตรประชาชนของท่านภายในกรอบที่กำหนด";
         },
         openCamera() {
+            this.isbeforeCamera = false;
             this.isCameraOpen = true;
-            this.isLoading = true;
 
             const constraints = {
                 audio: false,
@@ -444,7 +482,6 @@ export default {
             this.isOCRDectecting = true;
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_nid_ocr'
             const payload = {
-                "user_id": this.profile.userId,
                 "image_base64": base64Image
             };
             const response = await axios.post(gcf_url, payload, {
@@ -453,8 +490,40 @@ export default {
                 }
             });
             console.log(response.data);
-        }
+            if(response.data.is_nid){
 
+            }
+            else {
+                this.isInvalidNID = true;
+                this.isLoading = false;
+                this.isOCRDectecting = false;
+                this.$refs.overlayText.innerText = "⚠️ กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
+            }
+        },
+        async checkIsExistingUser(userId) {
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+            const payload = {
+                action: "get",
+                kind: "CJ_USER",
+                "id": userId,
+            };
+
+            try {
+                const response = await axios.post(gcf_url, payload, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status == 200) {
+                    liff.login({ redirectUri: "https://liff.line.me/2006689746-AvlxaqLP" })
+                }
+            } catch (err) {
+                if (err.response.status == 404) {
+                    this.isCheckUser = false;
+                    this.isbeforeCamera = true;
+                }
+            }
+        },
     },
 };
 </script>

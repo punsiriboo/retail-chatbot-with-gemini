@@ -1,3 +1,5 @@
 functions-framework==3.8.2
-
+google-cloud-vision==2.5.0
+google-cloud-storage==2.18.2
+vertexai==1.71.1
 
