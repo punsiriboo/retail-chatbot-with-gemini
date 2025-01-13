@@ -97,8 +97,7 @@ list_rich_menu = [
     # "richmenu-cj.json",
     # "richmenu-nine.json",
     # "richmenu-uno.json",
-    # "richmenu-main.json",
-    "richmenu-main-2.json"
+    "richmenu-main.json",
 ]
 create_rich_menus(list_rich_menu)
 

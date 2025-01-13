@@ -367,6 +367,7 @@ export default {
                         this.memberData.lastname = response.data.lastname
                         this.memberData.gender = response.data.gender
                     }
+                    this.isLoading = false;
                 }
             } catch (err) {
                 if (err.response.status == 404) {

@@ -31,7 +31,8 @@ def ocr_handler(request):
 
         response_dict = gemini_ocr(request_json)
         print(str(response_dict))
-        return (json.dumps({"message": "Success"}), 200, headers)
+        return (json.dumps({"message": "Success", "data": response_dict}), 200, headers)
+    
     except Exception as e:
         return (f"Error: {str(e)}", 500, headers)
     
@@ -64,10 +65,11 @@ def gemini_ocr(request_json):
     
     vertexai.init(project="dataaibootcamp", location="us-central1")
     
-    text_prompt = """จงตรวจสอบว่ารูปนี้เป็นรูปบัตรประชาชนหรือไม่ หากใช่ ให้ส่งข้อมูลที่อยู่ในบัตรประชาชนกลับมาในรูปแบบ JSON
+    text_prompt = """จงตรวจสอบว่ารูปนี้เป็นรูปบัตรประชาชนหรือไม่ หากใช่ ให้ส่งข้อมูลที่อยู่ในบัตรประชาชนกลับมาในรูปแบบ JSON โดยให้แปลงวันเกิดให้อยู่ในรูปแบบ วัน/เดือน/ปี และวันที่ออกบัตร และวันที่หมดอายุให้อยู่ในรูปแบบ วัน/เดือน/ปี
             Use this JSON schema:
+            Example: {'is_nid': True, nid:'1000000000000' ,'first_name_th': 'ปุณณ์สิริ', 'first_name_en': 'Punsiri', 'last_name_th': 'บุณยเกียรติ', 'last_name_en': 'Boonyakiat', 'dob': '22/05/2534', 'address': '3/1 หมู่ที่ 8 ต.ช้างกลาง อ.ช้างกลาง จ.นครศรีธรรมราช', 'address_en': None, 'issue_date': '16 สิงหาคม 2016', 'expire_date': '21/05/2025'}
             Language = ภาษาไทย
-            Recipe = {'is_nid': bool, 'first_name_th': str, first_name_en: str, 'last_name_th': str, 'last_name_en': str, 'dob': str, 'address': str, 'address_en': str, 'issue_date': str, 'expire_date': str}]}
+            Recipe = {'is_nid': bool, nid: str, 'first_name_th': str, first_name_en: str, 'last_name_th': str, 'last_name_en': str, 'dob': str, 'address': str, 'address_en': str, 'issue_date': str, 'expire_date': str}]}
             Return: Recipe
             """
 
