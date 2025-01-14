@@ -202,6 +202,26 @@ body {
     max-height: 350px; /* Optional: Limit the max height for larger screens */
 }
 
+.card-2 {
+    -webkit-text-size-adjust: 100%;
+    --rem: 16;
+    text-rendering: optimizeLegibility;
+    font-size: 26px;
+    font-family: db_helvethaica_x_cond;
+    line-height: 1.42857;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    padding: 0 20px;
+    background-image: url(https://storage.googleapis.com/line-cj-demo-chatboot/web/header-null.png);
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    min-height: 200px; /* Set a reasonable minimum height */
+    height: 35vh; /* Responsive height based on the viewport */
+    max-height: 300px; /* Optional: Limit the max height for larger screens */
+}
+
+
 .btn-flex {
     display: flex;
     align-items: stretch;

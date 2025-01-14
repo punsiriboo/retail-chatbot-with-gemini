@@ -11,3 +11,5 @@ credential/line_secret.yml
 .DS_Store
 .codegpt
 .firebase
+.firebase/*
+.cache

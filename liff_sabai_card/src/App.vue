@@ -1,54 +1,82 @@
 <template>
     <div>
-        <div class="section-card" ref="headerSabaiCard">
+        <nav v-if="profile && !isLoading">
+            <ul>
+                <li><a href="#" @click="goToHome" :class="{ active: currentView === 'home' }">Home</a></li>
+                <li><a href="#" @click="goToProfile" :class="{ active: currentView === 'profile' }">My Profile</a></li>
+            </ul>
+        </nav>
+        <div v-if="!member">
             <div class="bg-web-banner card-1 img-cover">
                 <div class="wrapper">
+                </div>
+            </div>
+        </div>
+        <div v-if="member">
+            <div class="bg-web-banner card-2 img-cover">
+                <div class="card-overlay">
+                    <div class="profile-header">
+                        <img :src="this.profile.picture" alt="User Picture" class="profile-pic">
+                        <h2 class="profile-name">{{ this.profile.name }}</h2>
+                    </div>
                 </div>
             </div>
         </div>
         <div v-if="isLoading" class="centered">
             <div class="camera-loading loader"></div>
         </div>
-        <div class="profile-card" v-if="profile">
-            <div class="profile-header">
-                <img :src="this.profile.picture" alt="User Picture" class="profile-pic">
-                <h2 class="profile-name">{{ this.profile.name }}</h2>
+        <div v-if="profile && !isLoading && currentView==='home'">
+            <div class="formbold-main-wrapper flex-wrap">
+                <img style="width: 100%; max-width: 100%; height: auto;" src="https://storage.googleapis.com/line-cj-demo-chatboot/web/recommmend_friend.png" alt="Invite Friends" class="invite-friends"></img> 
+                <div class="formbold-form-btn-wrapper btn-flex">
+                    <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
+                    <button type="button" class="formbold-btn" @click="openFacebook">Facebook</button>
+                </div>
             </div>
+        </div>
+        <div class="profile-card" v-if="profile && !isLoading && currentView==='profile'">
             <div class="profile-body">
                 <div ref="memberLogin" v-if="member">
+                    <div class="profile-item">
+                        <span class="label">Point:</span>
+                        <span  class="value">{{ memberData.point }}</span>
+                    </div>
                     <div class="profile-item">
                         <span class="label">First Name:</span>
                         <span>{{ memberData.firstname }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Last Name:</span>
-                        <span>{{ memberData.lastname }}</span>
+                        <span class="value">{{ memberData.lastname }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Email:</span>
-                        <span>{{ memberData.email }}</span>
+                        <span class="value">{{ memberData.email }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Date of Birth:</span>
-                        <span>{{ memberData.dob }}</span>
+                        <span class="value">{{ memberData.dob }}</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="label">National ID:</span>
+                        <span class="value">{{ memberData.nid }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Phone:</span>
-                        <span>{{ memberData.phone }}</span>
+                        <span class="value">{{ memberData.phone }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Gender:</span>
-                        <span>{{ memberData.gender }}</span>
+                        <span class="value">{{ memberData.gender }}</span>
                     </div>
                     <div class="profile-item">
                         <span class="label">Address:</span>
-                        <span>{{ memberData.address }}</span>
+                        <span class="value">{{ memberData.address }}</span>
                     </div>
                     <div class="profile-item">
-                        <span class="label">Point Collection:</span>
-                        <span>{{ memberData.point }}</span>
+                        <span class="label">Refer By:</span>
+                        <span  class="value">{{ memberData.referBy }}</span>
                     </div>
-    
                 </div>
                 <div v-if="isFormRegister" class="formbold-main-wrapper" ref="registerForm">
                     <div class="formbold-form-wrapper">
@@ -235,12 +263,14 @@ export default {
         return {
             isLoading: false,
             isFormRegister: false,
-            isDoneRegistration: true,
+            isDoneRegistration: false,
+            currentView: 'home',
             profile: {
                 name: null,
                 picture: null,
                 userId: null,
                 idToken: null,
+                email: null,
             },
             member: null,
             friendShip: null,
@@ -441,6 +471,12 @@ export default {
                 console.error(err);
             });
         },
+        goToHome() {
+          this.currentView = 'home';
+        },
+        goToProfile() {
+          this.currentView = 'profile';
+        },
         async checkLiffLogin() {
             await liff.ready.then(async () => {
                 if (!liff.isLoggedIn()) {
@@ -457,6 +493,11 @@ export default {
                     const idToken = liff.getIDToken();
                     this.profile.idToken = idToken;
 
+                    if (deIdToken.email) {
+                        this.profile.email = deIdToken.email;
+                        formData.email = deIdToken.email;
+                    }
+            
                     console.log(this.profile);
 
                     await this.checkIsExistingUser(this.profile.userId)
@@ -493,6 +534,8 @@ export default {
                 this.nextStep();
             } else {
                 console.log(this.formData);
+                this.formatNID({ target: { value: this.formData.nid } });
+                this.formatPhoneNumber({ target: { value: this.formData.phone } });
                 this.addNewUser();
                 alert('Form Submitted Successfully!');
                 this.isFormRegister = false;
@@ -568,11 +611,13 @@ export default {
                     this.memberData.phone = response.data.phone
                     this.memberData.address = response.data.address
                     this.memberData.dob = response.data.dob
+                    this.memberData.nid = response.data.nid
                     this.memberData.email = response.data.email
                     this.memberData.firstname = response.data.firstname
                     this.memberData.lastname = response.data.lastname
                     this.memberData.gender = response.data.gender
                     this.memberData.point = response.data.point
+                    this.memberData.referBy = response.data.referBy
                     this.isLoading = false;
                 }
             } catch (err) {

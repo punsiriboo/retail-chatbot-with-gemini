@@ -1,24 +1,33 @@
 <template>
-    <div class="product-list">
-        <h3>รายการสินค้าในตระกร้าของฉัน</h3>
-        <div v-for="(item, index) in items" :key="index" class="product-item">
-            <img :src="item.item_image_url" alt="Product Image" class="product-image" />
-            <div class="product-details">
-                <p><strong>{{ item.item_name }} (x{{ item.quantity }})</strong></p>
-                <p>Price: ${{ item.item_price }}</p>
-                <div>
-                    <label>Quantity: </label>
-                    <select v-model="item.quantity" @change="calculateTotal">
-                        <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
-                    </select>
-                </div>
+    <div>
+        <div class="bg-web-banner card-2 img-cover">
+            <div class="card-overlay">
             </div>
-            <button @click="removeItem(index)">Remove</button>
         </div>
-        <div class="total-section">
-            <h4>Total: ${{ calculateTotal() }}</h4>
+        <div v-if="isLoading" class="centered">
+            <div class="camera-loading loader"></div>
         </div>
-        <button @click="UpdateBasket" class="submit-btn">Update</button>
+        <div v-if="!isLoading" class="product-list">
+            <h3>รายการสินค้าในตระกร้าของฉัน</h3>
+            <div v-for="(item, index) in items" :key="index" class="product-item">
+                <img :src="item.item_image_url" alt="Product Image" class="product-image" />
+                <div class="product-details">
+                    <p><strong>{{ item.item_name }} (x{{ item.quantity }})</strong></p>
+                    <p>Price: ${{ item.item_price }}</p>
+                    <div>
+                        <label>Quantity: </label>
+                        <select v-model="item.quantity" @change="calculateTotal">
+                            <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
+                        </select>
+                    </div>
+                </div>
+                <button @click="removeItem(index)">Remove</button>
+            </div>
+            <div class="total-section">
+                <h4>Total: ${{ calculateTotal() }}</h4>
+            </div>
+            <button @click="UpdateBasket" class="submit-btn">Update</button>
+        </div>
     </div>
 </template>
 
@@ -43,6 +52,7 @@ export default {
     },
     data() {
         return {
+            isLoading: true,
             profile: null,
             // Aggregated data
             items: []
@@ -63,6 +73,7 @@ export default {
                     console.log(this.profile.userId);
                     this.rawItems = await this.getUserOrder(this.profile.userId);
                     this.aggregateItems();
+                    this.isLoading = false;
                 }
             })
         },
@@ -109,113 +120,40 @@ export default {
                 )
                 .toFixed(2);
         },
-        // Handle form submission
-        UpdateBasket() {
-            console.log("Submitted Items:", this.items);
-            alert(`Order Submitted!\n${JSON.stringify(this.items, null, 2)}`);
-            liff.closeWindow()
+        async UpdateBasketDataStore() {
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+            const payload = {
+                action: "update",
+                kind: "cj_users_orders",
+                "id": this.profile.userId,
+                "items": this.items
+            };
+            const response = await axios.post(gcf_url, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status == 200) {
+                return response.data
+            }
+        },
+        async UpdateBasket() {
+            console.log(`Order Submitted!\n${JSON.stringify(this.items, null, 2)}`);
+            await this.UpdateBasketDataStore();
+            liff.permission.requestAll();
+            liff.sendMessages([{
+                type: 'text',
+                text: 'CJ_SHOPPING: ฉันได้ทำการ update ตระกร้าสินค้าเรียบร้อยแล้ว'
+            }]).then(() => {
+                liff.closeWindow();
+            }).catch((err) => {
+                console.error(err);
+            });
         }
     }
 };
 </script>
 
 <style>
-.product-list {
-    width: 90%;
-    margin: auto;
-    font-family: "Arial", sans-serif;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.product-item {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-    transition: transform 0.2s;
-}
-
-.product-item:hover {
-    transform: scale(1.02);
-}
-
-.product-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-right: 15px;
-}
-
-.product-details {
-    flex-grow: 1;
-}
-
-.product-details p {
-    margin: 5px 0;
-    color: #555;
-}
-
-.product-details strong {
-    color: #222;
-    font-size: 16px;
-}
-
-input[type="number"] {
-    width: 60px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-}
-
-button {
-    background-color: #ff6f61;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #ff4c3b;
-}
-
-.total-section {
-    margin-top: 20px;
-    text-align: right;
-    font-size: 18px;
-    color: #333;
-}
-
-.submit-btn {
-    width: 100%;
-    text-align: center;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 15px 20px;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-    background-color: #218838;
-}
+@import './assets/main.css';
 </style>

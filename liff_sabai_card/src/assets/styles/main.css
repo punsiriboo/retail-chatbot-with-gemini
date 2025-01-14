@@ -53,6 +53,10 @@ div {
     border-bottom: 1px solid #eee;
 }
 
+.profile-item .value {
+    text-align: right; /* Align text to the right within its span */
+ }
+
 .profile-item:last-child {
     border-bottom: none;
 }
@@ -135,4 +139,59 @@ div {
     justify-content: center;
     align-items: center;
     height: 10vh;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+nav li a.active {
+    color: white;
+    background-color: #00a647;
+}
+
+.card-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    background-image: url(https://storage.googleapis.com/line-cj-demo-chatboot/web/sabai-card-null-2.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-top: 20%;
+    padding-left: 5%;
+}
+
+.card-overlay .profile-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
 }
