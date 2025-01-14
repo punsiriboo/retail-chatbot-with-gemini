@@ -1,0 +1,7 @@
+functions-framework==3.8.2
+google-cloud-vision==2.5.0
+google-cloud-storage==2.18.2
+google-cloud-datastore==2.20.2
+vertexai==1.71.1
+line-bot-sdk==3.14.2
+

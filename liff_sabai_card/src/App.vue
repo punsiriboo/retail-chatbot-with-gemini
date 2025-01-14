@@ -31,6 +31,7 @@
                 <div class="formbold-form-btn-wrapper btn-flex">
                     <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
                     <button type="button" class="formbold-btn" @click="openFacebook">Facebook</button>
+                    <button type="button" class="formbold-btn-2" @click="logOut">Log Out</button>
                 </div>
             </div>
         </div>
@@ -232,9 +233,10 @@
 
             <!-- Buttons -->
             <div class="formbold-form-btn-wrapper btn-flex">
-                <button type="button" class="formbold-btn" @click="backToChat">Back to Chat</button>
+                <button v-if="isInClient "type="button" class="formbold-btn" @click="backToChat">Back to Chat</button>
                 <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
                 <button type="button" class="formbold-btn" @click="myProfile">My Profile</button>
+                <button type="button" class="formbold-btn-2" @click="logOut">Log Out</button>
             </div>
         </div>
     </div>
@@ -337,11 +339,23 @@ export default {
             const dob = urlParams.get('dob');
             const address = urlParams.get('address');
             const gender = urlParams.get('gender');
-            console.log(action, firstname, lastname, nid, dob, address, gender);
+            const email = urlParams.get('email');
+            const referBy = urlParams.get('refer_by');
+            this.profile.referBy = referBy;
+
+            console.log(action, firstname, lastname, nid, dob, address, gender, email);
+            console.log(referBy);
             if (action == 'register') {
                 console.log('Register');
                 this.isFormRegister = true;
             }
+            else if (action == 'profile') {
+                console.log('Profile');
+                this.isFormRegister = false;
+                this.isDoneRegistration = false;
+                this.currentView = 'profile';
+            }
+
             if (firstname) {
                 this.formData.firstname = firstname;
             }
@@ -355,16 +369,23 @@ export default {
                 this.formData.dob = dob;
             }
             if (address) {
-                this.formData.address = address;
+                this.formData.address = address.replace(/\+/g, ' ');
             }
             if (gender) {
                 this.formData.gender = gender;
+            }
+            if (email) {
+                this.formData.email = email;
             }
         },
         myProfile() {
             this.isFormRegister = false;
             this.isDoneRegistration = false;
             this.checkIsExistingUser(this.profile.userId);
+        },
+        logOut() {
+            liff.logout();
+            liff.closeWindow();
         },
         recomendFriend() {
             console.log(this.profile);
@@ -480,6 +501,12 @@ export default {
         goToProfile() {
             this.currentView = 'profile';
         },
+        openFacebook() {
+            liff.openWindow({
+                url: 'https://www.facebook.com/CJMORETH',
+                external: true
+            });
+        },
         async checkLiffLogin() {
             await liff.ready.then(async () => {
                 if (!liff.isLoggedIn()) {
@@ -495,11 +522,6 @@ export default {
                     this.profile.userId = deIdToken.sub;
                     const idToken = liff.getIDToken();
                     this.profile.idToken = idToken;
-
-                    if (deIdToken.email) {
-                        this.profile.email = deIdToken.email;
-                        formData.email = deIdToken.email;
-                    }
 
                     console.log(this.profile);
 
@@ -576,16 +598,13 @@ export default {
                 this.phoneError = '';
             }
         },
-        async addNewUser() {
-            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+        async checkReferedUser()
+        {
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_update_user_point'
             const payload = {
-                action: "insert",
-                kind: "CJ_USER",
-                id: this.profile.userId,
-                data: {
-                    ...this.formData,
-                    point: 0
-                }
+                type: "referal",
+                "user_id": this.profile.userId,
+                "refer_id": this.profile.referBy,
             };
 
             const response = await axios.post(gcf_url, payload, {
@@ -593,6 +612,30 @@ export default {
                     'Content-Type': 'application/json'
                 }
             });
+            console.log(response);
+            const referedUser = response.data.referedUser
+            return referedUser;
+        },
+        async addNewUser() {
+            const referedUser = await this.checkReferedUser();
+            const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+            const payload = {
+                action: "insert",
+                kind: "CJ_USER",
+                id: this.profile.userId,
+                data: {
+                    ...this.formData,
+                    point: 0,
+                    referBy: referedUser,
+                }
+            };
+
+            const response = await axios.post(gcf_url, payload, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(response);
         },
         async checkIsExistingUser(userId) {
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'

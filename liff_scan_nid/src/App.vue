@@ -44,6 +44,9 @@
                 <button type="button" class="button" @click="takePhoto">
                     <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
                 </button>
+                <input id="file" name="file" type="file" accept="image/*" @change="handleFileUpload">
+                    <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
+                </input>
             </div>
     
             <div v-if="isPhotoTaken" class="camera-shoot">
@@ -92,6 +95,8 @@ export default {
             isOCRDectecting: false,
             link: "#",
             idToken: null,
+            profile: null,
+            recommomend_by: null,
         };
     },
     async mounted() {
@@ -117,7 +122,9 @@ export default {
                     console.log(idToken);
 
                     const deIdToken = liff.getDecodedIDToken();
-                    console.log(deIdToken);
+                    if (deIdToken.email) {
+                        this.profile.email = deIdToken.email;
+                    }
 
                     this.os = liff.getOS();
                     this.appLanguage = liff.getAppLanguage();
@@ -233,6 +240,8 @@ export default {
                 redirectUrl.searchParams.append("dob", response_data.dob); 
                 redirectUrl.searchParams.append("address", response_data.address);
                 redirectUrl.searchParams.append("gender", response_data.gender);
+                redirectUrl.searchParams.append("email", this.profile.email);
+                redirectUrl.searchParams.append("refer_by", this.recommomend_by);
                 window.location.href = redirectUrl.toString(); // Redirect to the URL with parameters
             }
             else {
@@ -264,6 +273,11 @@ export default {
                 if (err.response.status == 404) {
                     this.isCheckUser = false;
                     this.isbeforeCamera = true;
+                    const queryString = window.location.search;
+                    const urlParams = new URLSearchParams(queryString);
+                    this.recommomend_by = urlParams.get('recommomend_by');
+                    console.log(this.recommomend_by);
+
                 }
             }
         },

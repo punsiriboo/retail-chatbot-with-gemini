@@ -1,0 +1,3 @@
+export PROJECT_ID=dataaibootcamp
+export FUNCTION_NAME=cj_update_user_point
+export ENTRY_POINT=handler_request

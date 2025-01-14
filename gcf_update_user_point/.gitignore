@@ -1,0 +1,7 @@
+# Private Inforamtion Data
+*.ndjson
+
+# Script to convert to NDJSON
+*.yml
+line_secret.yml
+id_token_verify.py

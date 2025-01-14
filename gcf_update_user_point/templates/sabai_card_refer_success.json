@@ -1,0 +1,59 @@
+{
+    "type": "bubble",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "baseline",
+          "contents": [
+            {
+              "type": "icon",
+              "url": "https://storage.googleapis.com/line-cj-demo-chatboot/web/dollar.png",
+              "size": "xl",
+              "position": "relative"
+            },
+            {
+              "type": "text",
+              "contents": [
+                {
+                  "type": "span",
+                  "text": "คุณได้ 10 แต้มเพิ่มจากกาสมัครสบายการ์ดของคุณ <YOUR_FRIEND_NAME>",
+                  "size": "md",
+                  "weight": "bold"
+                }
+              ],
+              "wrap": true
+            }
+          ],
+          "paddingAll": "10px",
+          "paddingStart": "20px",
+          "spacing": "md"
+        },
+        {
+          "type": "separator",
+          "margin": "xs"
+        }
+      ],
+      "paddingAll": "0px"
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "ตรวจสอบแต้มสะสม",
+            "uri": "https://liff.line.me/2006689746-AvlxaqLP?action=profile"
+          },
+          "style": "primary",
+          "color": "#00A150",
+          "height": "sm"
+        }
+      ],
+      "offsetTop": "-10px"
+    }
+}
