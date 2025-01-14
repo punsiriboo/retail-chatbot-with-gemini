@@ -118,19 +118,21 @@ body {
 
 .nid-overlay {
     position: relative;
-    border: 2px dashed #009e00;
-    /* Dashed green border */
-    border-radius: 8px;
-    /* Rounded corners */
-    width: 85%;
-    /* Adjust for the expected size of the NID card */
+    width: 80%;
     height: 85%;
-    /* Typical aspect ratio of NID cards */
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.1);
-    /* Optional semi-transparent background */
+}
+
+.nid-overlay .nid-overlay-inner {
+    position: absolute;
+    width: 80%;
+    height: 70%;
+    border: 5px solid rgba(255, 255, 255, 0.836);
+    background: rgba(255, 255, 255, 0.255);
+    /* Inner guide border */
+    border-radius: 9px;
 }
 
 .overlay-text {
@@ -150,14 +152,7 @@ body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.nid-overlay .nid-overlay-inner {
-    position: absolute;
-    width: 80%;
-    height: 70%;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    /* Inner guide border */
-    border-radius: 4px;
-}
+
 
 .bg-web-banner {
     -webkit-text-size-adjust: 100%;
