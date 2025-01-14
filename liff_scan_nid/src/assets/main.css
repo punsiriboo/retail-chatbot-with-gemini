@@ -137,22 +137,16 @@ body {
 
 .overlay-text {
     position: absolute;
-    top: -40px;
-    /* Position above the box */
+    top: 2%;
     font-size: 14px;
     color: #009e00;
-    /* Green text color */
-    background: rgb(255, 255, 255);
-    /* Semi-transparent background */
+    background: #fff;
     padding: 5px 10px;
     border-radius: 4px;
     text-align: center;
-    white-space: nowrap;
-    /* Prevent text from wrapping */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    white-space: pre-wrap;
+    box-shadow: 0 2px 5px #0000004d;
 }
-
-
 
 .bg-web-banner {
     -webkit-text-size-adjust: 100%;

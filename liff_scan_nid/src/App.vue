@@ -134,6 +134,7 @@ export default {
             this.isOCRDectecting = false;
             this.isInvalidNID = false;
             this.$refs.overlayText.innerText = "กรุณาถ่ายรูปบัตรประชาชนของท่านภายในกรอบที่กำหนด";
+            this.$refs.overlayText.style.color = "black";
         },
         openCamera() {
             this.isbeforeCamera = false;
@@ -188,6 +189,7 @@ export default {
             this.isPhotoTaken = true;
             this.triggerFlashEffect();
             this.$refs.overlayText.innerText = "⚠️ กรุณาตรวจสอบความชัดเจนของรูปภาพ ก่อนกดยืนยัน";
+            this.$refs.overlayText.style.color = "black";
         },
 
         triggerFlashEffect() {
@@ -211,6 +213,7 @@ export default {
             console.log(base64Image);
             this.isOCRDectecting = true;
             this.$refs.overlayText.innerText = "กรุณารอสักครู่ กำลังตรวจสอบข้อมูลรูปภาพบัตรประชาชน...";
+            this.$refs.overlayText.style.color = "black";
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_nid_ocr'
             const payload = {
                 "image_base64": base64Image
@@ -223,6 +226,7 @@ export default {
             const response_data = response.data.data;
             if(response_data.is_nid){
                 const redirectUrl = new URL("https://dataaibootcamp.web.app"); // Use URL constructor for easy parameter handling
+                redirectUrl.searchParams.append("action", "register");
                 redirectUrl.searchParams.append("nid", response_data.nid);
                 redirectUrl.searchParams.append("first_name_th", response_data.first_name_th);
                 redirectUrl.searchParams.append("last_name_th", response_data.last_name_th);
@@ -236,6 +240,7 @@ export default {
                 this.isLoading = false;
                 this.isOCRDectecting = false;
                 this.$refs.overlayText.innerText = "⚠️ รูปที่ตรวจสอบได้ไม่ใช่รูปบัตรประชาชน หรือมีความไม่ชัดเจน กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
+                this.$refs.overlayText.style.color = "red";
             }
         },
         async checkIsExistingUser(userId) {

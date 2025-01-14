@@ -26,8 +26,6 @@ div {
     display: flex;
     align-items: center;
     padding: 20px;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ddd;
 }
 
 .profile-pic {

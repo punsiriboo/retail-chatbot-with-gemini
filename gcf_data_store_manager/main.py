@@ -24,34 +24,33 @@ def datastore_handler(request):
         'Content-Type': 'application/json'
     }
 
-    try:
-        # Parse incoming JSON request
-        request_json = request.get_json(silent=True)
+    # Parse incoming JSON request
+    request_json = request.get_json(silent=True)
 
-        if not request_json:
-            return ("Invalid request: JSON body required", 400, headers)
+    if not request_json:
+        return ("Invalid request: JSON body required", 400, headers)
 
-        # Extract required fields
-        action = request_json.get("action")
-        kind = request_json.get("kind")
-        key_id = request_json.get("id")
-        data = request_json.get("data")
+    # Extract required fields
+    action = request_json.get("action")
+    kind = request_json.get("kind")
+    key_id = request_json.get("id")
+    data = request_json.get("data")
+    
+    print(f"Request: {request_json}")
 
-        if not action or not kind:
-            return ("Missing 'action' or 'kind' in the request body", 400, headers)
+    if not action or not kind:
+        return ("Missing 'action' or 'kind' in the request body", 400, headers)
 
-        # Perform actions
-        if action == "insert":
-            return insert_entity(kind, key_id, data, headers)
-        elif action == "get":
-            return get_entity(kind, key_id, headers)
-        elif action == "update":
-            return update_entity(kind, key_id, data, headers)
-        else:
-            return (f"Invalid action '{action}'", 400, headers)
+    # Perform actions
+    if action == "insert":
+        return insert_entity(kind, key_id, data, headers)
+    elif action == "get":
+        return get_entity(kind, key_id, headers)
+    elif action == "update":
+        return update_entity(kind, key_id, data, headers)
+    else:
+        return (f"Invalid action '{action}'", 400, headers)
 
-    except Exception as e:
-        return (f"Error: {str(e)}", 500, headers)
 
 def insert_entity(kind, key_id, data, headers):
     """Insert a new entity into Datastore."""

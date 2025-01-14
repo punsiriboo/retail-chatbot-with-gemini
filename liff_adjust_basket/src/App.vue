@@ -120,13 +120,13 @@ export default {
                 )
                 .toFixed(2);
         },
-        async UpdateBasketDataStore() {
+        async UpdateBasketDataStore(updataData) {
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
             const payload = {
                 action: "update",
                 kind: "cj_users_orders",
                 "id": this.profile.userId,
-                "items": this.items
+                "data": {"items": updataData}
             };
             const response = await axios.post(gcf_url, payload, {
                 headers: {
@@ -138,8 +138,18 @@ export default {
             }
         },
         async UpdateBasket() {
-            console.log(`Order Submitted!\n${JSON.stringify(this.items, null, 2)}`);
-            await this.UpdateBasketDataStore();
+            const updataData = []
+            for (const item of this.items) { // Iterate through each unique item
+                for (let i = 0; i < item.quantity; i++) { // Push each item based on quantity
+                    updataData.push({
+                        item_name: item.item_name,
+                        item_price: item.item_price,
+                        item_image_url: item.item_image_url,
+                    });
+                }
+            }
+            console.log(`Order Submitted!\n${JSON.stringify(updataData, null, 2)}`);
+            await this.UpdateBasketDataStore(updataData);
             liff.permission.requestAll();
             liff.sendMessages([{
                 type: 'text',
