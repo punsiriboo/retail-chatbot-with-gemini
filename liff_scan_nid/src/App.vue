@@ -236,11 +236,11 @@ export default {
                 window.location.href = redirectUrl.toString(); // Redirect to the URL with parameters
             }
             else {
-                this.isInvalidNID = true;
                 this.isLoading = false;
                 this.isOCRDectecting = false;
                 this.$refs.overlayText.innerText = "⚠️ รูปที่ตรวจสอบได้ไม่ใช่รูปบัตรประชาชน หรือมีความไม่ชัดเจน กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
                 this.$refs.overlayText.style.color = "red";
+                this.isInvalidNID = true;
             }
         },
         async checkIsExistingUser(userId) {

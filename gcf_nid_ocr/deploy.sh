@@ -14,3 +14,4 @@ gcloud functions deploy $FUNCTION_NAME \
     --source=. \
     --entry-point=$ENTRY_POINT \
     --allow-unauthenticated \
+    --memory=1GB 
