@@ -285,7 +285,7 @@ export default {
         await this.checkLiffLogin()
     },
     methods: {     
-        async backToChat() {
+        backToChat() {
             liff.permission.requestAll();
             liff.sendMessages([{
                 type: 'text',

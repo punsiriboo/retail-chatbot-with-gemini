@@ -245,8 +245,28 @@ def handle_my_basket_check(line_bot_api, event, text):
                 ],
             )
         )
+        
+def handle_done_register_member(line_bot_api, event, text):
+    template_name = "nine_hot_promotion"
+    with open(f"templates/static/{template_name}.json") as file:
+        flex_temple = file.read()
 
-
+    static_flex_message = FlexMessage(
+        alt_text=template_name,
+        contents=FlexContainer.from_json(flex_temple),
+    )
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(
+                    text="ขอบคุณที่สมัครสมาชิกสบายการ์ดนะคะ คุณสามารถดูส่วนลดล่าสุด และ shopping กับเราได้เลยค่ะ",
+                ),
+                static_flex_message
+            ],
+        )
+    )
+    
 def handle_text_by_keyword(event, line_bot_api):
     text = event.message.text
     function_map = {
@@ -259,6 +279,7 @@ def handle_text_by_keyword(event, line_bot_api):
         "น้อง​ CJ": handle_calling_nong_cj,
         "น้อง​CJ": handle_calling_nong_cj,
         "ตระกร้าของฉัน": handle_my_basket_check,
+        "CJ_MEMBER:สมัครสมาชิก CJ สำเร็จแล้วค่ะ": handle_done_register_member,
     }
     if text in function_map:
         function_map[text](line_bot_api, event, text)
