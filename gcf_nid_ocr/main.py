@@ -65,11 +65,20 @@ def gemini_ocr(request_json):
     
     vertexai.init(project="dataaibootcamp", location="us-central1")
     
-    text_prompt = """จงตรวจสอบว่ารูปนี้เป็นรูปบัตรประชาชนหรือไม่ หากใช่ ให้ส่งข้อมูลที่อยู่ในบัตรประชาชนกลับมาในรูปแบบ JSON โดยให้แปลงวันเกิดให้อยู่ในรูปแบบ วัน/เดือน/ปี และวันที่ออกบัตร และวันที่หมดอายุให้อยู่ในรูปแบบ วัน/เดือน/ปี
-            Use this JSON schema:
-            Example: {'is_nid': True, nid:'1000000000000' ,'first_name_th': 'ปุณณ์สิริ', 'first_name_en': 'Punsiri', 'last_name_th': 'บุณยเกียรติ', 'last_name_en': 'Boonyakiat', 'dob': '22/05/2534', 'address': '3/1 หมู่ที่ 8 ต.ช้างกลาง อ.ช้างกลาง จ.นครศรีธรรมราช', 'address_en': None, 'issue_date': '16 สิงหาคม 2016', 'expire_date': '21/05/2025'}
+    text_prompt = """จงตรวจสอบว่ารูปนี้เป็นรูปบัตรประชาชนหรือไม่ หากใช่ ให้ส่งข้อมูลที่อยู่ในบัตรประชาชนกลับมาในรูปแบบ JSON 
+            is_nid: ให้ใส่ค่า True หากเป็นรูปบัตรประชาชน (Thai National ID Card) หรือ False หากไม่ใช่ รูปบัตรประชาชน ให้ใส่ค่า False
+            nid: หมายเลขบัตรประชาชน 13 หลัก หากไม่ใช่ให้ใส่เป็น None
+            first_name_th: ชื่อจริงภาษาไทย
+            first_name_en: ชื่อจริงภาษาอังกฤษ
+            last_name_th: นามสกุลภาษาไทย
+            last_name_en: นามสกุลภาษาอังกฤษ   
+            dob: โดยให้แปลงวันเกิดให้อยู่ในรูปแบบ yyyy-MM-dd และวันที่ออกบัตร และวันที่หมดอายุให้อยู่ในรูปแบบ yyyy-MM-dd
+            genger: สำหรับเพศให้เดาจากคำนำหน้าชื่อ เช่น นาย เป็น Male และ น.ส., นางสาว เด็กหญิง เป็น Female หากไม่มีให้ใส่เป็น None
+            address: ที่อยู่ภาษาไทย
+            failed_reson: หากไม่สามารถอ่านข้อมูลจากรูปได้ให้ใส่เหตุผลที่ไม่สามารถอ่านได้ หากสามารถอ่านได้ให้ใส่เป็น None เช่น รูปเบลอ ไม่ใช่รูปบัตรประชาชน แต่เป็นใบขับขี่
+            Example: {'is_nid': True, nid:'1000000000000' ,'first_name_th': 'สมใจ', 'first_name_en': 'Somjai', 'last_name_th': 'ศรีสดใส', 'last_name_en': 'Srisodsai', 'dob': '22/05/2534', 'address': '3/1 หมู่ที่ 8 ต.ช้างกลาง อ.ช้างกลาง จ.นครศรีธรรมราช', 'address_en': None, 'issue_date': '16 สิงหาคม 2016', 'expire_date': '21/05/2025', gender: 'Female'}
             Language = ภาษาไทย
-            Recipe = {'is_nid': bool, nid: str, 'first_name_th': str, first_name_en: str, 'last_name_th': str, 'last_name_en': str, 'dob': str, 'address': str, 'address_en': str, 'issue_date': str, 'expire_date': str}]}
+            Recipe = {'is_nid': bool, nid: str, 'first_name_th': str, first_name_en: str, 'last_name_th': str, 'last_name_en': str, 'dob': str, 'address': str, 'address_en': str, 'issue_date': str, 'expire_date': str, gender:str, failed_reson: str}]}
             Return: Recipe
             """
 

@@ -11,20 +11,16 @@
         </div>
         <div class="profile-card" v-if="profile">
             <div class="profile-header">
-                <img :src="profile.pictureUrl" alt="User Picture" class="profile-pic">
-                <h2 class="profile-name">{{ profile.displayName }}</h2>
+                <img :src="this.profile.picture" alt="User Picture" class="profile-pic">
+                <h2 class="profile-name">{{ this.profile.name }}</h2>
             </div>
             <div class="profile-body">
                 <div ref="memberLogin" v-if="member">
                     <div class="profile-item">
-                        <span class="label">Status Message:</span>
-                        <span>{{ profile.statusMessage || 'No status message' }}</span>
-                    </div>
-                    <div class="profile-item">
                         <span class="label">First Name:</span>
                         <span>{{ memberData.firstname }}</span>
                     </div>
-                        <div class="profile-item">
+                    <div class="profile-item">
                         <span class="label">Last Name:</span>
                         <span>{{ memberData.lastname }}</span>
                     </div>
@@ -50,11 +46,11 @@
                     </div>
                     <div class="profile-item">
                         <span class="label">Point Collection:</span>
-                        <span>176 แต้ม</span>
+                        <span>{{ memberData.point }}</span>
                     </div>
-                    
+    
                 </div>
-                <div class="formbold-main-wrapper" ref="registerForm">
+                <div v-if="isFormRegister" class="formbold-main-wrapper" ref="registerForm">
                     <div class="formbold-form-wrapper">
                         <div class="formbold-steps">
                             <ul>
@@ -85,6 +81,13 @@
                                         <input v-model="formData.lastname" type="text" required placeholder="ช้อบสบาย" id="lastname" class="formbold-form-input" />
                                     </div>
                                 </div>
+                                <div class="formbold-input-flex">
+                                    <div>
+                                        <label for="nid" class="formbold-form-label">National ID</label>
+                                        <input v-model="formData.nid" type="number" required placeholder="1000000000000" id="nid" class="formbold-form-input" @input="formatNID" />
+                                        <p v-if="nidError" class="error-message">{{ nidError }}</p>
+                                    </div>
+                                </div>
     
                                 <div class="formbold-input-flex">
                                     <div>
@@ -94,22 +97,36 @@
                                 </div>
                                 <div class="formbold-input-flex">
                                     <div class="formbold-input-radio-wrapper">
-                                        <label for="gender" class="formbold-form-label"> Select Gender</label>
+                                        <label for="gender" class="formbold-form-label">Select Gender</label>
                                         <div class="formbold-radio-flex">
                                             <div class="formbold-radio-group">
                                                 <label class="formbold-radio-label">
-                                                <input v-model="formData.gender" class="formbold-input-radio" type="radio" name="gender" id="gender">
-                                                Male
-                                                <span class="formbold-radio-checkmark"></span>
-                                                </label>
+                                                        <input 
+                                                            v-model="formData.gender" 
+                                                            class="formbold-input-radio" 
+                                                            type="radio" 
+                                                            name="gender" 
+                                                            id="gender-male" 
+                                                            value="Male"
+                                                        >
+                                                        Male
+                                                        <span class="formbold-radio-checkmark"></span>
+                                                    </label>
                                             </div>
-
+    
                                             <div class="formbold-radio-group">
                                                 <label class="formbold-radio-label">
-                                                <input v-model="formData.gender" class="formbold-input-radio" type="radio" name="gender" id="gender">
-                                                Female
-                                                <span class="formbold-radio-checkmark"></span>
-                                                </label>
+                                                        <input 
+                                                            v-model="formData.gender" 
+                                                            class="formbold-input-radio" 
+                                                            type="radio" 
+                                                            name="gender" 
+                                                            id="gender-female" 
+                                                            value="Female"
+                                                        >
+                                                        Female
+                                                        <span class="formbold-radio-checkmark"></span>
+                                                    </label>
                                             </div>
                                         </div>
                                     </div>
@@ -172,11 +189,23 @@
                             <!-- Buttons -->
                             <div class="formbold-form-btn-wrapper">
                                 <button type="button" v-if="currentStep > 1" class="formbold-back-btn active" @click="prevStep">
-                                                                        Back
-                                                                        </button>
+                                                                            Back
+                                                                            </button>
                                 <button type="submit" class="formbold-btn">{{ currentStep === 3 ? 'Submit' : 'Next Step' }}</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div v-if="isDoneRegistration" class="formbold-main-wrapper flex-wrap">
+                    <img style="width: 100%; max-width: 100%; height: auto;" src="https://storage.googleapis.com/line-cj-demo-chatboot/web/recommmend_friend.png" alt="Invite Friends" class="invite-friends"></img> 
+                    <h4> คุณสมัครสมาชิก CJ สำเร็จแล้ว คุณสามารถใช้บัตรสมาชิก CJ ได้ทันที </h4>
+                    <p> คุณสามารถแนะนำเพื่อนๆของคุณมาสมัครสมาชิกบัตรสบายการ์ดได้เพื่อรับแต้มสะสมพิเศษเพิ่มเติมในการแลกซื้อสินค้าจากเรา</p>
+                       
+                    <!-- Buttons -->
+                    <div class="formbold-form-btn-wrapper btn-flex">
+                        <button type="button" class="formbold-btn" @click="backToChat">Back to Chat</button>
+                        <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
+                        <button type="button" class="formbold-btn" @click="myProfile">My Profile</button>
                     </div>
                 </div>
             </div>
@@ -205,7 +234,14 @@ export default {
     data() {
         return {
             isLoading: false,
-            profile: null,
+            isFormRegister: false,
+            isDoneRegistration: true,
+            profile: {
+                name: null,
+                picture: null,
+                userId: null,
+                idToken: null,
+            },
             member: null,
             friendShip: null,
             email: null,
@@ -223,6 +259,7 @@ export default {
             formData: {
                 firstname: '',
                 lastname: '',
+                nid: '',
                 dob: '',
                 email: '',
                 address: '',
@@ -232,42 +269,197 @@ export default {
             memberData: {
                 firstname: '',
                 lastname: '',
+                nid: '',
                 dob: '',
                 email: '',
                 address: '',
                 phone: '',
                 gender: '',
             },
-        
             phoneError: '',
+            nidError: '',
         };
     },
     async mounted() {
         this.isLoading = true;
         await this.checkLiffLogin()
     },
-    methods: {
+    methods: {     
+        async backToChat() {
+            liff.permission.requestAll();
+            liff.sendMessages([{
+                type: 'text',
+                text: 'CJ_MEMBER:สมัครสมาชิก CJ สำเร็จแล้วค่ะ'
+            }]).then(() => {
+                liff.closeWindow();
+            }).catch((err) => {
+                console.error(err);
+            });
+        },
+        preFilledDataFromParams() {
+            const queryString = window.location.search;
+            console.log(queryString);
+
+            const urlParams = new URLSearchParams(queryString);
+            const firstname = urlParams.get('first_name_th');
+            const lastname = urlParams.get('last_name_th');
+            const nid = urlParams.get('nid');
+            const dob = urlParams.get('dob');
+            const address = urlParams.get('address');
+            const gender = urlParams.get('gender');
+            console.log(firstname, lastname, nid, dob, address, gender);
+
+            if (firstname) {
+                this.formData.firstname = firstname;
+            }
+            if (lastname) {
+                this.formData.lastname = lastname;
+            }
+            if (nid) {
+                this.formData.nid = nid;
+            }
+            if (dob) {
+                this.formData.dob = dob;
+            }
+            if (address) {
+                this.formData.address = address;
+            }
+            if (gender) {
+                this.formData.gender = gender;
+            }
+        },
+        myProfile() {
+            this.isFormRegister = false;
+            this.isDoneRegistration = false;
+            this.checkIsExistingUser(this.profile.userId);
+        },
+        recomendFriend() {
+            console.log(this.profile);
+            const inivitationText = "คุณได้รับคำเชิญจากคุณ " + this.profile.name + " ให้มาสมัครเป็นสมาชิกบัตรสบายการ์ด"
+            const textMessage = {
+                type: 'text',
+                text: inivitationText
+            };
+            const flexBubble = {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://storage.googleapis.com/line-cj-demo-chatboot/web/sabaicard-invite.png",
+                    "size": "full",
+                    "aspectRatio": "23:20",
+                    "aspectMode": "cover"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "md",
+                    "contents": [{
+                            "type": "text",
+                            "text": "สมัครเป็นสมาชิกบัตรสบายการ์ด สิทธิพิเศษ และส่วนลดที่มากกว่า",
+                            "wrap": true,
+                            "weight": "bold",
+                            "gravity": "center",
+                            "size": "lg"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [{
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [{
+                                        "type": "image",
+                                        "url": this.profile.picture,
+                                        "aspectMode": "cover",
+                                        "size": "full"
+                                    }],
+                                    "cornerRadius": "100px",
+                                    "width": "72px",
+                                    "height": "72px"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [{
+                                        "type": "text",
+                                        "text": inivitationText,
+                                        "weight": "bold",
+                                        "color": "#000000",
+                                        "size": "sm",
+                                        "wrap": true
+                                    }]
+                                }
+                            ],
+                            "spacing": "xl",
+                            "paddingAll": "20px"
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                            "type": "button",
+                            "action": {
+                                "type": "uri",
+                                "label": "สมัครสมาชิกเลย",
+                                "uri": "https://liff.line.me/2006689746-nGpDmd7r?recommomend_by=" + this.profile.userId
+                            },
+                            "style": "primary",
+                            "color": "#00A150"
+                        },
+                        {
+                            "type": "button",
+                            "action": {
+                                "type": "uri",
+                                "label": "ดูรายละเอียดเพิ่มเติม",
+                                "uri": "https://www.cjexpress.co.th/member/"
+                            },
+                            "style": "secondary"
+                        }
+                    ],
+                    "spacing": "sm"
+                }
+            }
+            const flexMessage = {
+                type: 'flex',
+                altText: 'ชวนมาเป็นสมาชิกบัตรสบายการ์ด',
+                contents: flexBubble
+            };
+            console.log(flexMessage);
+            console.log(textMessage);
+            liff.permission.requestAll();
+            liff.shareTargetPicker([
+                textMessage,
+                flexMessage
+            ])
+            .then(() => {
+                console.log("Share target picker was launched");
+                liff.closeWindow();
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        },
         async checkLiffLogin() {
             await liff.ready.then(async () => {
                 if (!liff.isLoggedIn()) {
                     liff.login({ redirectUri: window.location })
                 } else {
+                    console.log('Get data from URL params');
+                    this.preFilledDataFromParams();
 
-                    const profile = await liff.getProfile();
-                    this.profile = profile;
-
-                    await this.checkIsExistingUser(this.profile.userId)
-
-                    const friendShip = await liff.getFriendship()
-                    this.friendShip = friendShip.friendFlag
-                    // console.log(friendShip);
-                    // ดึงข้อมูลอีเมล
                     const deIdToken = liff.getDecodedIDToken();
                     console.log(deIdToken);
-                    this.email = deIdToken.email;
-
+                    this.profile.name = deIdToken.name;
+                    this.profile.picture = deIdToken.picture;
+                    this.profile.userId = deIdToken.sub;
                     const idToken = liff.getIDToken();
-                    console.log(idToken);
+                    this.profile.idToken = idToken;
+
+                    console.log(this.profile);
+
+                    await this.checkIsExistingUser(this.profile.userId)
 
                     // ดึงข้อมูลต่าง ๆ ของ LIFF
                     this.os = liff.getOS();
@@ -280,7 +472,13 @@ export default {
                         this.isShowButton = true
                     }
                     this.isApiAvailable = liff.isApiAvailable('shareTargetPicker'); // ตัวอย่างการตรวจสอบ API
-
+                    console.log(this.os);
+                    console.log(this.appLanguage);
+                    console.log(this.liffLanguage); 
+                    console.log(this.liffVersion);
+                    console.log(this.lineVersion);
+                    console.log(this.isInClient);
+                    console.log(this.isApiAvailable);
                 }
             })
         },
@@ -297,10 +495,16 @@ export default {
                 console.log(this.formData);
                 this.addNewUser();
                 alert('Form Submitted Successfully!');
-                const form = this.$refs.registerForm;
-                if (form) {
-                    form.style.display = 'none';
-                }
+                this.isFormRegister = false;
+                this.isDoneRegistration = true;
+            }
+        },
+        formatNID(event) {
+            const input = event.target.value.replace(/\D/g, ''); // เอาตัวเลขเท่านั้น
+            if (input.length > 13) {
+                this.nidError = 'National ID should not exceed 13 digits.';
+            } else {
+                this.nidError = '';
             }
         },
         formatPhoneNumber(event) {
@@ -331,9 +535,13 @@ export default {
             const payload = {
                 action: "insert",
                 kind: "CJ_USER",
-                "id": this.profile.userId,
-                data: this.formData
+                id: this.profile.userId,
+                data: {
+                    ...this.formData, 
+                    point: 0         
+                }
             };
+
             const response = await axios.post(gcf_url, payload, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -355,26 +563,24 @@ export default {
                     }
                 });
                 if (response.status == 200) {
-                    const form = this.$refs.registerForm;
-                    if (form) {
-                        form.style.display = 'none';
-                        this.member = true;
-                        this.memberData.phone = response.data.phone
-                        this.memberData.address = response.data.address
-                        this.memberData.dob = response.data.dob
-                        this.memberData.email = response.data.email
-                        this.memberData.firstname = response.data.firstname
-                        this.memberData.lastname = response.data.lastname
-                        this.memberData.gender = response.data.gender
-                    }
+                    this.isFormRegister = false;
+                    this.member = true;
+                    this.memberData.phone = response.data.phone
+                    this.memberData.address = response.data.address
+                    this.memberData.dob = response.data.dob
+                    this.memberData.email = response.data.email
+                    this.memberData.firstname = response.data.firstname
+                    this.memberData.lastname = response.data.lastname
+                    this.memberData.gender = response.data.gender
+                    this.memberData.point = response.data.point
                     this.isLoading = false;
                 }
             } catch (err) {
                 if (err.response.status == 404) {
                     this.isLoading = false;
                     this.member = false;
+                    this.isFormRegister = true;
                 }
-                console.log(err);
             }
         },
 

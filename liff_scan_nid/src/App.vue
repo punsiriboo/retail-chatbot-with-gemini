@@ -210,6 +210,7 @@ export default {
             const base64Image = imageDataURL.split(',')[1]; // Get the base64 image data
             console.log(base64Image);
             this.isOCRDectecting = true;
+            this.$refs.overlayText.innerText = "กรุณารอสักครู่ กำลังตรวจสอบข้อมูลรูปภาพบัตรประชาชน...";
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_nid_ocr'
             const payload = {
                 "image_base64": base64Image
@@ -220,17 +221,21 @@ export default {
                 }
             });
             const response_data = response.data.data;
-            console.log(response_data);
-            console.log(response_data.message);
             if(response_data.is_nid){
-                console.log(response.data);
-                alert("เรียบร้อย");
+                const redirectUrl = new URL("https://dataaibootcamp.web.app"); // Use URL constructor for easy parameter handling
+                redirectUrl.searchParams.append("nid", response_data.nid);
+                redirectUrl.searchParams.append("first_name_th", response_data.first_name_th);
+                redirectUrl.searchParams.append("last_name_th", response_data.last_name_th);
+                redirectUrl.searchParams.append("dob", response_data.dob); 
+                redirectUrl.searchParams.append("address", response_data.address);
+                redirectUrl.searchParams.append("gender", response_data.gender);
+                window.location.href = redirectUrl.toString(); // Redirect to the URL with parameters
             }
             else {
                 this.isInvalidNID = true;
                 this.isLoading = false;
                 this.isOCRDectecting = false;
-                this.$refs.overlayText.innerText = "⚠️ กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
+                this.$refs.overlayText.innerText = "⚠️ รูปที่ตรวจสอบได้ไม่ใช่รูปบัตรประชาชน หรือมีความไม่ชัดเจน กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
             }
         },
         async checkIsExistingUser(userId) {

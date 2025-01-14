@@ -193,11 +193,40 @@ body {
     box-sizing: border-box;
     background-repeat: no-repeat;
     padding: 0 40px;
-    background-image: url(https://storage.googleapis.com/line-cj-demo-chatboot/image-cj/cj-sabai-bg.png);
+    background-image: url(https://storage.googleapis.com/line-cj-demo-chatboot/web/sabai-card-center.png);
     width: 100%;
-    background-position: right;
+    background-position: center;
     background-size: cover;
     min-height: 200px; /* Set a reasonable minimum height */
     height: 35vh; /* Responsive height based on the viewport */
     max-height: 350px; /* Optional: Limit the max height for larger screens */
+}
+
+.btn-flex {
+    display: flex;
+    align-items: stretch;
+    gap: 25px;
+    margin-top: 25px;
+    align-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 1000;
+    color:  #009e00;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    
+}
+
+.flex-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px !important;
+    flex-wrap: wrap;
+    align-content: center;
 }
