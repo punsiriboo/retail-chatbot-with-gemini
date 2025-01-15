@@ -29,6 +29,7 @@
             <div class="formbold-main-wrapper flex-wrap">
                 <img style="width: 100%; max-width: 100%; height: auto;" src="https://storage.googleapis.com/line-cj-demo-chatboot/web/recommmend_friend.png" alt="Invite Friends" class="invite-friends"></img>
                 <div class="formbold-form-btn-wrapper btn-flex">
+                    <!-- <button v-if="isInClient" type="button" class="formbold-btn" @click="backToChat">Back to Chat</button> -->
                     <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
                     <button type="button" class="formbold-btn" @click="openFacebook">Facebook</button>
                     <button type="button" class="formbold-btn-2" @click="logOut">Log Out</button>
@@ -80,6 +81,8 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="formbold-btn-3" @click="deleteAccount">Delete Account</button>
+            
         </div>
         <div v-if="isFormRegister" class="formbold-main-wrapper" ref="registerForm">
             <div class="formbold-form-wrapper">
@@ -226,17 +229,19 @@
                 </form>
             </div>
         </div>
-        <div v-if="isDoneRegistration" class="formbold-main-wrapper flex-wrap">
-            <img style="width: 100%; max-width: 100%; height: auto;" src="https://storage.googleapis.com/line-cj-demo-chatboot/web/recommmend_friend.png" alt="Invite Friends" class="invite-friends"></img>
-            <h4> คุณสมัครสมาชิก CJ สำเร็จแล้ว คุณสามารถใช้บัตรสมาชิก CJ ได้ทันที </h4>
-            <p> คุณสามารถแนะนำเพื่อนๆของคุณมาสมัครสมาชิกบัตรสบายการ์ดได้เพื่อรับแต้มสะสมพิเศษเพิ่มเติมในการแลกซื้อสินค้าจากเรา</p>
+        <div v-if="isDoneRegistration" class="profile-body">
+            <div class="formbold-main-wrapper flex-wrap">
+                <img style="width: 100%; max-width: 100%; height: auto;" src="https://storage.googleapis.com/line-cj-demo-chatboot/web/recommmend_friend.png" alt="Invite Friends" class="invite-friends"></img>
+                <h4> คุณสมัครสมาชิก CJ สำเร็จแล้ว คุณสามารถใช้บัตรสมาชิก CJ ได้ทันที </h4>
+                <p> คุณสามารถแนะนำเพื่อนๆของคุณมาสมัครสมาชิกบัตรสบายการ์ดได้เพื่อรับแต้มสะสมพิเศษเพิ่มเติมในการแลกซื้อสินค้าจากเรา</p>
 
-            <!-- Buttons -->
-            <div class="formbold-form-btn-wrapper btn-flex">
-                <button v-if="isInClient "type="button" class="formbold-btn" @click="backToChat">Back to Chat</button>
-                <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
-                <button type="button" class="formbold-btn" @click="myProfile">My Profile</button>
-                <button type="button" class="formbold-btn-2" @click="logOut">Log Out</button>
+                <!-- Buttons -->
+                <div class="formbold-form-btn-wrapper btn-flex">
+                    <button v-if="isInClient" type="button" class="formbold-btn" @click="backToChat">Back to Chat</button>
+                    <button type="button" class="formbold-btn" @click="recomendFriend">Recommend Friend</button>
+                    <button type="button" class="formbold-btn" @click="myProfile">My Profile</button>
+                    <button type="button" class="formbold-btn-2" @click="logOut">Log Out</button>
+                </div>
             </div>
         </div>
     </div>
@@ -272,6 +277,7 @@ export default {
                 userId: null,
                 idToken: null,
                 email: null,
+                referBy: null,
             },
             member: null,
             friendShip: null,
@@ -316,16 +322,22 @@ export default {
         await this.checkLiffLogin()
     },
     methods: {
-        backToChat() {
-            liff.permission.requestAll();
-            liff.sendMessages([{
-                type: 'text',
-                text: 'CJ_MEMBER:สมัครสมาชิก CJ สำเร็จแล้วค่ะ'
-            }]).then(() => {
-                liff.closeWindow();
-            }).catch((err) => {
-                console.error(err);
-            });
+        async backToChat() {
+            await liff.ready.then(async () => {
+                if (!liff.isLoggedIn()) {
+                    liff.login({ redirectUri: window.location })
+                } else {
+                    liff.permission.requestAll();
+                    liff.sendMessages([{
+                        type: 'text',
+                        text: 'CJ_MEMBER:สมัครสมาชิก CJ สำเร็จแล้วค่ะ'
+                    }]).then(() => {
+                        liff.closeWindow();
+                    }).catch((err) => {
+                        console.error(err);
+                    });
+                }
+            })
         },
         preFilledDataFromParams() {
             const queryString = window.location.search;
@@ -382,6 +394,7 @@ export default {
             this.isFormRegister = false;
             this.isDoneRegistration = false;
             this.checkIsExistingUser(this.profile.userId);
+            this.currentView = 'profile';
         },
         logOut() {
             liff.logout();
@@ -554,15 +567,14 @@ export default {
         prevStep() {
             if (this.currentStep > 1) this.currentStep--;
         },
-        handleSubmit() {
+        async handleSubmit() {
             if (this.currentStep < 3) {
                 this.nextStep();
             } else {
                 console.log(this.formData);
                 this.formatNID({ target: { value: this.formData.nid } });
                 this.formatPhoneNumber({ target: { value: this.formData.phone } });
-                this.addNewUser();
-                alert('Form Submitted Successfully!');
+                await this.addNewUser();
                 this.isFormRegister = false;
                 this.isDoneRegistration = true;
             }
@@ -617,7 +629,7 @@ export default {
             return referedUser;
         },
         async addNewUser() {
-            const referedUser = await this.checkReferedUser();
+            const referedUser = this.profile.referBy && this.profile.referBy !== 'null' ? await this.checkReferedUser() : null;
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
             const payload = {
                 action: "insert",
@@ -634,9 +646,35 @@ export default {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
+            }).catch((err) => {
+                alert(err);
+            }).then((response) => {
+                alert("Register Successfully");
+            });
             console.log(response);
         },
+        async deleteAccount(){
+            if (confirm("Are you sure you want to delete your account?")) {
+                const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
+                const payload = {
+                    action: "remove",
+                    kind: "CJ_USER",
+                    id: this.profile.userId,
+                };
+
+                const response = await axios.post(gcf_url, payload, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).catch((err) => {
+                        alert(err);
+                    }).then((response) => {
+                        alert("User Deleted Successfully");
+                        liff.logout();
+                        liff.closeWindow(); 
+                    });
+                }
+            },
         async checkIsExistingUser(userId) {
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
             const payload = {

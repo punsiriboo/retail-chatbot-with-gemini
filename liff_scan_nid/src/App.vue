@@ -41,12 +41,22 @@
             </div>
     
             <div v-if="isCameraOpen && !isPhotoTaken" class="camera-shoot">
+                <!-- <label>
+                    <input
+                        id="file"
+                        name="file"
+                        type="file"
+                        accept="image/gif, image/jpeg, image/png"
+                        style="display: none;"
+                        @change="handleFileUpload"
+                    >
+                    <img
+                        src="https://storage.googleapis.com/line-cj-demo-chatboot/web/image.png"
+                    >
+                </label> -->
                 <button type="button" class="button" @click="takePhoto">
                     <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
                 </button>
-                <input id="file" name="file" type="file" accept="image/*" @change="handleFileUpload">
-                    <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
-                </input>
             </div>
     
             <div v-if="isPhotoTaken" class="camera-shoot">
@@ -177,7 +187,35 @@ export default {
             this.isPhotoTaken = false;
             this.isShotPhoto = false;
         },
+        handleFileUpload(event) {
+            const context = this.$refs.canvas.getContext("2d");
 
+            // Ensure video dimensions are set to the canvas
+            const videoWidth = this.$refs.camera.videoWidth;
+            const videoHeight = this.$refs.camera.videoHeight;
+            this.$refs.canvas.width = videoWidth;
+            this.$refs.canvas.height = videoHeight;
+
+            const file = event.target.files[0];
+            const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+
+            if (file && validImageTypes.includes(file.type)) {
+                const image = new Image();
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    image.src = e.target.result;
+                    image.onload = () => {
+                        // Draw the uploaded image on the canvas
+                        context.clearRect(0, 0, videoWidth, videoHeight); // Clear existing canvas content
+                        context.drawImage(image, 0, 0, videoWidth, videoHeight);
+                    };
+                };
+                reader.readAsDataURL(file);
+            } else {
+                console.error('Invalid file type or no camera feed available.');
+            }
+        },
         takePhoto() {
             if (!this.isCameraOpen || this.isLoading) {
                 alert("Camera is not open or still loading.");

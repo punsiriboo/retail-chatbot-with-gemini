@@ -95,6 +95,23 @@ body {
     object-fit: cover;
 }
 
+.camera-shoot label {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #eaeaea;
+    border: none;
+    cursor: pointer;
+}
+
+.camera-shoot label img {
+    height: 35px;
+    object-fit: cover;
+}
+
 .camera-loading {
     position: absolute;
     transform: translate(-50%, -50%);

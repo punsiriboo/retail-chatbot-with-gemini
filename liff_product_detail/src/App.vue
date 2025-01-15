@@ -66,6 +66,9 @@ export default {
               }
           })
       },
+      async geminiGenerateProductExplain() {
+        return await axios.get('https://asia-southeast1-dataaibootcamp.cloudfunctions.net/gemini_generate_product_explain')
+      },
       async getUserOrder(userId) {
           const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'
           const payload = {

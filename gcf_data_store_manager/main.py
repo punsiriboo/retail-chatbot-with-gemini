@@ -48,6 +48,8 @@ def datastore_handler(request):
         return get_entity(kind, key_id, headers)
     elif action == "update":
         return update_entity(kind, key_id, data, headers)
+    elif action == "remove":
+        return remove_entity(kind, key_id, headers)
     else:
         return (f"Invalid action '{action}'", 400, headers)
 
@@ -92,3 +94,14 @@ def update_entity(kind, key_id, data, headers):
     client.put(entity)
 
     return (json.dumps({"message": f"Entity with ID '{key_id}' updated"}), 200, headers)
+
+def remove_entity(kind, key_id, headers):
+    """Remove an entity from Datastore"""
+    if not key_id:
+        return ("'id' field is required for remove action", 400, headers)
+
+    key = client.key(kind, key_id)
+    client.delete(key)
+
+    return (json.dumps({"message": f"Entity with ID '{key_id}' removed"}), 200, headers)
+
