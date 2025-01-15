@@ -123,7 +123,12 @@ export default {
                 if (!liff.isLoggedIn()) {
                     liff.login({ redirectUri: window.location })
                 } else {
-
+                    liff.getFriendship().then(data => {
+                    if (!data.friendFlag) {
+                        alert("กรุณาเพิ่มเพื่อ LINE Chatbot ของ CJ ก่อนสมัครสบายการ์ด")
+                        window.location = 'https://line.me/R/ti/p/@805vuzfx'
+                    }
+                    })
                     const profile = await liff.getProfile();
                     this.profile = profile;
                     console.log(profile);
@@ -267,28 +272,38 @@ export default {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            });
-            const response_data = response.data.data;
-            if(response_data.is_nid){
-                const redirectUrl = new URL("https://dataaibootcamp.web.app"); // Use URL constructor for easy parameter handling
-                redirectUrl.searchParams.append("action", "register");
-                redirectUrl.searchParams.append("nid", response_data.nid);
-                redirectUrl.searchParams.append("first_name_th", response_data.first_name_th);
-                redirectUrl.searchParams.append("last_name_th", response_data.last_name_th);
-                redirectUrl.searchParams.append("dob", response_data.dob); 
-                redirectUrl.searchParams.append("address", response_data.address);
-                redirectUrl.searchParams.append("gender", response_data.gender);
-                redirectUrl.searchParams.append("email", this.profile.email);
-                redirectUrl.searchParams.append("refer_by", this.recommomend_by);
-                window.location.href = redirectUrl.toString(); // Redirect to the URL with parameters
-            }
-            else {
+            }).then(response => {
+                const response_data = response.data.data;
+                if(response_data.is_nid){
+                    const redirectUrl = new URL("https://dataaibootcamp.web.app"); // Use URL constructor for easy parameter handling
+                    redirectUrl.searchParams.append("action", "register");
+                    redirectUrl.searchParams.append("nid", response_data.nid);
+                    redirectUrl.searchParams.append("first_name_th", response_data.first_name_th);
+                    redirectUrl.searchParams.append("last_name_th", response_data.last_name_th);
+                    redirectUrl.searchParams.append("dob", response_data.dob); 
+                    redirectUrl.searchParams.append("address", response_data.address);
+                    redirectUrl.searchParams.append("gender", response_data.gender);
+                    redirectUrl.searchParams.append("email", this.profile.email);
+                    redirectUrl.searchParams.append("refer_by", this.recommomend_by);
+                    window.location.href = redirectUrl.toString(); // Redirect to the URL with parameters
+                }
+                else {
+                    this.isLoading = false;
+                    this.isOCRDectecting = false;
+                    this.$refs.overlayText.innerText = "⚠️ รูปที่ตรวจสอบได้ไม่ใช่รูปบัตรประชาชน หรือมีความไม่ชัดเจน กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง <br/> More detail::" + response_data.failed_reson;
+                    this.$refs.overlayText.style.color = "red";
+                    this.isInvalidNID = true;
+                }
+            }).catch(error => {
+                alert("ขออภัยระบบผิดพลาด กรุณาลองใหม่อีกครั้ง");
                 this.isLoading = false;
                 this.isOCRDectecting = false;
-                this.$refs.overlayText.innerText = "⚠️ รูปที่ตรวจสอบได้ไม่ใช่รูปบัตรประชาชน หรือมีความไม่ชัดเจน กรุณาถ่ายรูปบัตรประชาชนใหม่อีกครั้ง";
+                this.$refs.overlayText.innerText = "⚠️ ขออภัยระบบผิดพลาด กรุณาลองใหม่อีกครั้ง";
                 this.$refs.overlayText.style.color = "red";
                 this.isInvalidNID = true;
             }
+            );
+            
         },
         async checkIsExistingUser(userId) {
             const gcf_url = 'https://asia-southeast1-dataaibootcamp.cloudfunctions.net/cj_gcf_data_store_manager'

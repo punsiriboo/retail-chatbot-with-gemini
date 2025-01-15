@@ -193,7 +193,39 @@ def handle_calling_nong_cj(line_bot_api, event, text):
         )
     )
 
+def handle_my_basket_adjust(line_bot_api, event, text):
+    datastore_client = DatastoreClient()
+    order = datastore_client.get_user_order(user_id=event.source.user_id)
+    if order:
+        total_items, total_final_price, grouped_items = (
+            datastore_client.calculate_user_items_in_basket(
+                user_id=event.source.user_id
+            )
+        )
+        if total_items == 0:
+            line_bot_api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        TextMessage(text="ยกเลิกรายการสั่งซื้อ ปัจจุบันของคุณ เนื่องจากจำนวนสินค้าในตระกร้าเป็น 0 ชิ้น"),
+                    ],
+                )
+            )
+        else:
+            flex_summary_order_msg = build_flex_user_order_summary(
+                total_items, total_final_price, grouped_items
+            )
 
+            line_bot_api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        flex_summary_order_msg,
+                        TextMessage(text="ปรับปรุงตะกร้าของคุณเรียบร้อย จ่ายเงินเลยไหมค่ะ"),
+                    ],
+                )
+            )
+    
 def handle_my_basket_check(line_bot_api, event, text):
     datastore_client = DatastoreClient()
     order = datastore_client.get_user_order(user_id=event.source.user_id)
@@ -280,6 +312,7 @@ def handle_text_by_keyword(event, line_bot_api):
         "น้อง​CJ": handle_calling_nong_cj,
         "ตระกร้าของฉัน": handle_my_basket_check,
         "CJ_MEMBER:สมัครสมาชิก CJ สำเร็จแล้วค่ะ": handle_done_register_member,
+        "CJ_SHOPPING: ฉันได้ทำการ update ตระกร้าสินค้าเรียบร้อยแล้ว": handle_my_basket_adjust
     }
     if text in function_map:
         function_map[text](line_bot_api, event, text)

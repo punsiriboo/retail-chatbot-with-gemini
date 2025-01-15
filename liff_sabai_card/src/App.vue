@@ -531,7 +531,7 @@ export default {
                     const deIdToken = liff.getDecodedIDToken();
                     console.log(deIdToken);
                     this.profile.name = deIdToken.name;
-                    this.profile.picture = deIdToken.picture;
+                    this.profile.picture = deIdToken.picture || "no image url";
                     this.profile.userId = deIdToken.sub;
                     const idToken = liff.getIDToken();
                     this.profile.idToken = idToken;

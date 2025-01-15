@@ -34,7 +34,8 @@ def ocr_handler(request):
         return (json.dumps({"message": "Success", "data": response_dict}), 200, headers)
     
     except Exception as e:
-        return (f"Error: {str(e)}", 500, headers)
+        print(str(e))
+        return (json.dumps({"message": "Error"}), 500, headers)
     
 def cloud_vision_ocr(request_json):
     from google.cloud import vision 
